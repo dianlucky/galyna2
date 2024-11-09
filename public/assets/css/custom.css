@@ -1,0 +1,13 @@
+/* Sidebar */
+.main-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 230px;
+    background-color: #222d32;
+    z-index: 810;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
