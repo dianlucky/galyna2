@@ -10,4 +10,13 @@ class CategoryController extends Controller
     public function index(){
         return view('admin.category.data');
     }
+
+    public function create(){
+        $data = [
+            'form' => 'Tambah',
+            'action' => route('category.store')
+        ];
+        return view('admin.category.form', compact('data'));
+    }
 }
+

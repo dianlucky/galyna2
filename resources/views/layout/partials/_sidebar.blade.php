@@ -29,7 +29,13 @@
             <li class="nav-item">
                 <a href="pages/apps/calendar.html" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">Calendar</span>
+                    <span class="link-title">Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="pages/apps/calendar.html" class="nav-link">
+                    <i class="link-icon" data-feather="calendar"></i>
+                    <span class="link-title">Pengaturan</span>
                 </a>
             </li>
         </ul>
