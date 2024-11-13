@@ -12,7 +12,10 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">Daftar Data Kategori</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="card-title">Daftar Data Kategori</h6>
+                            <a href="{{ url('category/create') }}" class="btn btn-primary">Tambah</a>
+                        </div>
                         <div class="table-responsive">
                             <table class="table text-center">
                                 <thead>
