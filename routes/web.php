@@ -40,5 +40,21 @@ Route::prefix('admin')->group(function () {
     Route::get('/articel/{id}/edit', [App\Http\Controllers\Admin\ArticelController::class, 'edit'])->name('articel.edit');
     Route::put('/articel/{id}', [App\Http\Controllers\Admin\ArticelController::class, 'update'])->name('articel.update');
     Route::delete('/articel/{id}', [App\Http\Controllers\Admin\ArticelController::class, 'destroy'])->name('articel.destroy');
+    
+    // pengguna
+    Route::get('/pengguna', [App\Http\Controllers\Admin\PenggunaController::class, 'index'])->name('pengguna.index');
+    Route::get('/pengguna/create', [App\Http\Controllers\Admin\PenggunaController::class, 'create'])->name('pengguna.create');
+    Route::post('/pengguna', [App\Http\Controllers\Admin\PenggunaController::class, 'store'])->name('pengguna.store');
+    Route::get('/pengguna/{id}/edit', [App\Http\Controllers\Admin\PenggunaController::class, 'edit'])->name('pengguna.edit');
+    Route::put('/pengguna/{id}', [App\Http\Controllers\Admin\PenggunaController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{id}', [App\Http\Controllers\Admin\PenggunaController::class, 'destroy'])->name('pengguna.destroy');
+    
+    // pengguna
+    Route::get('/pengaturan', [App\Http\Controllers\Admin\PengaturanController::class, 'index'])->name('pengaturan.index');
+    Route::get('/pengaturan/create', [App\Http\Controllers\Admin\PengaturanController::class, 'create'])->name('pengaturan.create');
+    Route::post('/pengaturan', [App\Http\Controllers\Admin\PengaturanController::class, 'store'])->name('pengaturan.store');
+    Route::get('/pengaturan/{id}/edit', [App\Http\Controllers\Admin\PengaturanController::class, 'edit'])->name('pengaturan.edit');
+    Route::put('/pengaturan/{id}', [App\Http\Controllers\Admin\PengaturanController::class, 'update'])->name('pengaturan.update');
+    Route::delete('/pengaturan/{id}', [App\Http\Controllers\Admin\PengaturanController::class, 'destroy'])->name('pengaturan.destroy');
 });
 
