@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function links()
+    {
+        return view('public_user/links');
+    }
+
+    public function home()
     {
         return view('public_user/home');
     }
