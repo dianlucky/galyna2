@@ -17,4 +17,13 @@ class ProductController extends Controller
         ];
         return view('admin.product.form', compact('data'));
     }
+    public function edit($id) {
+    
+        $data = [
+            'form' => 'Edit',
+            'action' => route('product.update', ['id' => $id]),
+        ];
+    
+        return view('admin.product.form_edit', compact('data'));
+    }
 }
