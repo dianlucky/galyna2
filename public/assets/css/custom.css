@@ -62,7 +62,7 @@ nav.navbar:not(.navbar-transparent) .container a {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1068px) {
     .navbar-transparent {
         background-color: rgba(0, 0, 0, 0);
     }
@@ -117,12 +117,20 @@ div.card-product .card-img img {
 
 div.card-product div.card-label {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    width: calc(100% - 10px);
+    bottom: 5px;
+    left: 5px;
     padding: 0.5rem 1rem;
     border-radius: 0 8px 0 8px;
     background-color: var(--blue);
     color: white;
+}
+
+@media (max-width: 768px) {
+    div.card-product div.card-label {
+        font-size: 0.7rem;
+    }
+    
 }
 
 /* =========================================================================== CAROUSEL */
@@ -160,10 +168,29 @@ div.card-product div.card-label {
     border-radius: 10px;
 }
 
+@media (max-width: 768px) {
+    .hero-carousel .img-carousel {
+        height: 150px;
+    }
+}
+
 /* =================================================================================PRODUCT SEARCH */
 .product-search {
     padding: 3rem 0 0.5rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.product-search form, div {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .product-search {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+        padding: 1rem 0 0 0;
+    }
 }

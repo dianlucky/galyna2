@@ -29,7 +29,7 @@
 
         {{-- Product Search --}}
         <div class="product-search">
-            <div>
+            <div class="title-section">
                 <h4 class="fw-bold m-0">Our Product's</h4>
                 <span>Find the best products for your needs</span>
             </div>
@@ -37,24 +37,27 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Cari Produk" aria-label="Cari Produk"
                         aria-describedby="button-addon2">
-                    <button class="btn btn-primary" type="submit" id="button-addon2">Cari</button>
+                    <button class="btn btn-primary text-white" type="submit" id="button-addon2">Cari</button>
                 </div>
             </form>
         </div>
+
         {{-- Product List --}}
-        <div class="row p-2">
-            @for ($i = 1; $i < 7; $i++)
-                <div class="col-6 col-sm-6 col-md-2 p-1">
-                    <div class="card-product">
-                        <div class="card-img">
-                            <img src="{{ asset('assets/images/product/produk_' . $i . '.png') }}" alt="">
-                        </div>
-                        <div class="card-label">
-                            product
+        <div style="width: 100%; display: flex; justify-content: center">
+            <div class="row" style="min-width: 100%">
+                @for ($i = 1; $i < 7; $i++)
+                    <div class="col-6 col-sm-6 col-md-2 p-1">
+                        <div class="card-product">
+                            <div class="card-img">
+                                <img src="{{ asset('assets/images/product/produk_' . $i . '.png') }}" alt="">
+                            </div>
+                            <div class="card-label">
+                                product
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endfor
+                @endfor
+            </div>
         </div>
     </div>
 @endsection
