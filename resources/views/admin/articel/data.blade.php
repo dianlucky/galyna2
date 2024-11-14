@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="card-title">Daftar Data Artikel</h6>
-                            <a href="{{ url('articel/create') }}" class="btn btn-primary">Tambah</a>
+                            <a href="{{ url('admin/articel/create') }}" class="btn btn-primary">Tambah</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-center">
@@ -24,7 +24,7 @@
                                         <th>Tanggal</th>
                                         <th>Judul Artikel</th>
                                         <th>Slug</th>
-                                        <th>Deskripsi</th>
+                                        <th>Isi Artikel</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -42,7 +42,7 @@
                                                     <i data-feather="more-vertical"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="3">Edit</a>
                                                     <a class="dropdown-item" href="#">Hapus</a>
                                                 </div>
                                             </div>
