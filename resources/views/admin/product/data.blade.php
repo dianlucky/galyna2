@@ -3,7 +3,7 @@
     <div>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('product') }}">Produk</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('admin/product') }}">Produk</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Data Produk</li>
             </ol>
         </nav>
@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="card-title">Daftar Data Produk</h6>
-                            <a href="{{ url('product/create') }}" class="btn btn-primary">Tambah</a>
+                            <a href="{{ url('admin/product/create') }}" class="btn btn-primary">Tambah</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-center">
@@ -44,7 +44,7 @@
                                                     <i data-feather="more-vertical"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="{{ url('admin/product/edit') }}">Edit</a>
                                                     <a class="dropdown-item" href="#">Hapus</a>
                                                 </div>
                                             </div>
