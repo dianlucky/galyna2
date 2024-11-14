@@ -3,6 +3,15 @@
 use Illuminate\Support\Facades\Route;
 
 
+
+// Route Public
+Route::prefix('')->group(
+    function () {
+        Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+        Route::get('/category/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('category.show');
+    }
+);
+
 Route::prefix('admin')->group(function () {
     // Define your admin routes here
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);

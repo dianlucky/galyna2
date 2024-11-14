@@ -1,13 +1,170 @@
-/* Sidebar */
-.main-sidebar {
+/* Poppins Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif !important;
+}
+
+/* Color */
+:root {
+    --blue: #00b7f9;
+    --purple: #7e5bef;
+    --pink: #ff49db;
+    --orange: #ff7849;
+    --green: #13ce66;
+    --yellow: #ffc82c;
+    --gray-dark: #273444;
+    --gray: #8492a6;
+    --gray-light: #d3dce6;
+}
+
+/* ===================================================================================== NAVBAR CSS */
+nav.navbar {
     position: fixed;
+    width: 100%;
     top: 0;
-    left: 0;
+    z-index: 1000;
+}
+
+/* Navbar Button */
+.navbar-toggler i {
+    width: 50px;
+    font-size: 1.5rem;
+}
+button.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+button.navbar-toggler:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Link color when navbar is not transparent */
+nav.navbar:not(.navbar-transparent) .container a {
+    color: rgb(255, 255, 255) !important;
+}
+
+@media (max-width: 768px) {
+    nav.navbar-transparent {
+        background-color: var(--blue);
+    }
+
+    nav.bg-primary {
+        background-color: var(--blue);
+    }
+
+    nav.navbar .container i,
+    nav.navbar .container a {
+        color: white !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-transparent {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .collapse.navbar-collapse {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+/* =============================================================================== BACKGROUND CSS */
+.bg-motif-2 {
+    background-image: url("../images/2.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-motif-1 {
+    background-image: url("../images/1.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* ============================================================================== CARD PRODUCT */
+div.card-product {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    /* background-image: linear-gradient(to top, #000000b5, rgba(0, 0, 0, 0));
+    background-size: 100% 30%;
+    background-position: bottom;
+    background-repeat: no-repeat; */
+}
+
+div.card-product .card-img {
+    overflow: hidden;
+    width: 100%;
     height: 100%;
-    width: 230px;
-    background-color: #222d32;
-    z-index: 810;
-    -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
+}
+div.card-product .card-img img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+div.card-product div.card-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 0.5rem 1rem;
+    border-radius: 0 8px 0 8px;
+    background-color: var(--blue);
+    color: white;
+}
+
+/* =========================================================================== CAROUSEL */
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-carousel {
+    gap: 1rem;
+}
+
+.card-carousel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-carousel .img-carousel {
+    border-radius: 10px;
+    border: 1px solid var(--gray-light);
+    width: 100%;
+    height: 370px;
+    overflow: hidden;
+}
+
+.hero-carousel .img-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
+
+/* =================================================================================PRODUCT SEARCH */
+.product-search {
+    padding: 3rem 0 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
