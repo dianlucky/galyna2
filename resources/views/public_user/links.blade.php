@@ -23,7 +23,8 @@
     <div class="links-page">
         <div style="text-align: center; margin-top: -30px; margin-bottom: 10px">
             <h1 class="fw-bold m-0">Galyna Heiwa</h1>
-            <p style="font-size: 10px; color:rgb(121, 121, 121);">Discover the latest trends in fashion with Galyna Heiwa.</p>
+            <p style="font-size: 10px; color:rgb(121, 121, 121);">Discover the latest trends in fashion with Galyna
+                Heiwa.</p>
         </div>
         <div class="links-container">
             <a class="links-item" href="{{ url('home') }}">
@@ -32,13 +33,13 @@
             </a>
             <a class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/id-card.png') }} alt="">
-                <span class="label">Galyna Heiwa Official Profile</span>
+                <span class="label">Galyna Heiwa Profile</span>
             </a>
-            <a class="links-item">
+            <a href="https://www.instagram.com/galynaheiwaofficial" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/instagram.png') }} alt="">
                 <span class="label">Instagram</span>
             </a>
-            <a class="links-item">
+            <a href="https://www.facebook.com/galynaheiwa?mibextid=ZbWKwL" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/facebook.png') }} alt="">
                 <span class="label">Facebook</span>
             </a>
@@ -46,16 +47,24 @@
                 <img width="20px" src={{ asset('assets/images/social_media/tiktok.png') }} alt="">
                 <span class="label">Tiktok</span>
             </a>
-            <a class="links-item">
+            <a href="https://wa.me/6282152474602" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/whatsapp.png') }} alt="">
                 <span class="label">Whatsapp</span>
+            </a>
+            <a href="mailto:haniktimur79@gmail.com" class="links-item">
+                <img width="20px" src={{ asset('assets/images/social_media/gmail.png') }} alt="">
+                <span class="label">E-mail</span>
+            </a>
+            <a href="https://tokopedia.link/kdCGP2fhkLb" class="links-item">
+                <img width="20px" src={{ asset('assets/images/social_media/tokopedia.png') }} alt="">
+                <span class="label">Tokopedia</span>
             </a>
         </div>
         <footer>
             <div class="container">
                 <div class="d-flex p-2 justify-content-center gap-2">
                     <p>Galyna Heiwa &copy; 2024
-                        Developed by <a href="https://nusatalent.id" target="_blank">NusaTalent Team</a></p>
+                        Developed by <a href="https://nusatalent.id" target="_blank">NusaTalent</a></p>
                 </div>
             </div>
         </footer>

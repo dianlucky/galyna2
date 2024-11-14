@@ -53,12 +53,11 @@
                 {{-- Product List --}}
                 <div style="width: 100%; display: flex; justify-content: center">
                     <div class="row" style="min-width: 100%">
-                        @for ($i = 1; $i < 7; $i++)
+                        @foreach ($products as $item)
                             <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
                                 <div class="card-product">
                                     <div class="card-img">
-                                        <img src="{{ asset('assets/images/product/produk_' . $i . '.png') }}"
-                                            alt="">
+                                        <img src={{ asset('assets/images/product/' . $item['image']) }} alt="">
                                     </div>
                                     <div class="card-label">
                                         <div class="mb-1">
@@ -70,18 +69,18 @@
                                                 New
                                             </span>
                                         </div>
-                                        <h6 class="m-0">Name Product</h6>
+                                        <h6 class="m-0">{{$item['name']}}</h6>
                                     </div>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
                 </div>
             </div>
         </section>
 
         {{-- FASHION CATEGORY SECTION --}}
-        <section id="fashion-category" style="margin-top: 30px">
+        {{-- <section id="fashion-category" style="margin-top: 30px">
             <div class="container">
                 <div class="title-section">
                     <h4 class="fw-bold m-0">Category</h4>
@@ -89,11 +88,31 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        alskdalsd
+                        <div>
+                            <div class="card-category">
+                                <div class="card-category-content">
+                                    <div class="category-item">
+                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Man</h6>
+                                    </div>
+                                    <div class="category-item">
+                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Woman</h6>
+                                    </div>
+                                    <div class="category-item">
+                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Outer</h6>
+                                    </div>
+                                    <div class="category-item">
+                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Blazer</h6>
+                                    </div>
+                                    <div class="category-item">
+                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Accessories</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         {{-- ABOUT US SECTION --}}
         <section style="margin: 20px 0;">
@@ -160,20 +179,16 @@
                                 </div>
                                 <div class="media-social">
                                     <a href="#">
-                                        <img src={{ asset('assets/images/social_media/instagram.png') }}
-                                            alt="">
+                                        <img src={{ asset('assets/images/social_media/instagram.png') }} alt="">
                                     </a>
                                     <a href="#">
-                                        <img src={{ asset('assets/images/social_media/facebook.png') }}
-                                            alt="">
+                                        <img src={{ asset('assets/images/social_media/facebook.png') }} alt="">
                                     </a>
                                     <a href="#">
-                                        <img src={{ asset('assets/images/social_media/tiktok.png') }}
-                                            alt="">
+                                        <img src={{ asset('assets/images/social_media/tiktok.png') }} alt="">
                                     </a>
                                     <a href="#">
-                                        <img src={{ asset('assets/images/social_media/whatsapp.png') }}
-                                            alt="">
+                                        <img src={{ asset('assets/images/social_media/whatsapp.png') }} alt="">
                                     </a>
                                 </div>
                             </div>

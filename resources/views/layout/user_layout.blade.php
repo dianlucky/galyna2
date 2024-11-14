@@ -10,7 +10,12 @@
 
     {{-- Poppins Font --}}
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    {{-- Charmonman Font --}}
+    <link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&display=swap" rel="stylesheet">
 
     {{-- StyleSheet --}}
     <link rel="stylesheet" href="{{ asset('assets/scss/custom.css') }}">
@@ -22,7 +27,7 @@
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-transparent">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
+            <a class="navbar-brand fw-bold" href={{ url('/') }}>
                 <img src={{ asset('assets/galyna/logo-v2-transparent.svg') }} alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -31,7 +36,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" href="#">Home</a>
                     <a class="nav-link" href="#">Collection</a>
                     <a class="nav-link" href="#">Article</a>
                     <a class="nav-link" href="#">About</a>
@@ -44,6 +49,16 @@
     <main>
         @yield('content')
     </main>
+
+    <footer class="bg-primary pt-2 text-white">
+        <div class="container">
+            <div class="d-flex p-2 justify-content-center gap-2">
+                <p>Galyna Heiwa &copy; 2024
+                    Developed by <a class="text-white" style="text-decoration: none;" href="https://nusatalent.id"
+                        target="_blank">NusaTalent</a></p>
+            </div>
+        </div>
+    </footer>
 
     {{-- Javascript --}}
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
