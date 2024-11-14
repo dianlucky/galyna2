@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 // Route Public
 Route::prefix('')->group(
     function () {
-        Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+        Route::get('/', [App\Http\Controllers\HomeController::class, 'links'])->name('links');
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
         Route::get('/category/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('category.show');
     }
 );
