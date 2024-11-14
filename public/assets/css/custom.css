@@ -24,6 +24,7 @@ nav.navbar {
     width: 100%;
     top: 0;
     z-index: 1000;
+    transition: all 0.3s;
 }
 
 /* Navbar Button */
@@ -42,12 +43,42 @@ button.navbar-toggler:focus {
     box-shadow: none !important;
 }
 
+nav.navbar .container img {
+    filter: invert(0);
+    transition: filter 0.3s ease;
+}
+
+nav.navbar:not(.navbar-transparent) .container img {
+    filter: invert(1);
+}
+
 /* Link color when navbar is not transparent */
 nav.navbar:not(.navbar-transparent) .container a {
     color: rgb(255, 255, 255) !important;
 }
+nav.navbar:not(.navbar-transparent) {
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.237);
+}
 
-@media (max-width: 768px) {
+.navbar-brand {
+    width: 140px;
+    height: 50px;
+    overflow: hidden;
+}
+
+.navbar-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 995px) {
+    .navbar-brand {
+        width: 90px;
+        height: 50px;
+        overflow: hidden;
+    }
+
     nav.navbar-transparent {
         background-color: var(--blue);
     }
@@ -56,18 +87,27 @@ nav.navbar:not(.navbar-transparent) .container a {
         background-color: var(--blue);
     }
 
+    nav.navbar .container img {
+        filter: invert(1);
+    }
+
     nav.navbar .container i,
     nav.navbar .container a {
         color: white !important;
     }
 }
 
-@media (min-width: 1068px) {
+@media (min-width: 995px) {
     .navbar-transparent {
         background-color: rgba(0, 0, 0, 0);
     }
 
     .collapse.navbar-collapse {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .navbar-nav {
         display: flex;
         justify-content: flex-end;
     }
@@ -91,46 +131,56 @@ nav.navbar:not(.navbar-transparent) .container a {
 }
 
 /* ============================================================================== CARD PRODUCT */
-div.card-product {
+.card-product {
     position: relative;
     width: 100%;
     height: 240px;
     border: 1px solid var(--gray-light);
     border-radius: 10px;
-    /* background-image: linear-gradient(to top, #000000b5, rgba(0, 0, 0, 0));
-    background-size: 100% 30%;
-    background-position: bottom;
-    background-repeat: no-repeat; */
 }
 
-div.card-product .card-img {
+.card-product .card-img {
     overflow: hidden;
     width: 100%;
     height: 100%;
 }
-div.card-product .card-img img {
+.card-product .card-img img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     border-radius: 10px;
 }
 
-div.card-product div.card-label {
+.card-product .card-label {
     position: absolute;
-    width: calc(100% - 10px);
-    bottom: 5px;
-    left: 5px;
-    padding: 0.5rem 1rem;
-    border-radius: 0 8px 0 8px;
-    background-color: var(--blue);
+    width: 100%;
+    height: 20%;
+
+    bottom: 0px;
+    left: 0px;
+
+    padding: 1rem;
+    border-radius: 8px;
     color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+    background-image: linear-gradient(to top, var(--blue), rgba(0, 0, 0, 0));
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.card-product:hover .card-img img {
+    transform: scale(1.1);
+    transition: transform 0.5s;
 }
 
 @media (max-width: 768px) {
     div.card-product div.card-label {
         font-size: 0.7rem;
     }
-    
 }
 
 /* =========================================================================== CAROUSEL */
@@ -182,8 +232,15 @@ div.card-product div.card-label {
     align-items: center;
 }
 
-.product-search form, div {
+.product-search form,
+.product-search div {
     width: 100%;
+    max-width: 350px;
+}
+
+.product-search form input,
+.product-search form button {
+    border-radius: 30px;
 }
 
 @media (max-width: 768px) {
@@ -193,4 +250,122 @@ div.card-product div.card-label {
         gap: 1rem;
         padding: 1rem 0 0 0;
     }
+
+    .product-search .title-section {
+        min-width: 100%;
+        margin-top: 20px;
+    }
+}
+
+/* =================================================================================== CONTACT US */
+
+/* Contact Us Media */
+.contact-us {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem 0;
+    color: white !important;
+    font-size: 1rem;
+}
+
+.contact-us-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.contact-us-content a {
+    text-decoration: none;
+}
+
+.contact-us-content i {
+    font-size: 1.5rem;
+}
+
+.contact-us-content .contact-us-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Form */
+.card-contact {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--gray-light);
+    padding: 1rem;
+    background-color: white;
+}
+
+.card-contact button {
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    width: 100%;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.277);
+    transition: all 0.3s;
+    background-color: white;
+}
+
+.card-contact button:hover {
+    background-color: var(--blue) !important;
+    border: 1px solid var(--blue) !important;
+    color: white !important;
+    transform: translateY(3px);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.277);
+}
+
+.card-contact button:active {
+    background-color: var(--blue) !important;
+    border: 1px solid var(--blue) !important;
+    color: white !important;
+    transform: translateY(2px);
+    box-shadow: 5px 2px 0px rgba(0, 0, 0, 0.277);
+}
+
+@media (max-width: 768px) {
+    .contact-us {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        gap: 1rem;
+        padding: 3rem 0;
+        color: white !important;
+        font-size: 1rem;
+    }
+}
+
+/* contact us media social */
+.contact-us .media-social {
+    display: flex;
+    gap: 2rem;
+    margin-top: 20px;
+}
+.contact-us .media-social img {
+    width: 3rem;
+}
+
+/* ========================================================================================= ABOUT US */
+.about-us-img {
+    width: 100%;
+    height: 280px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.about-us-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
+.about-us-content {
+    padding: 20px 0;
 }

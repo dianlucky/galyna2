@@ -28,6 +28,7 @@
     border: 1px solid var(--blue);
     text-decoration: none;
     box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+    transition: all 0.3s ease;
 }
 
 .links-item .label {
