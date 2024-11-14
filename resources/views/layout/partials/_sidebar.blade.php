@@ -27,25 +27,25 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/apps/calendar.html" class="nav-link">
+                <a href="{{ url('admin/product') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Produk</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/apps/calendar.html" class="nav-link">
+                <a href="{{ url('admin/articel') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Artikel</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/apps/calendar.html" class="nav-link">
+                <a href="{{ url('admin/pengguna') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Pengguna</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/apps/calendar.html" class="nav-link">
+                <a href="{{ url('admin/pengaturan') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Pengaturan</span>
                 </a>
