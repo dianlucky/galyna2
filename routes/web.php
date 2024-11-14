@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::prefix('admin')->group(function () {
     // Define your admin routes here
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
@@ -16,3 +15,4 @@ Route::prefix('admin')->group(function () {
     Route::put('/category/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('category.destroy');
 });
+
