@@ -133,7 +133,7 @@ nav.navbar:not(.navbar-transparent) {
 
 /* =============================================================================== BACKGROUND CSS */
 .bg-motif-2 {
-    background-image: url("../images/2.png");
+    background-image: url("../images/backgrounds/2.png");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -141,7 +141,7 @@ nav.navbar:not(.navbar-transparent) {
 }
 
 .bg-motif-1 {
-    background-image: url("../images/1.png");
+    background-image: url("../images/backgrounds/1.png");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;

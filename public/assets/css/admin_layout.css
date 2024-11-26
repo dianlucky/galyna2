@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Color */
+:root {
+    --blue: #00b7f9;
+    --blue-light: #d8f5ff;
+    --blue-dark: #2179c6;
+    --purple: #7e5bef;
+    --pink: #ff49db;
+    --orange: #ff7849;
+    --green: #13ce66;
+    --yellow: #ffc82c;
+    --gray-dark: #273444;
+    --gray: #8492a6;
+    --gray-light: #d3dce6;
+    --white: #ffffff;
+    --black: #18191a;
+}
+
+* {
+    font-family: "Poppins", sans-serif !important;
+}
+
+#sidebarnav .sidebar-link:hover {
+    background: var(--blue-light) !important;
+    color: var(--blue) !important;
+}
+#sidebarnav .sidebar-link:focus {
+    background: var(--blue-light) !important;
+    color: var(--blue) !important;
+}
+#sidebarnav .sidebar-link:active {
+    background: var(--blue-light) !important;
+    color: var(--blue) !important;
+}
+
+#sidebarnav a.sidebar-link.active {
+    background: var(--blue) !important;
+    color: var(--white) !important;
+}
+#sidebarnav .sidebar-item.selected a.sidebar-link.active {
+    background: var(--blue) !important;
+    color: var(--white) !important;
+}
+#sidebarnav .sidebar-item.selected a {
+    background: transparent ;
+    color: var(--black) ;
+}
+
+
+/* Button Primary */
+.btn.btn-primary {
+    background: var(--blue) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--blue);
+}
+
+/* Button Primary Hover */
+.btn.btn-primary:hover {
+    background: var(--blue-dark) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--blue-dark);
+}
+
+.breadcrumb-item a {
+    color: var(--gray-dark) !important;
+}
