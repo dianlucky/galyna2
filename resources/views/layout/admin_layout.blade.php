@@ -4,12 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>Galyna Heiwa | Local Fashion</title>
     <link rel="stylesheet" href="{{ url('/') }}/assets-modernize/css/styles.min.css" />
     <link rel="stylesheet" href="{{ url('/') }}/assets/css/admin_layout.css" />
+    <link rel="stylesheet" href="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.css" />
+
+    <script src="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.js"></script>
+
+    <style>
+        .antialiased {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-motif-1 antialiased">
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -19,7 +29,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="{{ url('/') }}" class="text-nowrap logo-img">
-                        <img src="{{ url('/') }}/assets/galyna/logo-v2-transparent.svg" width="200"
+                        <img src="{{ url('/') }}/assets/galyna/logo-v2-transparent.svg" width="210"
                             alt="Galyna Logo" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -52,7 +62,7 @@
 
                         {{-- Category Menu --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/category') ? 'active' : '' }}"
+                            <a class="sidebar-link {{ Request::is('admin/category*') ? 'active' : '' }}"
                                 href="{{ url('/admin/category') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-category-2"></i>
@@ -63,7 +73,7 @@
 
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/products') ? 'active' : '' }}"
+                            <a class="sidebar-link {{ Request::is('admin/products*') ? 'active' : '' }}"
                                 href="{{ url('/admin/products') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shirt"></i>
@@ -74,7 +84,7 @@
 
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/article') ? 'active' : '' }}"
+                            <a class="sidebar-link {{ Request::is('admin/article*') ? 'active' : '' }}"
                                 href="{{ url('/admin/article') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-file-description"></i>
@@ -85,7 +95,7 @@
 
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/links') ? 'active' : '' }}"
+                            <a class="sidebar-link {{ Request::is('admin/links*') ? 'active' : '' }}"
                                 href="{{ url('/admin/links') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-link"></i>
@@ -151,6 +161,10 @@
                                 <i class="ti ti-menu-2"></i>
                             </a>
                         </li>
+                        <li class="nav-item d-none d-xl-block">
+                            <p style="margin: 0 20px;">Welcome back, <span class="fw-bold text-secondary">Adi Aulia
+                                    Rahman</span></p>
+                        </li>
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
@@ -191,6 +205,8 @@
     <script src="{{ url('/') }}/assets-modernize/js/app.min.js"></script>
     {{-- <script src="{{ url('/') }}/assets-modernize/libs/apexcharts/dist/apexcharts.min.js"></script> --}}
     <script src="{{ url('/') }}/assets-modernize/libs/simplebar/dist/simplebar.js"></script>
+
+    @yield('script')
 </body>
 
 </html>

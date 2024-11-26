@@ -78,3 +78,95 @@
     color: var(--white) !important;
     border: none;
 }
+
+.bg-motif-2 {
+    background-image: url("../images/backgrounds/2.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-motif-1 {
+    background-image: url("../images/backgrounds/1.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+nav.navbar {
+    border-radius: 10px;
+    border: 2px solid var(--blue);
+    box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+    background-color: white;
+    top: 5px;
+    margin: 0 0 0 31.5px;
+}
+aside.left-sidebar {
+    border-radius: 10px;
+    border: 2px solid var(--blue);
+    box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+    background-color: white;
+    top: 5px;
+    margin: 5px 24px;
+    max-height: 97vh;
+    overflow: hidden;
+}
+
+nav.sidebar-nav.scroll-sidebar {
+    max-height: 97vh;
+    padding-bottom: 150px;
+}
+
+.container-fluid {
+    padding-top: 120px !important;
+}
+
+.card-primary-1 {
+    border-radius: 10px;
+    border: 2px solid var(--blue);
+    box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+    background-color: white;
+}
+
+/* @media (min-width: 1199px) {
+    .header-pages {
+        margin: 0 20px;
+    }
+} */
+
+@media (max-width: 1199px) {
+    #main-wrapper[data-layout="vertical"][data-sidebartype="full"]
+        .left-sidebar,
+    #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"]
+        .left-sidebar {
+        left: -300px;
+    }
+
+    nav.navbar {
+        border-radius: 10px;
+        border: 2px solid var(--blue);
+        box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+        background-color: white;
+        top: 5px;
+        margin: 0 0px;
+    }
+}
+
+.error-message {
+    color: red;
+    font-size: 0.7rem;
+}
+
+.form-control[error] {
+    border-color: red;
+}
+
+button.swal2-confirm.swal2-styled {
+    background-color: var(--blue) !important;
+    color: var(--white) !important;
+    border-radius: 50px;
+    width: 200px;
+}
+

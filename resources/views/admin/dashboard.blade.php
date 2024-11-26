@@ -3,7 +3,7 @@
     <section class="ps-3">
 
         {{-- Header Page --}}
-        <div class="row">
+        <div class="row ps-lg-3 ps-sm-0">
             <h4 class="p-0">Dashboard</h4>
             <nav class="page-breadcrumb p-0">
                 <ol class="breadcrumb">
@@ -14,10 +14,13 @@
         </div>
 
         {{-- Main --}}
-        <div>
-            <div class="row">
+        <div class="ps-lg-3 ps-sm-0">
+            <div class="row ">
                 Selamat Datang Bos
             </div>
         </div>
     </section>
 @endsection
+
+
+

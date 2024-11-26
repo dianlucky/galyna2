@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+// ROUTE CONFIGURATION
+
+// Route pattern {id} to accept only numbers
+Route::pattern('id', '[0-9]+');
+
 
 // AUTH ROUTES -------------> [NO MIDDLEWARE]
 Route::controller(App\Http\Controllers\Auth\AuthController::class)->group(

@@ -3,7 +3,7 @@
     <section class="ps-3">
 
         {{-- Header Page --}}
-        <div class="row">
+        <div class="row ps-lg-3 ps-sm-0">
             <h4 class="p-0">Category</h4>
             <nav class="page-breadcrumb p-0">
                 <ol class="breadcrumb">
@@ -14,10 +14,10 @@
         </div>
 
         {{-- Main --}}
-        <main id="contents">
+        <main id="contents" class="ps-lg-3 ps-sm-0">
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card p-0">
-                    <div class="card">
+                    <div class="card" style="background-color: rgba(255, 255, 255, 0.649);">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="card-title">Table Category</h6>
@@ -34,11 +34,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < 5; $i++)
+                                        @foreach ($categorys as $index => $item)
                                             <tr>
-                                                <th>1</th>
-                                                <td>Mark</td>
-                                                <td>Sasirangan Echoprint</td>
+                                                <th>{{ $index + 1 }}</th>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->description }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -46,14 +46,23 @@
                                                             Action
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                            <li>
+                                                                <form action="" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <input type="hidden" name="id"
+                                                                        value={{ $item->id_category }}>
+                                                                    <button type="submit"
+                                                                        class="dropdown-item">Delete</button>
+                                                                </form>
+                                                            </li>
                                                             <li><a class="dropdown-item" href="#">Edit</a>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endfor
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -63,4 +72,8 @@
             </div>
         </main>
     </section>
+@endsection
+
+@section('script')
+    @include('components.notifications')
 @endsection

@@ -1,45 +1,46 @@
 @extends('layout.admin_layout')
 @section('content')
-    <div>
-        <nav class="page-breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('admin/category') }}">Kategori</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Data Kategori</li>
-                <li class="breadcrumb-item active" aria-current="page">Tambah Kategori</li>
-            </ol>
-        </nav>
+    <section class="ps-3">
 
+        {{-- Header Page --}}
         <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="card-title">Tambah Data Kategori</h6>
-                        </div>
+            <h4 class="p-0">Form {{ $data['form'] }} Category</h4>
+            <nav class="page-breadcrumb p-0">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('admin/category') }}">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Form {{ $data['form'] }} Category</li>
+                </ol>
+            </nav>
+        </div>
 
-                          <!-- Form untuk input data kategori -->
-                          <form action="{{ route('category.store') }}" method="POST">
-                            @csrf
-                            <!-- Input Nama kategori -->
-                            <div class="form-group">
-                                <label for="nama_kategori">Nama kategori</label>
-                                <input type="text" class="form-control" id="nama_kategori" name="nama_ketegori" placeholder="Masukkan Nama Kategori" required>
-                            </div>
+        {{-- Main --}}
+        <div class="row mt-3">
+            <div class="col-md-12 p-0">
+                <form action={{ $data['action'] }} method="POST">
+                    @csrf
 
-                            <!-- Input Deskripsi kategori -->
-                            <div class="form-group">
-                                <label for="deskripsi">Deskripsi</label>
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Masukkan Deskripsi Kategori" required></textarea>
-                            </div>
-
-                            <a href="{{ url('admin/category') }}" class="btn btn-secondary">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-
-                        </form>
-
+                    {{-- Category Name --}}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                            placeholder="Enter category name" @error('name') error @enderror>
+                        @error('name')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
-                </div>
+
+                    {{-- Description --}}
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}"
+                            placeholder="Enter category description" @error('description') error @enderror>
+                        @error('description')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
