@@ -45,19 +45,35 @@
                     <h2 class="text-primary" style="font-size: 1.8rem">Welcome Back!</h2>
                     <p style="font-size: 0.9rem">Please sign in to your account</p>
                 </div>
-                <form action="" method="POST" class="pt-4" id="login-form">
+                <form action={{ url('login') }} method="POST" class="pt-4" id="login-form">
                     @csrf
+
+                    {{-- Email Address Input --}}
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        <input name="email" @error('email') error @enderror type="email" class="form-control"
+                            id="email" placeholder="name@example.com" value="{{ old('email') }}">
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
+
+                    {{-- Password Input --}}
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="*********">
+                        <input name="password" @error('password') error @enderror type="password" class="form-control"
+                            id="password" placeholder="*********">
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
+
+                    {{-- Login Button --}}
                     <div class="d-grid gap-2 pt-3">
                         <button type="submit" class="btn btn-primary text-white">Login</button>
                     </div>
+
+                    {{-- Don't have an account link --}}
                     <div class="text-center mt-3">
                         <p>Don't have an account? <a href="" style="text-decoration: none">Register</a></p>
                     </div>

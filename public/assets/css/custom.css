@@ -439,3 +439,13 @@ nav.navbar:not(.navbar-transparent) {
 }
 
 /* Media Queries for Responsive Design */
+
+/* =================================================================================== Register Form */
+.error-message {
+    color: red;
+    font-size: 0.7rem;
+}
+
+.form-control[error] {
+    border-color: red;
+}

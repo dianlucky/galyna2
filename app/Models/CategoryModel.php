@@ -8,6 +8,6 @@ class CategoryModel extends Model
 {
     protected $table = 'category';
     protected $primaryKey = 'id_category';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
     public $timestamps = true;
 }
