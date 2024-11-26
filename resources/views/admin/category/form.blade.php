@@ -19,11 +19,17 @@
                 <form action={{ $data['action'] }} method="POST">
                     @csrf
 
+                    @if ($data['form'] == 'Edit')
+                        @method('PUT')
+                    @endif
+
+
                     {{-- Category Name --}}
                     <div class="mb-3">
                         <label for="name" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
-                            placeholder="Enter category name" @error('name') error @enderror>
+                        <input type="text" class="form-control" id="name" name="name"
+                            placeholder="Enter category name" @error('name') error @enderror
+                            value={{ old('name', $category->name ?? '') }}>
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -32,8 +38,9 @@
                     {{-- Description --}}
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}"
-                            placeholder="Enter category description" @error('description') error @enderror>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Enter category description" @error('description') error @enderror
+                            value={{ old('description', $category->description ?? '') }}>
                         @error('description')
                             <span class="error-message">{{ $message }}</span>
                         @enderror

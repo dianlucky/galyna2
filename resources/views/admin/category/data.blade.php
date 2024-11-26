@@ -56,7 +56,8 @@
                                                                         class="dropdown-item">Delete</button>
                                                                 </form>
                                                             </li>
-                                                            <li><a class="dropdown-item" href="#">Edit</a>
+                                                            <li><a class="dropdown-item"
+                                                                    href={{ url('admin/category/edit/' . $item->id_category) }}>Edit</a>
                                                             </li>
                                                         </ul>
                                                     </div>
