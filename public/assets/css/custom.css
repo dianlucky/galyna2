@@ -41,7 +41,7 @@ nav.navbar {
 }
 
 nav.navbar .container a.nav-link.active {
-    color:  #034680 !important;
+    color: #034680 !important;
     font-weight: 600;
 }
 
@@ -413,3 +413,29 @@ nav.navbar:not(.navbar-transparent) {
     background-color: var(--blue);
     font-size: 1rem;
 }
+
+/* =================================================================================== Footer */
+@media (max-width: 800px) {
+    footer {
+        font-size: 0.6rem;
+    }
+}
+/* =================================================================================== Login Form */
+/* Login Form */
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+}
+
+#login-section {
+    margin: auto;
+    padding: 30px 20px;
+    border-radius: 10px;
+    border: 2px solid var(--blue);
+    box-shadow: 4px 4px 0px rgba(0, 191, 255, 0.5);
+    background-color: white;
+    margin: 10px;
+}
+
+/* Media Queries for Responsive Design */

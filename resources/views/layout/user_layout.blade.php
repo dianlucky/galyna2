@@ -40,6 +40,7 @@
                     <a class="nav-link" href="#">Collection</a>
                     <a class="nav-link" href="#">Article</a>
                     <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href={{ url('/login') }}>Login</a>
                 </div>
             </div>
         </div>

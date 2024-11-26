@@ -18,7 +18,7 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="{{ url('/') }}" class="text-nowrap logo-img">
                         <img src="{{ url('/') }}/assets/galyna/logo-v2-transparent.svg" width="200"
                             alt="Galyna Logo" />
                     </a>
@@ -147,8 +147,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
-                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                                href="#">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="#">
                                 <i class="ti ti-menu-2"></i>
                             </a>
                         </li>
