@@ -170,3 +170,107 @@ button.swal2-confirm.swal2-styled {
     width: 200px;
 }
 
+/* ============================================================================== CARD PRODUCT */
+.card-product {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-product .card-img {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.card-product .card-img img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.card-product .card-label {
+    position: absolute;
+    width: 100%;
+    height: 36%;
+
+    bottom: 0px;
+    left: 0px;
+
+    padding: 1rem;
+    border-radius: 8px;
+    color: white !important;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    background-image: linear-gradient(to top, var(--blue), rgba(0, 0, 0, 0));
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.card-product:hover .card-img img {
+    transform: scale(1.1);
+    transition: transform 0.5s;
+}
+
+@media (max-width: 768px) {
+    div.card-product div.card-label {
+        font-size: 0.7rem;
+    }
+}
+
+.edit-product-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+
+    background: var(--blue);
+    color: white;
+    border-radius: 5px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-product-btn button {
+    background: transparent;
+    border: none;
+    color: white;
+}
+.edit-product-btn .dropdown-item {
+    background: transparent;
+    border: none;
+    padding: 5px 1rem;
+    text-align: start;
+    width: 120px;
+    border-radius: 10px;
+}
+
+.edit-product-btn.dropdown ul.dropdown-menu {
+    border: 1px solid var(--blue);
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    width: 20px !important;
+}
+.edit-product-btn.dropdown .dropdown-menu.show {
+    border: 1px solid var(--blue);
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.edit-product-btn .dropdown-item:hover {
+    background: var(--gray-dark);
+    color: white;
+    border: none;
+}

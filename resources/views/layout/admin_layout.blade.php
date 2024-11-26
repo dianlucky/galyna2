@@ -24,7 +24,7 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
-        <aside class="left-sidebar">
+        <aside class="left-sidebar" style="margin-top: 11px">
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -73,8 +73,8 @@
 
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/products*') ? 'active' : '' }}"
-                                href="{{ url('/admin/products') }}" aria-expanded="false">
+                            <a class="sidebar-link {{ Request::is('admin/product*') ? 'active' : '' }}"
+                                href="{{ url('/admin/product') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shirt"></i>
                                 </span>
@@ -153,7 +153,7 @@
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
-            <header class="app-header">
+            <header class="app-header px-1 px-md-3 pt-2">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">

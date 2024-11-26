@@ -1,14 +1,21 @@
 @extends('layout.admin_layout')
+@php
+    $dataPage = [
+        'page' => 'category',
+    ];
+@endphp
 @section('content')
     <section class="ps-3">
 
         {{-- Header Page --}}
-        <div class="row">
-            <h4 class="p-0">Form {{ $data['form'] }} Category</h4>
+        <div class="row text-capitalize">
+            <h4 class="p-0 ">Form {{ $data['form'] . ' ' . $dataPage['page'] }}</h4>
             <nav class="page-breadcrumb p-0">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ url('admin/category') }}">Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Form {{ $data['form'] }} Category</li>
+                    <li class="breadcrumb-item"><a href="{{ url('admin/' . $dataPage['page']) }}">{{ $dataPage['page'] }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Form {{ $data['form'] }} {{ $dataPage['page'] }}
+                    </li>
                 </ol>
             </nav>
         </div>
@@ -45,7 +52,12 @@
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    {{-- Submit Button --}}
                     <button type="submit" class="btn btn-primary">Submit</button>
+
+                    {{-- Cancel Button --}}
+                    <a href={{ url('admin/' . $dataPage['page']) }} class="btn btn-dark">Cancel</a>
                 </form>
             </div>
         </div>
