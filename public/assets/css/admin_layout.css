@@ -43,10 +43,9 @@
     color: var(--white) !important;
 }
 #sidebarnav .sidebar-item.selected a {
-    background: transparent ;
-    color: var(--black) ;
+    background: transparent;
+    color: var(--black);
 }
-
 
 /* Button Primary */
 .btn.btn-primary {
@@ -64,4 +63,18 @@
 
 .breadcrumb-item a {
     color: var(--gray-dark) !important;
+}
+
+.btn.btn-secondary {
+    background: var(--gray-light) !important;
+    color: var(--gray-dark) !important;
+    border: none;
+}
+
+.btn.btn-secondary:active,
+.btn.btn-secondary:focus,
+.btn.btn-secondary:hover {
+    background: var(--gray-dark) !important;
+    color: var(--white) !important;
+    border: none;
 }
