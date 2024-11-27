@@ -47,7 +47,7 @@
                         {{-- Dashboard Menu --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/dashboard') ? 'active' : '' }}"
-                                href="{{ url('/admin/dashboard') }}">
+                                href="{{ url('admin/dashboard') }}">
 
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
@@ -63,7 +63,7 @@
                         {{-- Category Menu --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/category*') ? 'active' : '' }}"
-                                href="{{ url('/admin/category') }}" aria-expanded="false">
+                                href="{{ url('admin/category') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-category-2"></i>
                                 </span>
@@ -74,7 +74,7 @@
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/product*') ? 'active' : '' }}"
-                                href="{{ url('/admin/product') }}" aria-expanded="false">
+                                href="{{ url('admin/product') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shirt"></i>
                                 </span>
@@ -85,7 +85,7 @@
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/article*') ? 'active' : '' }}"
-                                href="{{ url('/admin/article') }}" aria-expanded="false">
+                                href="{{ url('admin/article') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-file-description"></i>
                                 </span>
@@ -96,7 +96,7 @@
                         {{-- Product Menu --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/links*') ? 'active' : '' }}"
-                                href="{{ url('/admin/links') }}" aria-expanded="false">
+                                href="{{ url('admin/links') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-link"></i>
                                 </span>
@@ -107,11 +107,11 @@
                             <span class="hide-menu">COMPANY</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ url('admin/company') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-login"></i>
+                                    <i class="ti ti-building"></i>
                                 </span>
-                                <span class="hide-menu">Login</span>
+                                <span class="hide-menu">Setting</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -119,27 +119,19 @@
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
-                                <span class="hide-menu">Register</span>
+                                <span class="hide-menu">Users</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">EXTRA</span>
+                            <span class="hide-menu">OTHER</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-mood-happy"></i>
+                                    <i class="ti ti-message-2"></i>
                                 </span>
-                                <span class="hide-menu">Icons</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-aperture"></i>
-                                </span>
-                                <span class="hide-menu">Sample Page</span>
+                                <span class="hide-menu">Comments</span>
                             </a>
                         </li>
                     </ul>

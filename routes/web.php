@@ -53,4 +53,16 @@ Route::prefix('admin')->group(function () {
         Route::put('/product/{id}', 'update');
         Route::delete('/product', 'destroy');
     });
+
+    // Admin - Article
+    Route::controller(App\Http\Controllers\Admin\ArticleController::class)->group(function () {
+        Route::get('/article', 'index');
+        Route::get('/article/create', 'create');
+        Route::post('/article', 'store');
+        Route::get('/article/edit/{id}', 'edit');
+        Route::put('/article/{id}', 'update');
+        Route::delete('/article', 'destroy');
+    });
+
+    // Admin - User
 });
