@@ -20,5 +20,7 @@ class ArticleModel extends Model
         'published_at'
     ];
 
+    protected $dates = ['published_at'];
+
     public $timestamps = true;
 }

@@ -16,7 +16,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ url('admin/' . $dataPage['page']) }}"
                             class="text-capitalize">{{ $dataPage['page'] }}</a></li>
-                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Table {{ $dataPage['page'] }}</li>
+                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Data {{ $dataPage['page'] }}</li>
                 </ol>
             </nav>
         </div>
@@ -27,7 +27,12 @@
 
             {{-- Header List --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h6 class="text-capitalize">List of {{ $dataPage['page'] }}</h6>
+                <div>
+                    <h4 class="text-capitalize m-0">List of {{ $dataPage['page'] }}</h4>
+                    <p class="m-0">
+                        {{ $articles->count() }} articles found
+                    </p>
+                </div>
                 <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
                     <i class="ti ti-plus me-2"></i>
                     Add</a>
@@ -37,13 +42,14 @@
             <div class="row">
                 @foreach ($articles as $item)
                     <div class="col-12">
-                        <div class="card" style="border: 1px solid rgb(216, 216, 216); position: relative;">
+                        <div class="card"
+                            style="border: 1px solid rgb(216, 216, 216); position: relative; max-height:230px; overflow: hidden;">
                             <div class="card-body d-block d-md-flex gap-3">
                                 {{-- Image Cover --}}
                                 <div class="d-flex justify-content-center">
-                                    <img style="object-fit: cover;" width="270"
+                                    <img style="object-fit: cover;" width="270" height="160"
                                         src={{ asset('images/' . $item->cover_image) }} alt={{ $item->title }}
-                                        class="img-fluid py-4 py-md-0">
+                                        class="py-4 py-md-0">
                                 </div>
                                 {{-- Content --}}
                                 <div>
@@ -65,16 +71,16 @@
                                     Action
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_article) }}>Edit</a>
+                                    </li>
                                     <li>
                                         <form action="" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <input type="hidden" name="id" value={{ $item->id_category }}>
+                                            <input type="hidden" name="id" value={{ $item->id_article }}>
                                             <button type="submit" class="dropdown-item">Delete</button>
                                         </form>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href={{ url('admin/category/edit/' . $item->id_category) }}>Edit</a>
                                     </li>
                                 </ul>
                             </div>

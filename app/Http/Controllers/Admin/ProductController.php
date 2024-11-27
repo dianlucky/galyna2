@@ -64,7 +64,8 @@ class ProductController extends Controller
         // Upload Image
         if ($request->hasFile('cover_image')) {
             $image = $request->file('cover_image');
-            $image_name = time() . '_' . $code;
+            $extension = $image->getClientOriginalExtension();
+            $image_name = time() . '_' . $code . '.' . $extension;
             $image->move(public_path('images'), $image_name);
         }
 
@@ -120,7 +121,8 @@ class ProductController extends Controller
         // Upload Image
         if ($request->hasFile('cover_image')) {
             $image = $request->file('cover_image');
-            $image_name = time() . '_' . $code;
+            $extension = $image->getClientOriginalExtension();
+            $image_name = time() . '_' . $code . '.' . $extension;
             $image->move(public_path('images'), $image_name);
 
             // Delete Old Image if Exist

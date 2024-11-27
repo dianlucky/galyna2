@@ -11,6 +11,28 @@
         div[role="textbox"] {
             min-height: 400px;
         }
+
+        .container-input-img {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border: 3px solid #ced4da;
+            border-radius: .25rem;
+            overflow: hidden;
+            border-style: dashed;
+            padding: 10px;
+            background-color: white;
+        }
+
+        .container-input-img input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
     </style>
 @endsection
 @section('content')
@@ -55,51 +77,79 @@
 
                     {{-- Grouping Input --}}
                     <div class="row mb-3">
-                        {{-- Author Column Input --}}
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="author" class="form-label">Author</label>
-                            <input type="text" class="form-control" id="author" name="author"
-                                placeholder="Enter article author" @error('author') error @enderror
-                                value="{{ old('author', $article->author ?? '') }}">
-                            @error('author')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
+                        <div class="col-12 col-md-8">
+
+                            {{-- Author Column Input --}}
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author"
+                                    placeholder="Enter article author" @error('author') error @enderror
+                                    value="{{ old('author', $article->author ?? '') }}">
+                                @error('author')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            {{-- Location --}}
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location"
+                                    placeholder="Enter event location or address" @error('location') error @enderror
+                                    value="{{ old('location', $article->location ?? '') }}">
+                                @error('location')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            {{-- Published Date Column Input [published_at] --}}
+                            <div class="mb-3">
+                                <label for="published_at" class="form-label">Published Date</label>
+                                <input onfocus="this.showPicker()" type="date" class="form-control" id="published_at"
+                                    name="published_at" placeholder="Enter article published date"
+                                    @error('published_at') error @enderror
+                                    value="{{ old('published_at', isset($article) ? $article->published_at : now()->format('Y-m-d')) }}">
+                                @error('published_at')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        {{-- Location --}}
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location"
-                                placeholder="Enter event location or address" @error('location') error @enderror
-                                value="{{ old('location', $article->location ?? '') }}">
-                            @error('location')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        {{-- Column Input Cover Image --}}
+                        <div class="col-12 col-md-4 mb-3">
 
-                        {{-- Cover Image Column Input --}}
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="cover_image" class="form-label">Cover Image</label>
-                            <input type="file" class="form-control" id="cover_image" name="cover_image"
-                                placeholder="Enter article cover image" @error('cover_image') error @enderror
-                                value="{{ old('cover_image', $article->cover_image ?? '') }}">
+                            <label for="cover_image" class="form-label">Cover Image <i
+                                    class="text-secondary fw-light">(Landscape is more
+                                    recommended)</i></label>
+
+                            <div class="container-input-img">
+                                {{-- Input --}}
+                                <input type="file" id="cover_image" name="cover_image"
+                                    placeholder="{{ $item->cover_image ?? 'Enter article cover image' }}"
+                                    @error('cover_image') error @enderror
+                                    value="{{ old('cover_image', $article->cover_image ?? '') }}">
+
+                                {{-- Display existing cover image if available --}}
+                                @if (isset($article) && $article->cover_image)
+                                    <div class="mt-3 mb-3">
+                                        <img id="cover_image_preview" src="{{ asset('images/' . $article->cover_image) }}"
+                                            alt="Current Cover Image" class="img-fluid"
+                                            style="max-width: 100%; height: auto;">
+                                    </div>
+                                @else
+                                    <div class="mt-3 mb-3">
+                                        <img id="cover_image_preview"
+                                            src="{{ asset('assets/images/default/cover_input_image.png') }}"
+                                            alt="Current Cover Image" class="img-fluid"
+                                            style="max-width: 100%; height: auto;">
+                                    </div>
+                                @endif
+                            </div>
                             @error('cover_image')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        {{-- Published Date Column Input [published_at] --}}
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="published_at" class="form-label">Published Date</label>
-                            <input onfocus="this.showPicker()" type="date" class="form-control" id="published_at"
-                                name="published_at" placeholder="Enter article published date"
-                                @error('published_at') error @enderror
-                                value="{{ old('published_at', isset($article) ? $article->published_at->format('Y-m-d') : now()->format('Y-m-d')) }}">
-                            @error('published_at')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </div>
+
 
 
                     {{-- Content Column Input --}}
@@ -109,8 +159,9 @@
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                         <textarea style="height: 600px" class="form-control" id="editor" name="content" placeholder="Enter article content"
-                            @error('content') error @enderror value="{{ old('content', $article->content ?? '') }}"></textarea>
-
+                            @error('content') error @enderror>
+                            {{-- {{ old('content', $article->content ?? '') }} --}}
+                        </textarea>
                     </div>
 
                     {{-- Submit Button --}}
@@ -130,8 +181,8 @@
     <script type="importmap">
         {
             "imports": {
-                "ckeditor5": "../../assets/ckeditor5/ckeditor5.js",
-                "ckeditor5/": "../../assets/ckeditor5/"
+                "ckeditor5": "{{url('/')}}/assets/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "{{url('/')}}/assets/ckeditor5/"
             }
         }
     </script>
@@ -154,17 +205,33 @@
             .create(document.querySelector('#editor'), {
                 plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Heading, Alignment, Link, BlockQuote],
                 toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', 'heading', '|',
-                    'fontSize', 'fontFamily', '|', 'fontColor', 'fontBackgroundColor', '|',
+                    'undo', 'redo', '|', 'bold', 'italic', 'heading', '|', 'fontColor', 'fontBackgroundColor', '|',
                     'bulletedList', 'numberedList', '|', 'alignment', '|', 'link', '|',
                     'blockQuote',
                 ]
             })
             .then(editor => {
                 window.editor = editor;
+                editor.setData(`{!! old('content', $article->content ?? '') !!}`);
             })
             .catch(error => {
                 console.error(error);
             });
+    </script>
+
+    <script>
+        // JavaScript to handle file selection and update image preview
+        document.getElementById('cover_image').addEventListener('change', function(event) {
+            console.log(event);
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function() {
+                var dataURL = reader.result;
+                var output = document.getElementById('cover_image_preview');
+                output.src = dataURL;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        });
     </script>
 @endsection
