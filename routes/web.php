@@ -17,16 +17,33 @@ Route::controller(App\Http\Controllers\Auth\AuthController::class)->group(
     }
 );
 
+
+
+
 // PUBLIC ROUTES -------------> [NO MIDDLEWARE]
-Route::prefix('')
-    ->controller(App\Http\Controllers\HomeController::class)
-    ->group(
-        function () {
-            Route::get('/', 'links');
-            Route::get('/home', 'home');
-            Route::get('/category/{id}', 'show');
-        }
-    );
+Route::prefix('')->group(
+    function () {
+
+        // Public - Home
+        Route::controller(App\Http\Controllers\HomeController::class)->group(
+            function () {
+                Route::get('/', 'links');
+                Route::get('/home', 'home');
+            }
+        );
+
+        // Public - Article
+        Route::controller(App\Http\Controllers\User\ArticleController::class)->group(
+            function () {
+                Route::get('/article', 'index');
+                Route::get('/article/{slug}', 'index');
+            }
+        );
+    }
+);
+
+
+
 
 // ADMIN ROUTES -------------> [PROTECTED WITH MIDDLEWARE AUTH AND ADMIN ROLE]
 Route::prefix('admin')->group(function () {

@@ -36,11 +36,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link {{ Request::is('home*') ? 'active' : null }}" href="{{ url('home') }}">Home</a>
                     <a class="nav-link" href="#">Collection</a>
-                    <a class="nav-link" href="#">Article</a>
+                    <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
+                        href="{{ url('article') }}">Article</a>
                     <a class="nav-link" href="#">About</a>
-                    <a class="nav-link" href={{ url('/login') }}>Login</a>
+                    <a class="nav-link" href="{{ url('/login') }}">Login</a>
                 </div>
             </div>
         </div>
