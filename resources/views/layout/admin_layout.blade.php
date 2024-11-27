@@ -17,6 +17,8 @@
             -moz-osx-font-smoothing: grayscale;
         }
     </style>
+
+    @yield('style')
 </head>
 
 <body class="bg-motif-1 antialiased">

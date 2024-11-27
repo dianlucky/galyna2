@@ -253,6 +253,7 @@ button.swal2-confirm.swal2-styled {
     text-align: start;
     width: 120px;
     border-radius: 10px;
+    color: var(--gray-dark);
 }
 
 .edit-product-btn.dropdown ul.dropdown-menu {
