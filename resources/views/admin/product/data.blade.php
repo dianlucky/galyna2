@@ -25,9 +25,10 @@
         {{-- Main Content --}}
         <main id="contents" class="ps-sm-0">
             <div class="d-flex justify-content-between align-items-center">
-                <form action="" method="get">
+                <form action="" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search Product" aria-label="Search Product"
+                        <input name="query" value="{{ request()->get('query') ?? '' }}" type="text"
+                            class="form-control" placeholder="Search Product" aria-label="Search Product"
                             aria-describedby="button-addon2">
                         <button class="btn btn-primary text-white" type="submit" id="button-addon2">
                             <i class="ti ti-search"></i>
@@ -45,7 +46,7 @@
 
                             {{-- Card Image --}}
                             <div class="card-img">
-                                <img src={{ asset('assets/images/product/' . $item['image']) }} alt="">
+                                <img src={{ asset('images/' . $item->cover_image) }} alt={{ $item->name }}>
                             </div>
 
                             {{-- Edit button --}}
@@ -56,14 +57,26 @@
                                 </button>
                                 <div class="dropdown-menu" style="font-size: 15px; ">
                                     <div style="p-0">
-                                        <a class="dropdown-item" href={{ url('admin/category/edit/') }}>
+                                        <a class="dropdown-item"
+                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_product) }}>
                                             <i class="ti ti-pencil me-3"></i>
                                             Edit
                                         </a>
-                                        <a class="dropdown-item" href={{ url('admin/category/edit/') }}>
+                                        <form action="{{ url('admin/' . $dataPage['page']) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="id" value={{ $item->id_product }}>
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="ti ti-trash me-3"></i>
+                                                Hapus
+                                            </button>
+
+                                        </form>
+                                        {{-- <a class="dropdown-item"
+                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_product) }}>
                                             <i class="ti ti-trash me-3"></i>
                                             Hapus
-                                        </a>
+                                        </a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -73,14 +86,16 @@
                                 <div class="mb-1">
                                     <span class="badge p-1" style="background-color: rgb(255, 129, 181); font-size: 10px">
                                         <i class="ti ti-heart"></i>
-                                        5
+                                        {{ $item->rating }}
                                     </span>
-                                    <span class="badge bg-primary p-1"
-                                        style="background-color: rgb(255, 129, 181);font-size: 10px">
-                                        New
-                                    </span>
+                                    @if ($item->is_new)
+                                        <span class="badge bg-primary p-1"
+                                            style="background-color: rgb(255, 129, 181);font-size: 10px">
+                                            New
+                                        </span>
+                                    @endif
                                 </div>
-                                <h6 class="m-0" style="font-size: 12px; color: white;">{{ $item['name'] }}</h6>
+                                <h6 class="m-0" style="font-size: 12px; color: white;">{{ $item->name }}</h6>
                             </div>
                         </div>
                     </div>

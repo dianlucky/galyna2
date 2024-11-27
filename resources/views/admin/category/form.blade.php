@@ -36,7 +36,7 @@
                         <label for="name" class="form-label">Category Name</label>
                         <input type="text" class="form-control" id="name" name="name"
                             placeholder="Enter category name" @error('name') error @enderror
-                            value={{ old('name', $category->name ?? '') }}>
+                            value="{{ old('name', $category->name ?? '') }}">
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -47,7 +47,7 @@
                         <label for="description" class="form-label">Description</label>
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="Enter category description" @error('description') error @enderror
-                            value={{ old('description', $category->description ?? '') }}>
+                            value="{{ old('description', $category->description ?? '') }}">
                         @error('description')
                             <span class="error-message">{{ $message }}</span>
                         @enderror

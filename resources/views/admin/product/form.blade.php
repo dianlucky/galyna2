@@ -27,7 +27,7 @@
         {{-- Main --}}
         <div class="row mt-3">
             <div class="col-md-12 p-0">
-                <form action={{ $data['action'] }} method="POST">
+                <form action={{ $data['action'] }} method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @if ($data['form'] == 'Edit')
@@ -39,7 +39,7 @@
                         <label for="name" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="name" name="name"
                             placeholder="Enter product name" @error('name') error @enderror
-                            value={{ old('name', $product->name ?? '') }}>
+                            value="{{ old('name', $product->name ?? '') }}">
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -50,7 +50,7 @@
                         <label for="description" class="form-label">Description</label>
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="Enter product description" @error('description') error @enderror
-                            value={{ old('description', $product->description ?? '') }}>
+                            value="{{ old('description', $product->description ?? '') }}">
                         @error('description')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -78,9 +78,9 @@
                     {{-- Category Input Choose --}}
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
-                        <select class="form-select" id="category" name="category">
+                        <select class="form-select" id="category" name="id_category">
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @if (old('category', $product->category_id ?? '') == $category->id) selected @endif>
+                                <option value="{{ $category->id_category }}" @if (old('category', $product->category_id ?? '') == $category->id) selected @endif>
                                     {{ $category->name }}
                                 </option>
                             @endforeach

@@ -49,8 +49,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/product', 'index');
         Route::get('/product/create', 'create');
         Route::post('/product', 'store');
-        Route::get('/product/{id}/edit', 'edit');
+        Route::get('/product/edit/{id}', 'edit');
         Route::put('/product/{id}', 'update');
-        Route::delete('/product/{id}', 'destroy');
+        Route::delete('/product', 'destroy');
     });
 });
