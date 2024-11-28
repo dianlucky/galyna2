@@ -6,7 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Galyna Heiwa</title>
+
+    <title>Galyna Heiwa | International Local Fashion</title>
+    <meta name="description"
+        content="Galyna Heiwa, established in 2018, specializes in the fashion industry by producing unique, handcrafted textiles and ready-to-wear clothing with a focus on traditional Sasirangan and Ecoprint fabrics from South Kalimantan. The brand emphasizes natural dyes to create eco-friendly, sustainable fashion items that include not only garments but also bags, hats, and a range of modest fashion attire. Galyna Heiwa celebrates the heritage and craftsmanship of South Kalimantan, bringing the beauty of traditional Indonesian art to a modern audience with every piece they produce.">
+    <meta name="keywords"
+        content="Galyna Heiwa, fashion, international fashion, local fashion, stylish designs, fashion articles, Kalimantan Selatan, Sasirangan">
+    <meta name="author" content="Galyna Heiwa">
+    <meta property="og:title" content="Galyna Heiwa | International Local Fashion">
+    <meta property="og:description"
+        content="Galyna Heiwa offers international local fashion with unique and stylish designs. Discover our latest collections and articles.">
+    <meta property="og:image" content="{{ asset('assets/galyna/logo-v2-transparent.svg') }}">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Galyna Heiwa | International Local Fashion">
+    <meta name="twitter:description"
+        content="Galyna Heiwa offers international local fashion with unique and stylish designs. Discover our latest collections and articles.">
+    <meta name="twitter:image" content="{{ asset('assets/galyna/logo-v2-transparent.svg') }}">
+    <meta name="twitter:site" content="@GalynaHeiwa">
+    <meta name="twitter:creator" content="@GalynaHeiwa">
+    <meta name="description" content="Fashion lokal asal Kalimantan Selatan, Indonesia dengan motif Sasirangan.">
+
+    @yield('meta')
+
 
     {{-- Poppins Font --}}
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -41,7 +63,12 @@
                     <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
                         href="{{ url('article') }}">Article</a>
                     <a class="nav-link" href="#">About</a>
-                    <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                    @if (Auth::check())
+                        <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
+                    @else
+                        <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                    @endif
+
                 </div>
             </div>
         </div>

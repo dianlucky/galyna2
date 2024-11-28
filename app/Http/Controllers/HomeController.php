@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductModel;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -57,7 +58,8 @@ class HomeController extends Controller
 
     public function home()
     {
-        return view('public_user/home', ['products' => $this->products]);
+        $products = ProductModel::all();
+        return view('public_user/home', ['products' => $products]);
     }
 
     public function show($id)

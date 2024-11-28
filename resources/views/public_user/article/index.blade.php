@@ -1,8 +1,22 @@
 @use('Carbon\Carbon')
 @use('Illuminate\Support\Str')
 @extends('layout.user_layout')
+
+@section('meta')
+    <meta name="description" content="Explore the latest updates article or blog, tips, and stories.">
+    <meta name="keywords" content="article, blog, tips, stories">
+    <meta property="og:title" content="{{ $article->title }}">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($article->content), 100) }}">
+    <meta property="og:image" content="{{ asset('images/' . $article->cover_image) }}">
+    <meta property="og:url" content="{{ url('article/' . $article->slug) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $article->title }}">
+    <meta name="twitter:description" content="{{ Str::limit(strip_tags($article->content), 100) }}">
+    <meta name="twitter:image" content="{{ asset('images/' . $article->cover_image) }}">
+    <meta name="twitter:site" content="@GalynaHeiwa">
+@endsection
 @section('content')
-    <section style="padding-top: 10vh; min-height: 92.7vh">
+    <section class="bg-motif-1" style="padding-top: 10vh; min-height: 92.7vh">
 
         {{-- Header Page --}}
         <div class="container pt-3">
@@ -93,6 +107,12 @@
                                     </div>
                                 @endif
                             @endforeach
+
+                            @if ($articles->count() < 2)
+                                <div class="alert alert-secondary text-center py-5 m-3" role="alert">
+                                    <h1 class="charmonman-regular">No more article found.</h1>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
