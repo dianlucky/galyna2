@@ -43,9 +43,9 @@
                     </div>
                     <form action="" method="get">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Cari Produk" aria-label="Cari Produk"
-                                aria-describedby="button-addon2">
-                            <button class="btn btn-primary text-white" type="submit" id="button-addon2">Cari</button>
+                            <input type="text" class="form-control" placeholder="Search Product"
+                                aria-label="Search Product" aria-describedby="button-addon2">
+                            <button class="btn btn-primary text-white" type="submit" id="button-addon2">Search</button>
                         </div>
                     </form>
                 </div>
@@ -57,19 +57,22 @@
                             <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
                                 <div class="card-product">
                                     <div class="card-img">
-                                        <img src={{ asset('assets/images/product/' . $item['image']) }} alt="">
+                                        <img src={{ asset('images/' . $item->cover_image) }} alt="{{ $item->name }}">
                                     </div>
                                     <div class="card-label">
                                         <div class="mb-1">
                                             <span class="badge" style="background-color: rgb(255, 129, 181);">
                                                 <i class="bi bi-heart"></i>
-                                                5
+                                                {{$item->rating}}
                                             </span>
-                                            <span class="badge bg-primary" style="background-color: rgb(255, 129, 181);">
-                                                New
-                                            </span>
+                                            @if ($item->is_new)
+                                                <span class="badge bg-primary"
+                                                    style="background-color: rgb(255, 129, 181);">
+                                                    New
+                                                </span>
+                                            @endif
                                         </div>
-                                        <h6 class="m-0">{{$item['name']}}</h6>
+                                        <h6 class="m-0">{{ $item->name }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -78,41 +81,6 @@
                 </div>
             </div>
         </section>
-
-        {{-- FASHION CATEGORY SECTION --}}
-        {{-- <section id="fashion-category" style="margin-top: 30px">
-            <div class="container">
-                <div class="title-section">
-                    <h4 class="fw-bold m-0">Category</h4>
-                    <span>Get to know us more</span>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div>
-                            <div class="card-category">
-                                <div class="card-category-content">
-                                    <div class="category-item">
-                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Man</h6>
-                                    </div>
-                                    <div class="category-item">
-                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Woman</h6>
-                                    </div>
-                                    <div class="category-item">
-                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Outer</h6>
-                                    </div>
-                                    <div class="category-item">
-                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Blazer</h6>
-                                    </div>
-                                    <div class="category-item">
-                                        <h6 class="m-0 charmonman-regular" style="font-size: 20px">Accessories</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
 
         {{-- ABOUT US SECTION --}}
         <section style="margin: 20px 0;">
@@ -151,7 +119,7 @@
         </section>
 
         {{-- CONTACT US SECTION --}}
-        <section id="contact-us" class="bg-motif-2 p-3" style="margin: 30px 0;">
+        <section id="contact-us" class="bg-motif-2 p-3">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-md-6">
