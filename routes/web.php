@@ -84,21 +84,15 @@ Route::prefix('admin')
                 Route::delete('/article', 'destroy');
             });
 
-<<<<<<< HEAD
-    // Admin - Links
-    Route::controller(App\Http\Controllers\Admin\LinksController::class)->group(function () {
-        Route::get('/links', 'index');
-        Route::get('/links/create', 'create');
-        Route::post('/links', 'store');
-        Route::get('/links/edit/{id}', 'edit');
-        Route::put('/links/{id}', 'update');
-        Route::delete('/links', 'destroy');
-    });
+          // Admin - Links
+            Route::controller(App\Http\Controllers\Admin\LinksController::class)->group(function () {
+                Route::get('/links', 'index');
+                Route::get('/links/create', 'create');
+                Route::post('/links', 'store');
+                Route::get('/links/edit/{id}', 'edit');
+                Route::put('/links/{id}', 'update');
+                Route::delete('/links', 'destroy');
+            });
 
-    // Admin - User
+
 });
-=======
-            // Admin - User
-        }
-    );
->>>>>>> ff2bbb35179c2d83a3eed4485e509d068af63c48
