@@ -70,7 +70,7 @@
                                                                 </form>
                                                             </li>
                                                             <li><a class="dropdown-item"
-                                                                    href={{ url('admin/category/edit/' . $item->id_category) }}>Edit</a>
+                                                                    href={{ url('admin/links/edit/' . $item->id_link) }}>Edit</a>
                                                             </li>
                                                         </ul>
                                                     </div>

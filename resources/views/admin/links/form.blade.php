@@ -35,8 +35,8 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Link Name</label>
                         <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Enter category name" @error('name') error @enderror
-                            value="{{ old('name', $category->name ?? '') }}">
+                            placeholder="Enter link name" @error('name') error @enderror
+                            value="{{ old('name', $link->name ?? '') }}">
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -46,8 +46,8 @@
                     <div class="mb-3">
                         <label for="link" class="form-label">Link</label>
                         <input type="url" class="form-control" id="link" name="link"
-                            placeholder="Enter category link" @error('link') error @enderror
-                            value="{{ old('link', $category->link ?? '') }}">
+                            placeholder="Enter link" @error('link') error @enderror
+                            value="{{ old('link', $link->link ?? '') }}">
                         @error('link')
                             <span class="error-message">{{ $message }}</span>
                         @enderror

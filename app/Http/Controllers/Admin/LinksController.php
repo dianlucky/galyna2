@@ -65,4 +65,40 @@ class LinksController extends Controller
         session()->flash('success', 'Data deleted successfully');
         return redirect('admin/links');
     }
+
+    public function edit($id)
+    {
+        // Get data by id
+        $link = LinksModel::find($id);
+
+        // Data for form
+        $data = [
+            'form' => 'Edit',
+            'action' => url('admin/links/' . $id),
+            'method' => 'PUT'
+        ];
+
+        // Return view with data
+        return view('admin.links.form', compact('data', 'link'));
+    }
+
+    // Update Method -> update data category to DB
+    public function update(Request $request, $id)
+    {
+        // Validate Input
+        $request->validate([
+            'name' => 'required|unique:category,name|max:30',
+            'link' => ['required', 'regex:/^https?:\/\/[^\s]+$/', 'max:255']
+        ]);
+
+        // Update Data Category
+        $link = LinksModel::find($id);
+        $link->name = $request->name;
+        $link->link = $request->link;
+        $link->save();
+
+        // Return back with success message
+        session()->flash('success', 'Data updated successfully');
+        return redirect('admin/links');
+    }
 }
