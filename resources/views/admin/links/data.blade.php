@@ -23,83 +23,68 @@
         </div>
 
         {{-- Main Content --}}
-        <main id="contents" class="ps-sm-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <form action="" method="GET">
-                    <div class="input-group mb-3">
-                        <input name="query" value="{{ request()->get('query') ?? '' }}" type="text"
-                            class="form-control" placeholder="Search Product" aria-label="Search Product"
-                            aria-describedby="button-addon2">
-                        <button class="btn btn-primary text-white" type="submit" id="button-addon2">
-                            <i class="ti ti-search"></i>
-                        </button>
-                    </div>
-                </form>
-                <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
-                    <i class="ti ti-plus me-2"></i>
-                    Add</a>
-            </div>
-            <div class="row px-2" style="min-width: 100%">
-                @foreach ($links as $item)
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
-                        <div class="card-product">
-
-                            {{-- Card Image --}}
-                            <div class="card-img">
-                                <img src={{ asset('images/' . $item->cover_image) }} alt={{ $item->name }}>
+        <main id="contents" class="ps-lg-3 ps-sm-0">
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card p-0">
+                    <div class="card" style="background-color: rgba(255, 255, 255, 0.649);">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="card-title text-capitalize">Table {{ $dataPage['page'] }}</h6>
+                                <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
+                                    <i class="ti ti-plus me-2"></i>
+                                    Add</a>
                             </div>
+                            <div class="table-responsive" style="min-height: 400px">
 
-                            {{-- Edit button --}}
-                            <div class="edit-product-btn dropdown">
-                                <button class="btn text-white dropdown-toggl" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="ti ti-settings"></i>
-                                </button>
-                                <div class="dropdown-menu" style="font-size: 15px; ">
-                                    <div style="p-0">
-                                        <a class="dropdown-item"
-                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_product) }}>
-                                            <i class="ti ti-pencil me-3"></i>
-                                            Edit
-                                        </a>
-                                        <form action="{{ url('admin/' . $dataPage['page']) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="id" value={{ $item->id_product }}>
-                                            <button type="submit" class="dropdown-item">
-                                                <i class="ti ti-trash me-3"></i>
-                                                Hapus
-                                            </button>
+                                {{-- Table of Data --}}
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name Link</th>
+                                            <th>Link</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($links as $item)
+                                            <tr>
+                                                <th>{{ $loop->iteration }}</th>
+                                                <td>{{ $item->name }}</td>
+                                                <td><a target="_blank" href="{{ $item->link }}">{{ $item->link }}</a> </td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Action
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <form action="" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <input type="hidden" name="id"
+                                                                        value={{ $item->id_category }}>
+                                                                    <button type="submit"
+                                                                        class="dropdown-item">Delete</button>
+                                                                </form>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href={{ url('admin/category/edit/' . $item->id_category) }}>Edit</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                {{-- End Of Table --}}
 
-                                        </form>
-                                        {{-- <a class="dropdown-item"
-                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_product) }}>
-                                            <i class="ti ti-trash me-3"></i>
-                                            Hapus
-                                        </a> --}}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Card Label --}}
-                            <div class="card-label">
-                                <div class="mb-1">
-                                    <span class="badge p-1" style="background-color: rgb(255, 129, 181); font-size: 10px">
-                                        <i class="ti ti-heart"></i>
-                                        {{ $item->rating }}
-                                    </span>
-                                    @if ($item->is_new)
-                                        <span class="badge bg-primary p-1"
-                                            style="background-color: rgb(255, 129, 181);font-size: 10px">
-                                            New
-                                        </span>
-                                    @endif
-                                </div>
-                                <h6 class="m-0" style="font-size: 12px; color: white;">{{ $item->name }}</h6>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
         </main>
         {{-- End Of Main Content --}}
