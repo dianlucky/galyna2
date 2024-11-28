@@ -83,12 +83,12 @@ Route::prefix('admin')->group(function () {
 
     // Admin - Links
     Route::controller(App\Http\Controllers\Admin\LinksController::class)->group(function () {
-        Route::get('/article', 'index');
-        Route::get('/article/create', 'create');
-        Route::post('/article', 'store');
-        Route::get('/article/edit/{id}', 'edit');
-        Route::put('/article/{id}', 'update');
-        Route::delete('/article', 'destroy');
+        Route::get('/links', 'index');
+        Route::get('/links/create', 'create');
+        Route::post('/links', 'store');
+        Route::get('/links/edit/{id}', 'edit');
+        Route::put('/links/{id}', 'update');
+        Route::delete('/links', 'destroy');
     });
 
     // Admin - User
