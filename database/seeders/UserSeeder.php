@@ -18,18 +18,9 @@ class UserSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => password_hash('indigo123', PASSWORD_DEFAULT),
-                'role' => 'admin'
-            ],
-            [
-                'name' => 'Adi Aulia Rahman',
-                'email' => 'adi@gmail.com',
-                'password' => password_hash('indigo123', PASSWORD_DEFAULT),
-                'role' => 'admin'
-            ],
-            [
-                'name' => 'User',
-                'email' => 'user01@gmail.com',
-                'password' => password_hash('user01', PASSWORD_DEFAULT),
+                'role' => 'admin',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         ];
 
