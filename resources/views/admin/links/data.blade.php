@@ -64,7 +64,7 @@
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <input type="hidden" name="id"
-                                                                        value={{ $item->id_category }}>
+                                                                        value={{ $item->id_link }}>
                                                                     <button type="submit"
                                                                         class="dropdown-item">Delete</button>
                                                                 </form>

@@ -11,7 +11,7 @@ class LinksController extends Controller
     public function index()
     {
         // Get all category data
-        $links = LinksModel::all();
+        $links = LinksModel::orderBy('id_link', 'desc')->get();
 
 
         // Return back with data
@@ -47,6 +47,22 @@ class LinksController extends Controller
 
         // Return back with success message
         session()->flash('success', 'Data saved successfully');
+        return redirect('admin/links');
+    }
+
+    // Destroy Method -> delete data form DB
+    public function destroy(Request $request)
+    {
+        // Validate Input
+        $request->validate([
+            'id' => 'required|exists:link,id_link'
+        ]);
+
+        // Delete Data
+        LinksModel::destroy($request->id);
+
+        // Return back with success message
+        session()->flash('success', 'Data deleted successfully');
         return redirect('admin/links');
     }
 }
