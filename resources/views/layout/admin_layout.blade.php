@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galyna Heiwa | Local Fashion</title>
+    <title>Galyna Heiwa | Sasirangan Local Fashion</title>
     <link rel="stylesheet" href="{{ url('/') }}/assets-modernize/css/styles.min.css" />
     <link rel="stylesheet" href="{{ url('/') }}/assets/css/admin_layout.css" />
     <link rel="stylesheet" href="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.css" />
@@ -32,7 +32,7 @@
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="{{ url('/') }}" class="text-nowrap logo-img">
                         <img src="{{ url('/') }}/assets/galyna/logo-v2-transparent.svg" width="210"
-                            alt="Galyna Logo" />
+                            alt="Galyna Heiwa Logo" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
