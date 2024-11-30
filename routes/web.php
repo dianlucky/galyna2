@@ -84,6 +84,15 @@ Route::prefix('admin')
                 Route::delete('/article', 'destroy');
             });
 
-            // Admin - User
-        }
-    );
+          // Admin - Links
+            Route::controller(App\Http\Controllers\Admin\LinksController::class)->group(function () {
+                Route::get('/links', 'index');
+                Route::get('/links/create', 'create');
+                Route::post('/links', 'store');
+                Route::get('/links/edit/{id}', 'edit');
+                Route::put('/links/{id}', 'update');
+                Route::delete('/links', 'destroy');
+            });
+
+
+});
