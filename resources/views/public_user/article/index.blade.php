@@ -120,3 +120,24 @@
         </div>
     </section>
 @endsection
+
+@section('script')
+    <script>
+        console.log('Article Page');
+        document.querySelectorAll('oembed[url]').forEach(element => {
+            const url = element.getAttribute('url');
+            const iframe = document.createElement('iframe');
+
+            iframe.setAttribute('width', '560');
+            iframe.setAttribute('height', '315');
+            iframe.setAttribute('src', url.replace('youtu.be', 'www.youtube.com/embed').replace('?si=', '?'));
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow',
+                'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                );
+            iframe.setAttribute('allowfullscreen', true);
+
+            element.parentNode.replaceChild(iframe, element);
+        });
+    </script>
+@endsection

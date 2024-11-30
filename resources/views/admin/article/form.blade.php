@@ -198,16 +198,19 @@
             Heading,
             Alignment,
             Link,
-            BlockQuote
+            BlockQuote,
+            MediaEmbed
         } from 'ckeditor5';
 
         ClassicEditor
             .create(document.querySelector('#editor'), {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Heading, Alignment, Link, BlockQuote],
+                plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Heading, Alignment, Link, BlockQuote,
+                    MediaEmbed
+                ],
                 toolbar: [
                     'undo', 'redo', '|', 'bold', 'italic', 'heading', '|', 'fontColor', 'fontBackgroundColor', '|',
                     'bulletedList', 'numberedList', '|', 'alignment', '|', 'link', '|',
-                    'blockQuote',
+                    'blockQuote', '|', 'mediaEmbed',
                 ]
             })
             .then(editor => {
