@@ -83,7 +83,7 @@
         </section>
 
         {{-- ABOUT US SECTION --}}
-        <section style="margin: 20px 0;">
+        <section id="about" style="margin: 20px 0;">
             <div class="container">
                 <div class="title-section">
                     <h4 class="fw-bold m-0">About Us</h4>

@@ -29,6 +29,8 @@ Route::prefix('')->group(
             function () {
                 Route::get('/', 'links');
                 Route::get('/home', 'home');
+                Route::get('/about', 'about');
+                Route::get('/collection', 'collection');
             }
         );
 

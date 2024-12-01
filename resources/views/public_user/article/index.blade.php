@@ -123,7 +123,6 @@
 
 @section('script')
     <script>
-        console.log('Article Page');
         document.querySelectorAll('oembed[url]').forEach(element => {
             const url = element.getAttribute('url');
             const iframe = document.createElement('iframe');

@@ -51,7 +51,7 @@ class ProductController extends Controller
         // Validate Input
         $request->validate([
             'name' => 'required|unique:product,name|max:30',
-            'description' => 'required|max:200',
+            'description' => 'required',
             'is_new' => 'required|boolean',
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'id_category' => 'required|exists:category,id_category'
@@ -110,7 +110,7 @@ class ProductController extends Controller
         // Validate Input
         $request->validate([
             'name' => 'required|unique:product,name,' . $request->id . ',id_product|max:30',
-            'description' => 'required|max:200',
+            'description' => 'required',
             'is_new' => 'required|boolean',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'id_category' => 'required|exists:category,id_category'

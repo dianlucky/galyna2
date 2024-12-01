@@ -116,7 +116,6 @@
 
                         {{-- Column Input Cover Image --}}
                         <div class="col-12 col-md-4 mb-3">
-
                             <label for="cover_image" class="form-label">Cover Image <i
                                     class="text-secondary fw-light">(Landscape is more
                                     recommended)</i></label>

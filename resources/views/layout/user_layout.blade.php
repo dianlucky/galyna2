@@ -59,10 +59,10 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link {{ Request::is('home*') ? 'active' : null }}" href="{{ url('home') }}">Home</a>
-                    <a class="nav-link" href="#">Collection</a>
+                    <a class="nav-link" href="#product-section">Products</a>
                     <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
                         href="{{ url('article') }}">Article</a>
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="#about">About</a>
                     @if (Auth::check())
                         <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
                     @else
@@ -84,7 +84,7 @@
             <div class="d-flex p-2 justify-content-center gap-2">
                 <p>Galyna Heiwa &copy; 2024
                     Developed by <a class="text-white" style="text-decoration: none;" href="https://nusatalent.id"
-                        target="_blank">NusaTalent</a></p>
+                        target="_blank">Galyna Heiwa IT Team</a></p>
             </div>
         </div>
     </footer>

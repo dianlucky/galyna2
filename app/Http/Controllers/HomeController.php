@@ -66,4 +66,15 @@ class HomeController extends Controller
     {
         return view('category', ['id' => $id]);
     }
+
+    public function collection()
+    {
+        $first_product = ProductModel::first();
+        $products = ProductModel::where('id_product', '!=', ($first_product->id_product ?? 0))->get();
+
+        return view('public_user/product/collection', [
+            'first_product' => $first_product,
+            'products' => $products,
+        ]);
+    }
 }
