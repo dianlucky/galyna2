@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="{{ asset('assets/scss/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap-icons/bootstrap-icons.min.css') }}">
+
+    @yield('style')
 </head>
 
 <body>
@@ -59,7 +61,8 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link {{ Request::is('home*') ? 'active' : null }}" href="{{ url('home') }}">Home</a>
-                    <a class="nav-link" href="#product-section">Products</a>
+                    <a class="nav-link {{ Request::is('collection*') ? 'active' : null }}"
+                        href="{{ url('collection') }}">Collection</a>
                     <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
                         href="{{ url('article') }}">Article</a>
                     <a class="nav-link" href="#about">About</a>
@@ -102,7 +105,29 @@
                 navbar.classList.remove('bg-primary');
             }
         });
+
+        // Function to format numbers
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num;
+        }
+
+        // Example usage
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeElements = document.querySelectorAll('.like-count');
+            likeElements.forEach(element => {
+                const likeCount = parseInt(element.textContent, 10);
+                element.textContent = formatNumber(likeCount);
+            });
+        });
     </script>
+
+
 
     @yield('script')
 </body>

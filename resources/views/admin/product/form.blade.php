@@ -6,7 +6,7 @@
     ];
 @endphp
 @section('style')
-    {{-- CKEDITOR5 STYLE CUSTOM --}}
+    {{-- CK EDITOR5 STYLE CUSTOM --}}
     <link rel="stylesheet" href="{{ url('/') }}/assets/ckeditor5/ckeditor5.css">
     <style>
         div[role="textbox"] {

@@ -31,6 +31,8 @@ Route::prefix('')->group(
                 Route::get('/home', 'home');
                 Route::get('/about', 'about');
                 Route::get('/collection', 'collection');
+                Route::get('/collection/{code}', 'collection');
+                Route::post('/collection/like/{code}', 'like');
             }
         );
 

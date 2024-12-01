@@ -55,26 +55,28 @@
                     <div class="row" style="min-width: 100%">
                         @foreach ($products as $item)
                             <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
-                                <div class="card-product">
-                                    <div class="card-img">
-                                        <img src={{ asset('images/' . $item->cover_image) }} alt="{{ $item->name }}">
-                                    </div>
-                                    <div class="card-label">
-                                        <div class="mb-1">
-                                            <span class="badge" style="background-color: rgb(255, 129, 181);">
-                                                <i class="bi bi-heart"></i>
-                                                {{$item->rating}}
-                                            </span>
-                                            @if ($item->is_new)
-                                                <span class="badge bg-primary"
-                                                    style="background-color: rgb(255, 129, 181);">
-                                                    New
-                                                </span>
-                                            @endif
+                                <a href="{{ url('collection/' . $item->code) }}">
+                                    <div class="card-product">
+                                        <div class="card-img">
+                                            <img src={{ asset('images/' . $item->cover_image) }} alt="{{ $item->name }}">
                                         </div>
-                                        <h6 class="m-0">{{ $item->name }}</h6>
+                                        <div class="card-label">
+                                            <div class="mb-1">
+                                                <div class="badge" style="background-color: rgb(255, 129, 181);">
+                                                    <i class="bi bi-heart"></i>
+                                                    <span class="like-count">{{ $item->rating }}</span>
+                                                </div>
+                                                @if ($item->is_new)
+                                                    <span class="badge bg-primary"
+                                                        style="background-color: rgb(255, 129, 181);">
+                                                        New
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <h6 class="m-0">{{ $item->name }}</h6>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
