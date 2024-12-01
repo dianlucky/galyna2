@@ -50,9 +50,9 @@
                 <img width="20px" src={{ asset('assets/images/social_media/world-wide-web.png') }} alt="">
                 <span class="label">Galyna Heiwa Official Website</span>
             </a>
-            <a class="links-item">
-                <img width="20px" src={{ asset('assets/images/social_media/id-card.png') }} alt="">
-                <span class="label">Galyna Heiwa Profile</span>
+            <a href="https://heyzine.com/flip-book/4d2233be89.html" class="links-item">
+                <img width="20px" src={{ asset('assets/images/social_media/book.png') }} alt="">
+                <span class="label">Catalogue</span>
             </a>
             <a href="https://www.instagram.com/galynaheiwaofficial" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/instagram.png') }} alt="">
@@ -62,7 +62,7 @@
                 <img width="20px" src={{ asset('assets/images/social_media/facebook.png') }} alt="">
                 <span class="label">Facebook</span>
             </a>
-            <a class="links-item">
+            <a  href="https://www.tiktok.com/@haniktimur59/video/7309773849191730438" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/tiktok.png') }} alt="">
                 <span class="label">Tiktok</span>
             </a>

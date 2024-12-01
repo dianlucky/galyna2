@@ -118,31 +118,32 @@
                                 </div>
                                 <div class="contact-us-item">
                                     <i class="bi bi-geo-alt"></i>
-                                    <span>Jl. A. Yani Km. 33,5, Banjarbaru, South Kalimantan</span>
+                                    <span>Jl. Kamaratih RT. 006/002 Ds. Panggung Kec. Pelaihari Kab. Tanah Laut Prov.
+                                        Kalimantan Selatan</span>
                                 </div>
                                 <div class="contact-us-item">
                                     <i class="bi bi-telephone"></i>
-                                    <span>+62 812-1234-5678</span>
+                                    <span>+62 821 5247 4602</span>
                                 </div>
                                 <div class="contact-us-item">
                                     <i class="bi bi-envelope"></i>
                                     <span>
-                                        <a class="text-white" href="mailto:adiauliarhmn@gmail.com">
-                                            adiauliarahmn@gmail.com
+                                        <a class="text-white" href="mailto:haniktimur79@gmail.com">
+                                            haniktimur79@gmail.com
                                         </a>
                                     </span>
                                 </div>
                                 <div class="media-social">
-                                    <a href="#">
+                                    <a href="https://instagram.com/galynaheiwaofficial">
                                         <img src={{ asset('assets/images/social_media/instagram.png') }} alt="">
                                     </a>
-                                    <a href="#">
+                                    <a href="https://www.facebook.com/galynaheiwa?mibextid=ZbWKwL">
                                         <img src={{ asset('assets/images/social_media/facebook.png') }} alt="">
                                     </a>
-                                    <a href="#">
+                                    <a href="https://www.tiktok.com/@haniktimur59/video/7309773849191730438">
                                         <img src={{ asset('assets/images/social_media/tiktok.png') }} alt="">
                                     </a>
-                                    <a href="#">
+                                    <a href="https://wa.me/6282152474602">
                                         <img src={{ asset('assets/images/social_media/whatsapp.png') }} alt="">
                                     </a>
                                 </div>

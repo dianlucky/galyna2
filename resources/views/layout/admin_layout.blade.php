@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ url('/') }}/assets/css/admin_layout.css" />
     <link rel="stylesheet" href="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.css" />
 
+    <link rel="icon" href="{{ asset('assets/galyna/galyna-heiwa.ico') }}">
+
+
     <script src="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.js"></script>
 
     <style>

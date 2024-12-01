@@ -27,6 +27,11 @@
     <meta name="twitter:creator" content="@GalynaHeiwa">
     <meta name="description" content="Fashion lokal asal Kalimantan Selatan, Indonesia dengan motif Sasirangan.">
 
+    {{-- Ico --}}
+    <link rel="icon" href="{{ asset('assets/galyna/galyna-heiwa.ico') }}">
+
+    {{-- Poppins Font --}}
+
     @yield('meta')
 
 
@@ -65,7 +70,7 @@
                         href="{{ url('collection') }}">Collection</a>
                     <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
                         href="{{ url('article') }}">Article</a>
-                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link" href="{{ url('/home#about') }}">About</a>
                     @if (Auth::check())
                         <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
                     @else
