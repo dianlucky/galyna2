@@ -33,7 +33,7 @@
             {{-- Header Page --}}
             <div class="product-search" style="padding: 0;">
                 <div class="title-section" style="flex-grow: 1; min-width: 70%; margin: 0;">
-                    <h1 class="fw-bold m-0">Collection</h1>
+                    <h1 class="m-0 fw-bold">Collection</h1>
                     <p>
                         Discover our latest products, features, and reviews.
                     </p>
@@ -44,7 +44,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search Product" aria-label="Search Product"
                             aria-describedby="button-addon2">
-                        <button class="btn btn-primary text-white" type="submit" id="button-addon2">
+                        <button class="text-white btn btn-primary" type="submit" id="button-addon2">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -53,10 +53,10 @@
         </div>
 
         {{-- Main Content --}}
-        <div class="container mt-4 pb-5">
+        <div class="container pb-5 mt-4">
 
             {{-- Detail Product --}}
-            <div class="row mt-5">
+            <div class="mt-5 row">
                 @if ($product)
                     {{-- Image Products --}}
                     <div class="col-md-6">
@@ -73,6 +73,8 @@
                         <div class="mt-3 font-size-4">
                             <h1 class="fw-bold">{{ $product->name }}</h1>
                             <h4 class="fw-bold text-secondary">{{ $product->category->name }}</h4>
+                            <p class="fw-bolder fs-1" style="color: rgb(8, 89, 139); margin-bottom: 0px">Rp
+                                {{ number_format($product->price, 0, ',', '.') }}</p>
                             <p class="text-secondary">
                                 <small>
                                     <i class="bi bi-calendar"></i>
@@ -97,18 +99,18 @@
                         <div class="mt-3">
                             <form action="{{ url('collection/like/' . $product->code) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn w-100 mt-3 text-white"
+                                <button type="submit" class="mt-3 text-white btn w-100"
                                     style="background-color: rgb(255, 129, 181);">
                                     <i class="bi bi-heart me-2"></i> I Like This
                                 </button>
                             </form>
-                            <button class="btn btn-secondary w-100 mt-3 text-white">
+                            <button class="mt-3 text-white btn btn-secondary w-100">
                                 <i class="bi bi-chat-left-text me-2"></i> Message Galyna Heiwa
                             </button>
                         </div>
                     </div>
                 @else
-                    <div class="alert alert-warning text-center py-5" role="alert">
+                    <div class="py-5 text-center alert alert-warning" role="alert">
                         <h1 class="charmonman-regular">No collection found.</h1>
                     </div>
                 @endif
@@ -122,9 +124,9 @@
                 </p>
                 <hr>
                 <div style="width: 100%; display: flex; justify-content: center;">
-                    <div class="row mt-3" style="min-width: 100%">
+                    <div class="mt-3 row" style="min-width: 100%">
                         @foreach ($products_related as $item)
-                            <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
+                            <div class="p-1 col-6 col-sm-6 col-md-3 col-lg-2">
                                 <a href="{{ url('collection/' . $item->code) }}">
                                     <div class="card-product {{ $product->code == $item->code ? 'active' : null }}">
                                         <div class="card-img">
@@ -151,7 +153,7 @@
                         @endforeach
 
                         @if ($products_related->count() == 0)
-                            <div class="alert alert-primary text-center py-5" role="alert">
+                            <div class="py-5 text-center alert alert-primary" role="alert">
                                 <h1 class="charmonman-regular">No product found.</h1>
                             </div>
                         @endif

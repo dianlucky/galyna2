@@ -40,7 +40,7 @@ class ProductController extends Controller
         // Get Data Categories
         $categories = CategoryModel::all();
 
-        // Return view Form 
+        // Return view Form
         return view('admin.product.form', compact('data', 'categories'));
     }
 
@@ -54,7 +54,8 @@ class ProductController extends Controller
             'description' => 'required',
             'is_new' => 'required|boolean',
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'id_category' => 'required|exists:category,id_category'
+            'id_category' => 'required|exists:category,id_category',
+            'price' => 'required|integer'
         ]);
 
 
@@ -78,6 +79,7 @@ class ProductController extends Controller
         $product->cover_image = $image_name ?? null;
         $product->id_category = $request->id_category;
         $product->code = $code;
+        $product->price = $request->price;
         $product->save();
 
         // Return back with success message
@@ -113,7 +115,8 @@ class ProductController extends Controller
             'description' => 'required',
             'is_new' => 'required|boolean',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'id_category' => 'required|exists:category,id_category'
+            'id_category' => 'required|exists:category,id_category',
+            'price' => 'required|integer'
         ]);
 
         $code = Str::of($request->name)->slug('_');
@@ -142,6 +145,7 @@ class ProductController extends Controller
         $product->cover_image = $image_name ?? $product->cover_image;
         $product->id_category = $request->id_category;
         $product->code = $code;
+        $product->price = $request->price;
         $product->save();
 
         // Return back with success message

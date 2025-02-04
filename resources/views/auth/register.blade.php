@@ -39,7 +39,7 @@
             {{-- Login Section --}}
             <section id="login-section">
                 <h1 class="text-center charmonman-bold" style="font-size: 3.6rem">
-                    Sign In
+                    Register
                 </h1>
                 <div class="mb-5 text-center">
                     <h2 class="text-primary" style="font-size: 1.8rem">Welcome Back!</h2>
@@ -76,7 +76,7 @@
 
                     {{-- Don't have an account link --}}
                     <div class="mt-3 text-center">
-                        <p>Don't have an account? <a href="{{url('register')}}" style="text-decoration: none">Register</a></p>
+                        <p>Don't have an account? <a href="" style="text-decoration: none">Register</a></p>
                     </div>
                 </form>
             </section>

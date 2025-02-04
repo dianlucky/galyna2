@@ -25,6 +25,7 @@ class AuthController extends Controller
 
         // Attempt to login
         $credentials = $request->only('email', 'password');
+        // dd(Auth::attempt(['email' => 'admin@gmail.com', 'password' => 'pelaihari123']));
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
@@ -39,6 +40,12 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+    }
+
+    public function showRegisterForm()
+    {
+        // Show Register Form
+        return view('auth.register');
     }
 
     public function logout(Request $request)

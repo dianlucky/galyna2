@@ -12,6 +12,7 @@ Route::pattern('id', '[0-9]+');
 Route::controller(App\Http\Controllers\Auth\AuthController::class)->group(
     function () {
         Route::get('/login', 'showLoginForm')->name('login');
+        Route::get('/register', 'showRegisterForm')->name('register');
         Route::post('/login', 'login')->name('login');
         Route::post('/logout', 'logout')->name('logout');
     }
@@ -23,7 +24,6 @@ Route::controller(App\Http\Controllers\Auth\AuthController::class)->group(
 // PUBLIC ROUTES -------------> [NO MIDDLEWARE]
 Route::prefix('')->group(
     function () {
-
         // Public - Home
         Route::controller(App\Http\Controllers\HomeController::class)->group(
             function () {
@@ -88,7 +88,7 @@ Route::prefix('admin')
                 Route::delete('/article', 'destroy');
             });
 
-          // Admin - Links
+            // Admin - Links
             Route::controller(App\Http\Controllers\Admin\LinksController::class)->group(function () {
                 Route::get('/links', 'index');
                 Route::get('/links/create', 'create');
@@ -97,6 +97,5 @@ Route::prefix('admin')
                 Route::put('/links/{id}', 'update');
                 Route::delete('/links', 'destroy');
             });
-
-
-});
+        }
+    );

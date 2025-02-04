@@ -38,14 +38,14 @@
                 {{-- Product Search --}}
                 <div class="product-search">
                     <div class="title-section">
-                        <h4 class="fw-bold m-0">Everyone's Favorites</h4>
+                        <h4 class="m-0 fw-bold">Everyone's Favorites</h4>
                         <span>Find the favorites products for your</span>
                     </div>
                     <form action="" method="get">
-                        <div class="input-group mb-3">
+                        <div class="mb-3 input-group">
                             <input type="text" class="form-control" placeholder="Search Product"
                                 aria-label="Search Product" aria-describedby="button-addon2">
-                            <button class="btn btn-primary text-white" type="submit" id="button-addon2">Search</button>
+                            <button class="text-white btn btn-primary" type="submit" id="button-addon2">Search</button>
                         </div>
                     </form>
                 </div>
@@ -54,7 +54,7 @@
                 <div style="width: 100%; display: flex; justify-content: center">
                     <div class="row" style="min-width: 100%">
                         @foreach ($products as $item)
-                            <div class="col-6 col-sm-6 col-md-3 col-lg-2 p-1">
+                            <div class="p-1 col-6 col-sm-6 col-md-3 col-lg-2">
                                 <a href="{{ url('collection/' . $item->code) }}">
                                     <div class="card-product">
                                         <div class="card-img">
@@ -73,7 +73,12 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <h6 class="m-0">{{ $item->name }}</h6>
+                                            <h6 class="m-0" style="font-size: 12px; color: white;">
+                                                {{ Str::limit($item->name, 20) }}
+                                            </h6>
+                                            <p class="fw-bolder"
+                                                style="font-size: 12px; color: rgb(8, 89, 139); margin-bottom: 0px">Rp
+                                                {{ number_format($item->price, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -88,7 +93,7 @@
         <section id="about" style="margin: 20px 0;">
             <div class="container">
                 <div class="title-section">
-                    <h4 class="fw-bold m-0">About Us</h4>
+                    <h4 class="m-0 fw-bold">About Us</h4>
                     <span>Get to know us more</span>
                 </div>
 
@@ -121,19 +126,20 @@
         </section>
 
         {{-- CONTACT US SECTION --}}
-        <section id="contact-us" class="bg-motif-2 p-3">
+        <section id="contact-us" class="p-3 bg-motif-2">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="contact-us">
                             <div class="contact-us-content">
                                 <div class="title-section">
-                                    <h4 class="fw-bold m-0">Contact Us</h4>
+                                    <h4 class="m-0 fw-bold">Contact Us</h4>
                                     <span>Get to know us more</span>
                                 </div>
                                 <div class="contact-us-item">
                                     <i class="bi bi-geo-alt"></i>
-                                    <span>Jl. Kamaratih RT. 006/002 Ds. Panggung Kec. Pelaihari Kab. Tanah Laut Prov. Kalimantan Selatan</span>
+                                    <span>Jl. Kamaratih RT. 006/002 Ds. Panggung Kec. Pelaihari Kab. Tanah Laut Prov.
+                                        Kalimantan Selatan</span>
                                 </div>
                                 <div class="contact-us-item">
                                     <i class="bi bi-telephone"></i>

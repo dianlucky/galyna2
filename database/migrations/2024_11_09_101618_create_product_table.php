@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->integer('is_new')->default(0);
             $table->string('cover_image')->nullable();
+            $table->integer('price')->nullable();
             $table->unsignedBigInteger('id_category');
             $table->foreign('id_category')->references('id_category')->on('category')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

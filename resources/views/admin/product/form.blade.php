@@ -43,7 +43,7 @@
         {{-- Header Page --}}
         <div class="row">
             <h4 class="p-0 text-capitalize">Form {{ $data['form'] . ' ' . $dataPage['page'] }}</h4>
-            <nav class="page-breadcrumb p-0">
+            <nav class="p-0 page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="text-capitalize"
                             href={{ url('admin/' . $dataPage['page']) }}>{{ $dataPage['page'] }}</a>
@@ -56,8 +56,8 @@
         </div>
 
         {{-- Main --}}
-        <div class="row mt-3">
-            <div class="col-md-12 p-0">
+        <div class="mt-3 row">
+            <div class="p-0 col-md-12">
                 <form action={{ $data['action'] }} method="POST" enctype="multipart/form-data">
                     @csrf
 
@@ -87,23 +87,36 @@
                                 </select>
                             </div>
 
+                            <div class="row">
+                                {{-- Category Input Choose --}}
+                                <div class="mb-3 col-6">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category" name="id_category">
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id_category }}"
+                                                @if (old('category', $product->category_id_category ?? '') == $category->id_category) selected @endif>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            {{-- Category Input Choose --}}
-                            <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
-                                <select class="form-select" id="category" name="id_category">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id_category }}"
-                                            @if (old('category', $product->category_id_category ?? '') == $category->id_category) selected @endif>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                {{-- Price Input --}}
+                                <div class="mb-3 col-6">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price"
+                                        placeholder="Enter product price" @error('price') error @enderror
+                                        value="{{ old('price', $product->price ?? '') }}">
+                                    @error('price')
+                                        <span class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
+
                         </div>
 
                         {{-- Column Input Cover Image --}}
-                        <div class="col-12 col-md-4 mb-3">
+                        <div class="mb-3 col-12 col-md-4">
 
                             <label for="cover_image" class="form-label">Cover Image <i
                                     class="text-secondary fw-light">(Landscape is more

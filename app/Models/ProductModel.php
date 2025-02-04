@@ -16,6 +16,7 @@ class ProductModel extends Model
         'is_new',
         'cover_image',
         'id_category',
+        'price'
     ];
 
     public $timestamps = true;
