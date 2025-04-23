@@ -66,9 +66,7 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6">
-
                         {{-- Description Products --}}
                         <div class="mt-3 font-size-4">
                             <h1 class="fw-bold">{{ $product->name }}</h1>
@@ -96,17 +94,24 @@
                             </p>
                         </div>
 
-                        <div class="mt-3">
-                            <form action="{{ url('collection/like/' . $product->code) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="mt-3 text-white btn w-100"
-                                    style="background-color: rgb(255, 129, 181);">
-                                    <i class="bi bi-heart me-2"></i> I Like This
+                        <div class="mt-3 row">
+                            <div class="col-lg-4">
+                                <form action="{{ url('collection/like/' . $product->code) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="mt-3 text-white btn w-100"
+                                        style="background-color: rgb(255, 129, 181);">
+                                        <i class="bi bi-heart me-2"></i> I Like This
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="mt-3 text-white btn btn-secondary w-100">
+                                    <i class="bi bi-chat-left-text me-2"></i> Message Galyna Heiwa
                                 </button>
-                            </form>
-                            <button class="mt-3 text-white btn btn-secondary w-100">
-                                <i class="bi bi-chat-left-text me-2"></i> Message Galyna Heiwa
-                            </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="{{url('/make-order/'.$product->code)}}" class="mt-3 text-white btn btn-primary w-100">Create Order</a>
+                            </div>
                         </div>
                     </div>
                 @else
