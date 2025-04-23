@@ -48,7 +48,9 @@
     <link rel="stylesheet" href="{{ asset('assets/scss/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap-icons/bootstrap-icons.min.css') }}">
-
+    <link rel="stylesheet" href="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.css" />
+    <link rel="icon" href="{{ asset('assets/galyna/galyna-heiwa.ico') }}">
+    <script src="{{ url('/') }}/assets/sweetalert2/sweetalert2.min.js"></script>
     @yield('style')
 </head>
 
@@ -65,14 +67,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link {{ Request::is('home*') ? 'active' : null }}" href="{{ url('home') }}">Home</a>
+                    <a class="nav-link {{ Request::is('home*') ? 'active' : null }}"
+                        href="{{ url('home') }}">Home</a>
                     <a class="nav-link {{ Request::is('collection*') ? 'active' : null }}"
                         href="{{ url('collection') }}">Collection</a>
                     <a class="nav-link {{ Request::is('article*') ? 'active' : null }}"
                         href="{{ url('article') }}">Article</a>
                     <a class="nav-link" href="{{ url('/home#about') }}">About</a>
                     @if (Auth::check())
-                        <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
+                        @if (Auth::user()->role == 'admin')
+                            <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
+                        @else
+                            <a class="nav-link" href="{{ url('/my-order') }}">MyOrder</a>
+                            <a class="nav-link" href="{{ url('/logout') }}">Logout</a>
+                        @endif
                     @else
                         <a class="nav-link" href="{{ url('/login') }}">Login</a>
                     @endif
@@ -87,9 +95,9 @@
         @yield('content')
     </main>
 
-    <footer class="bg-primary pt-2 text-white">
+    <footer class="pt-2 text-white bg-primary">
         <div class="container">
-            <div class="d-flex p-2 justify-content-center gap-2">
+            <div class="gap-2 p-2 d-flex justify-content-center">
                 <p>Galyna Heiwa &copy; 2024
                     Developed by <a class="text-white" style="text-decoration: none;" href="https://nusatalent.id"
                         target="_blank">Galyna Heiwa IT Team</a></p>

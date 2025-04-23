@@ -24,7 +24,7 @@
     @yield('style')
 </head>
 
-<body class="bg-motif-1 antialiased">
+<body class="antialiased bg-motif-1">
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -37,7 +37,7 @@
                         <img src="{{ url('/') }}/assets/galyna/logo-v2-transparent.svg" width="210"
                             alt="Galyna Heiwa Logo" />
                     </a>
-                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                    <div class="cursor-pointer close-btn d-xl-none d-block sidebartoggler" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                             <span class="hide-menu">COMPANY</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ url('admin/company') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="#" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-building"></i>
                                 </span>
@@ -120,7 +120,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                            <a class="sidebar-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{url('admin/user')}}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
@@ -130,6 +130,14 @@
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">OTHER</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ Request::is('admin/order*') ? 'active' : '' }}" href="{{url('admin/order')}}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-shopping-cart"></i>
+                                </span>
+                                <span class="hide-menu">Order</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
@@ -150,7 +158,7 @@
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
-            <header class="app-header px-1 px-md-3 pt-2">
+            <header class="px-1 pt-2 app-header px-md-3">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
@@ -163,8 +171,8 @@
                                     Rahman</span></p>
                         </li>
                     </ul>
-                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                    <div class="px-0 navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="flex-row navbar-nav ms-auto align-items-center justify-content-end">
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -174,14 +182,14 @@
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                     aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="#" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="#" class="gap-2 d-flex align-items-center dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">My Profile</p>
                                         </a>
                                         <form action={{ url('logout') }} class="dropdown-item" method="POST">
                                             @csrf
                                             <button type="submit"
-                                                class="btn btn-outline-danger mt-2 d-block w-100">Logout</button>
+                                                class="mt-2 btn btn-outline-danger d-block w-100">Logout</button>
                                         </form>
                                     </div>
                                 </div>
