@@ -43,10 +43,21 @@
                 </h1>
                 <div class="mb-5 text-center">
                     <h2 class="text-primary" style="font-size: 1.8rem">Welcome Back!</h2>
-                    <p style="font-size: 0.9rem">Please sign in to your account</p>
+                    <p style="font-size: 0.9rem">Please complete the required information to create an account.</p>
                 </div>
-                <form action={{ url('login') }} method="POST" class="pt-4" id="login-form">
+                <form action={{ url('/register') }} method="POST" class="pt-4" id="login-form">
                     @csrf
+
+                    {{-- Name Input --}}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your name</label>
+                        <input autofocus tabindex="1" name="name" @error('name') error @enderror type="name"
+                            class="form-control" id="name" placeholder="Enter your name"
+                            value="{{ old('name') }}">
+                        @error('name')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     {{-- Email Address Input --}}
                     <div class="mb-3">
@@ -55,7 +66,7 @@
                             class="form-control" id="email" placeholder="Enter your email"
                             value="{{ old('email') }}">
                         @error('email')
-                            <span class="error-message">{{ $message }}</span>
+                        <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -65,25 +76,25 @@
                         <input tabindex="2" name="password" @error('password') error @enderror type="password"
                             class="form-control" id="password" placeholder="*********">
                         @error('password')
-                            <span class="error-message">{{ $message }}</span>
+                        <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
 
                     {{-- Login Button --}}
                     <div class="gap-2 pt-3 d-grid">
-                        <button tabindex="3" type="submit" class="text-white btn btn-primary">Login</button>
+                        <button tabindex="3" type="submit" class="text-white btn btn-primary">Register</button>
                     </div>
 
                     {{-- Don't have an account link --}}
                     <div class="mt-3 text-center">
-                        <p>Don't have an account? <a href="" style="text-decoration: none">Register</a></p>
+                        <p>Have an account? <a href="" style="text-decoration: none">Login</a></p>
                     </div>
                 </form>
             </section>
         </div>
     </main>
 
-    <footer class="pt-2 text-white bg-primary" style="position: absolute; bottom: 0px; width: 100%">
+    <!-- <footer class="pt-2 text-white bg-primary" style="position: absolute; bottom: 0px; width: 100%">
         <div class="container">
             <div class="gap-2 p-2 d-flex justify-content-center">
                 <p>Galyna Heiwa &copy; 2024
@@ -91,7 +102,7 @@
                         target="_blank">Galyna Heiwa IT Team</a></p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     {{-- Javascript --}}
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

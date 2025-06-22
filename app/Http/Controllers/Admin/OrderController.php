@@ -10,7 +10,9 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = OrderModel::with('product')->get();
+        $orders = OrderModel::with('product')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('admin.order.data', [
             'orders' => $orders
         ]);

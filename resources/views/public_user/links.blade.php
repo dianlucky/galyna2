@@ -79,14 +79,14 @@
                 <span class="label">Tokopedia</span>
             </a>
         </div>
-        <footer>
+        <!-- <footer>
             <div class="container">
                 <div class="d-flex p-2 justify-content-center gap-2">
                     <p>Galyna Heiwa &copy; 2024
                         Developed by <a href="https://nusatalent.id" target="_blank">NusaTalent</a></p>
                 </div>
             </div>
-        </footer>
+        </footer> -->
     </div>
 
     {{-- Javascript --}}

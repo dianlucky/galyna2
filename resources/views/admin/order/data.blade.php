@@ -1,8 +1,8 @@
-@extends('layout.admin_layout')
+@extends('layout.admin_layout') {{-- Pastikan 'layout.admin_layout' ini sesuai dengan nama layout utama Anda --}}
 
 @php
     $dataPage = [
-        'page' => 'order',
+        'page' => 'order', // Variabel ini digunakan untuk breadcrumb, dll.
     ];
 @endphp
 
@@ -12,12 +12,14 @@
 
         {{-- Header Page --}}
         <div class="row ps-lg-3 ps-sm-0">
-            <h4 class="p-0 text-capitalize">{{ $dataPage['page'] }}</h4>
+            {{-- Menggunakan judul yang lebih spesifik untuk "My Order" --}}
+            <h4 class="p-0 text-capitalize">My Orders</h4>
             <nav class="p-0 page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ url('admin/' . $dataPage['page']) }}"
-                            class="text-capitalize">{{ $dataPage['page'] }}</a></li>
-                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Table {{ $dataPage['page'] }}</li>
+                    {{-- Sesuaikan link breadcrumb jika ini bukan halaman admin --}}
+                    <li class="breadcrumb-item"><a href="{{ url('/my-order') }}"
+                            class="text-capitalize">Orders</a></li> {{-- Menggunakan '/my-order' sebagai base --}}
+                    <li class="breadcrumb-item active text-capitalize" aria-current="page">My Orders List</li>
                 </ol>
             </nav>
         </div>
@@ -29,7 +31,9 @@
                     <div class="card" style="background-color: rgba(255, 255, 255, 0.649);">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="card-title text-capitalize">Table {{ $dataPage['page'] }}</h6>
+                                {{-- Judul tabel yang lebih spesifik --}}
+                                <h6 class="card-title text-capitalize">List of My Orders</h6>
+                                {{-- Jika ada tombol tambah order baru dari sini, bisa diaktifkan --}}
                                 {{-- <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
                                     <i class="ti ti-plus me-2"></i>
                                     Add</a> --}}
@@ -41,7 +45,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th class="text-start">Customer</th>
+                                            <th class="text-start">Customer Details</th> {{-- Mengubah Customer menjadi Customer Details --}}
                                             <th>Product</th>
                                             <th>Message</th>
                                             <th>Status</th>
@@ -52,18 +56,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($orders as $item)
+                                        @forelse ($orders as $item) {{-- Menggunakan @forelse untuk handle jika tidak ada order --}}
                                             <tr>
                                                 <th>{{ $loop->iteration }}</th>
                                                 <td style="text-align: left;">
-                                                    <div>{{ $item->name }}</div>
-                                                    <div>{{ $item->email }}</div>
-                                                    <div>{{ $item->phone }}</div>
-                                                    <div>{{ $item->address }}</div>
+                                                    <div>Nama: {{ $item->name }}</div> {{-- Tambahkan label --}}
+                                                    <div>Email: {{ $item->email }}</div> {{-- Tambahkan label --}}
+                                                    <div>Phone: {{ $item->phone }}</div> {{-- Pastikan ini 'phone' --}}
+                                                    <div>Address: {{ $item->address }}</div> {{-- Tambahkan label --}}
                                                 </td>
                                                 <td>
-                                                    <div>{{ $item->product->name }}</div>
-                                                    <div>{{ $item->product->category->name }}</div>
+                                                    {{-- PERBAIKAN: Menggunakan div terpisah untuk produk dan kategori --}}
+                                                    <div>Produk: {{ optional($item->product)->name ?? '-' }}</div>
+                                                    {{-- Pastikan relasi category ada di ProductModel dan sudah di-eager load --}}
+                                                    <div>Kategori: {{ optional(optional($item->product)->category)->name ?? '-' }}</div>
                                                 </td>
                                                 <td>{{ $item->message ?? '-' }}</td>
                                                 <td>
@@ -82,6 +88,7 @@
                                                 <td>{{ $item->quantity }}</td>
                                                 <td>Rp {{ number_format($item->total, 0, ',', '.') }}</td>
                                                 <td>{{ $item->code }}</td>
+                                                {{-- Kolom Action dikomentari --}}
                                                 {{-- <td>
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -106,7 +113,11 @@
                                                     </div>
                                                 </td> --}}
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="8">No orders found.</td> {{-- Kolom disesuaikan jika tidak ada order --}}
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                                 {{-- End Of Table --}}
@@ -123,5 +134,6 @@
 @endsection
 
 @section('script')
+    {{-- Ini akan menginclude notifikasi jika ada (misalnya dari with('success', 'Order berhasil dibuat!')) --}}
     @include('components.notifications')
 @endsection

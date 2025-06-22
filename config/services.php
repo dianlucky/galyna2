@@ -35,4 +35,19 @@ return [
         ],
     ],
 
+    // Konfigurasi Midtrans
+    'midtrans' => [
+        'serverKey'     => env('MIDTRANS_SERVER_KEY'),
+        'clientKey'     => env('MIDTRANS_CLIENT_KEY'),
+        'isProduction'  => env('MIDTRANS_IS_PRODUCTION', false),
+    ],
+
+    // Konfigurasi RajaOngkir
+    'rajaongkir' => [
+        'api_key' => env('RAJAONGKIR_API_KEY'),
+        'origin_city_id' => env('RAJAONGKIR_ORIGIN_CITY_ID'),
+        'api_base_url' => env('RAJAONGKIR_API_BASE_URL', 'https://api.rajaongkir.com/starter/'), // Default Starter
+        'api_base_url_pro' => env('RAJAONGKIR_API_BASE_URL_PRO', 'https://api.rajaongkir.com/pro/'), // Default Pro
+    ],
+
 ];

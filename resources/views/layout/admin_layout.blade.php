@@ -167,8 +167,7 @@
                             </a>
                         </li>
                         <li class="nav-item d-none d-xl-block">
-                            <p style="margin: 0 20px;">Welcome back, <span class="fw-bold text-secondary">Adi Aulia
-                                    Rahman</span></p>
+                            <p style="margin: 0 20px;">Welcome back, <span class="fw-bold text-secondary">Admin</span></p>
                         </li>
                     </ul>
                     <div class="px-0 navbar-collapse justify-content-end" id="navbarNav">

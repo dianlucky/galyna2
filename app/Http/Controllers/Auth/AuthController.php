@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +18,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+
         // Validate Input
         $request->validate([
             'email' => 'required|email',
@@ -34,6 +36,8 @@ class AuthController extends Controller
                 return redirect()->intended('admin/dashboard');
             }
 
+
+
             return redirect()->intended('/home');
         }
 
@@ -46,6 +50,27 @@ class AuthController extends Controller
     {
         // Show Register Form
         return view('auth.register');
+    }
+
+
+    public function register(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = password_hash($request->password, PASSWORD_DEFAULT);
+        $user->save();
+
+        // Return back with success message
+        session()->flash('success', 'Data saved successfully');
+        return redirect('/login');
     }
 
     public function logout(Request $request)

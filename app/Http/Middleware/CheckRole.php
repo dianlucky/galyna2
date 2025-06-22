@@ -12,18 +12,24 @@ class CheckRole
     /**
      * Handle an incoming request.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  string  $role
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (Auth::check() && Auth::user()->role == $role) {
-            return $next($request);
-        } elseif (Auth::check() && Auth::user()->role != $role) {
-            return redirect('/')->with('error', 'You are not authorized to access this page');
-        }
-
+        // Jika belum login
         if (!Auth::check()) {
             return redirect('/login')->with('error', 'You must login first');
         }
+
+        // Jika role sesuai
+        if (Auth::user()->role === $role) {
+            return $next($request);
+        }
+
+        // Jika role tidak sesuai
+        return redirect('/')->with('error', 'You are not authorized to access this page');
     }
 }

@@ -44,6 +44,41 @@
     {{-- Charmonman Font --}}
     <link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&display=swap" rel="stylesheet">
 
+    {{-- Select 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .searchable-select {
+          position: relative;
+        }
+      
+        .options-list {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          z-index: 1000;
+          background: #fff;
+          border: 1px solid #ccc;
+          width: 100%;
+          max-height: 150px;
+          overflow-y: auto;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: none;
+        }
+      
+        .options-list li {
+          padding: 8px;
+          cursor: pointer;
+        }
+      
+        .options-list li:hover {
+          background-color: #f1f1f1;
+        }
+      </style>
+      
+
+
     {{-- StyleSheet --}}
     <link rel="stylesheet" href="{{ asset('assets/scss/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
@@ -95,7 +130,7 @@
         @yield('content')
     </main>
 
-    <footer class="pt-2 text-white bg-primary">
+    <!-- <footer class="pt-2 text-white bg-primary">
         <div class="container">
             <div class="gap-2 p-2 d-flex justify-content-center">
                 <p>Galyna Heiwa &copy; 2024
@@ -103,10 +138,14 @@
                         target="_blank">Galyna Heiwa IT Team</a></p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     {{-- Javascript --}}
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Select2 JS-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
