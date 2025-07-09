@@ -33,7 +33,6 @@
         <div class="container overflow-hidden" style="margin-top: 80px">
             <div class="row ">
                 <div class="col-md-5">
-                    {{-- Detail Pesanan (Loop jika banyak order, tampilkan langsung jika satu order) --}}
                     <div class="card mb-4">
                         <div class="card-header bg-success text-white">
                             Biodata saya
@@ -47,23 +46,24 @@
                                         <p>{{ $dataProfile->role }}</p>
                                     </div>
                                     <div class="col-md-8">
-                                        <form action="">
+                                        <form action={{url('/profile/update/' . $dataProfile->id_user)}} method="POST">
                                             @csrf
+                                            @method('PATCH')
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Name</label>
-                                                <input type="text" class="form-control" id="name"
-                                                    value={{ old('name') ? old('name') : $dataProfile->name }}
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="{{ old('name') ? old('name') : $dataProfile->name }}"
                                                     aria-describedby="nameHelp" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email address</label>
-                                                <input type="email" class="form-control" id="email"
+                                                <input type="email" class="form-control" id="email" name="email"
                                                     value={{ old('email') ? old('email') : $dataProfile->email }}
                                                     aria-describedby="emailHelp" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="text" class="form-control" id="password"
+                                                <input type="text" class="form-control" id="password" name="password"
                                                     value="{{ old('password') ? old('password') : '' }}"
                                                     placeholder="optional" aria-describedby="emailHelp">
                                             </div>

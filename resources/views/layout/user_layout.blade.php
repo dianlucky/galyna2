@@ -121,7 +121,6 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" href="{{ url('/profile') }}">Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('/address') }}">Alamat</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>

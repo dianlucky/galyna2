@@ -21,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
      // ================== PROFILE ROUTES ==================
      Route::prefix('profile')->group(function () {
         Route::get('/', [HomeController::class, 'profile'])->name('profile.index'); 
+        Route::patch('/update/{id}', [HomeController::class, 'profileUpdate'])->name('profile.update'); 
+
     });
      Route::prefix('address')->group(function () {
         Route::post('/add', [AddressController::class, 'store'])->name('address.store'); 

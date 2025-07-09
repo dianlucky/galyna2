@@ -71,4 +71,24 @@ class HomeController extends Controller
         $address = AddressModel::where('id_user', $id)->get();
         return view('profile/index', ['dataProfile' => $profile, 'dataAddress' => $address]);
     }
+
+    public function profileUpdate($id, Request $request){
+        // dd($id, $request);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:user,email,' . $id . ',id_user',
+            'password' => 'nullable',
+        ]);
+
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = password_hash($request->password, PASSWORD_DEFAULT);
+        }
+        $user->save();
+
+        session()->flash('success', 'Data updated successfully');
+        return redirect()->back();
+    }
 }
