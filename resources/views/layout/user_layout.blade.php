@@ -48,35 +48,35 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .searchable-select {
-          position: relative;
+            position: relative;
         }
-      
+
         .options-list {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          z-index: 1000;
-          background: #fff;
-          border: 1px solid #ccc;
-          width: 100%;
-          max-height: 150px;
-          overflow-y: auto;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: none;
         }
-      
+
         .options-list li {
-          padding: 8px;
-          cursor: pointer;
+            padding: 8px;
+            cursor: pointer;
         }
-      
+
         .options-list li:hover {
-          background-color: #f1f1f1;
+            background-color: #f1f1f1;
         }
-      </style>
-      
+    </style>
+
 
 
     {{-- StyleSheet --}}
@@ -114,7 +114,20 @@
                             <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
                         @else
                             <a class="nav-link" href="{{ url('/my-order') }}">MyOrder</a>
-                            <a class="nav-link" href="{{ url('/logout') }}">Logout</a>
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle fs-5"></i> {{-- Icon user dari Bootstrap Icons --}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{{ url('/profile') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('/address') }}">Alamat</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item"  href="{{ url('/logout') }}">Logout</a></li>
+                                </ul>
+                            </div>
                         @endif
                     @else
                         <a class="nav-link" href="{{ url('/login') }}">Login</a>

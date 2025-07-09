@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoryModel;
+use App\Models\AddressModel;
+use App\Models\User;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
+use App\Models\CategoryModel;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -36,21 +39,10 @@ class HomeController extends Controller
             ]);
         }
 
-        // If no code : Return to Collection Page (All Products)
         $products = ProductModel::all();
         $categories = CategoryModel::all();
         $category_query = $request->category;
 
-        // if ($request->product) {
-        //     $product = ProductModel::where('code', $request->product)->first();
-        //     return view('public_user/product/collection', [
-        //         'first_product' => $product,
-        //         'products' => $products,
-        //         'categories' => $categories
-        //     ]);
-        // } else {
-        // }
-        // $first_product = ProductModel::first();
 
         if ($category_query) {
             $products = ProductModel::whereHas('category', function ($query) use ($category_query) {
@@ -71,5 +63,12 @@ class HomeController extends Controller
         $product->rating += 1;
         $product->save();
         return redirect('/collection/' . $code);
+    }
+
+    public function profile() {
+        $id = Auth::user()->id_user;
+        $profile = User::where('id_user', $id)->first();
+        $address = AddressModel::where('id_user', $id)->get();
+        return view('profile/index', ['dataProfile' => $profile, 'dataAddress' => $address]);
     }
 }

@@ -12,10 +12,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalOmset = OrderModel::where('status', 'paid')
-        ->whereMonth('updated_at', now()->month)
-        ->whereYear('updated_at', now()->year)
-        ->sum('total');
+        $totalOmset = 70000;
+        // $totalOmset = OrderModel::where('status', 'paid')
+        // ->whereMonth('updated_at', now()->month)
+        // ->whereYear('updated_at', now()->year)
+        // ->sum('total');
         $totalProduk = ProductModel::get()->count();
         return view('admin.dashboard', compact('totalOmset', 'totalProduk'));
     }

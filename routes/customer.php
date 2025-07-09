@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MidtransController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\CheckoutSummaryController;
@@ -15,6 +17,17 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::middleware(['auth'])->group(function () {
+
+     // ================== PROFILE ROUTES ==================
+     Route::prefix('profile')->group(function () {
+        Route::get('/', [HomeController::class, 'profile'])->name('profile.index'); 
+    });
+     Route::prefix('address')->group(function () {
+        Route::post('/add', [AddressController::class, 'store'])->name('address.store'); 
+        Route::delete('/remove/{id}', [AddressController::class, 'destroy'])->name('address.remove'); 
+        Route::patch('/status/{id}', [AddressController::class, 'status'])->name('address.status'); 
+    });
+
 
     // ================== CART ROUTES ==================
     Route::prefix('cart')->group(function () {

@@ -15,6 +15,8 @@ class AddressModel extends Model
     protected $fillable = [
         'id_user',
         'address_code',
+        'province_name',
+        'city_name',
         'address_name',
         'status',
     ];

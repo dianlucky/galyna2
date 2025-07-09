@@ -15,6 +15,7 @@ class DeliveryModel extends Model
     protected $fillable = [
         'destination_code',
         'destination',
+        'detail_destination',
         'courier',
         'delivery_type',
         'estimated_day',
