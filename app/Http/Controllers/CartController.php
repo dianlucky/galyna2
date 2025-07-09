@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderModel;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
-use App\Models\ProductModel;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -36,11 +36,18 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
+    public function detail($id){
+        $dataOrder = OrderModel::where('id_order', $id)->first();
+        // dd($dataOrder);
+        return view('cart.detail', compact('dataOrder'));
+    }
+
     public function remove($id)
     {
-        $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
+        dd($id);
+        $cartItem = OrderModel::where('id_order', $id)->firstOrFail();
         $cartItem->delete();
 
-        return redirect()->route('cart.index')->with('success', 'Produk berhasil dihapus dari keranjang.');
+        return redirect('my-order')->with('success', 'Produk berhasil dihapus dari keranjang.');
     }
 }

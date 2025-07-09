@@ -3,7 +3,7 @@
 @extends('layout.admin_layout')
 @php
     $dataPage = [
-        'page' => 'article',
+        'page' => 'Artikel',
     ];
 @endphp
 {{-- Content --}}
@@ -14,7 +14,7 @@
             <h4 class="p-0 text-capitalize">{{ $dataPage['page'] }}</h4>
             <nav class="page-breadcrumb p-0">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ url('admin/' . $dataPage['page']) }}"
+                    <li class="breadcrumb-item"><a href="{{ url('admin/article') }}"
                             class="text-capitalize">{{ $dataPage['page'] }}</a></li>
                     <li class="breadcrumb-item active text-capitalize" aria-current="page">Data {{ $dataPage['page'] }}</li>
                 </ol>
@@ -28,14 +28,14 @@
             {{-- Header List --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 class="text-capitalize m-0">List of {{ $dataPage['page'] }}</h4>
+                    <h4 class="text-capitalize m-0">Daftar {{ $dataPage['page'] }}</h4>
                     <p class="m-0">
-                        {{ $articles->count() }} articles found
+                        {{ $articles->count() }} artikel ditemukan
                     </p>
                 </div>
-                <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
+                <a href={{ url('admin/article/create') }} class="btn btn-primary">
                     <i class="ti ti-plus me-2"></i>
-                    Add</a>
+                    Tambah</a>
             </div>
 
             {{-- List --}}
@@ -72,7 +72,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item"
-                                            href={{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_article) }}>Edit</a>
+                                            href={{ url('admin/article/edit/' . $item->id_article) }}>Edit</a>
                                     </li>
                                     <li>
                                         <form action="" method="POST">

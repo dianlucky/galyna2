@@ -2,7 +2,7 @@
 
 @php
     $dataPage = [
-        'page' => 'category',
+        'page' => 'Kategori',
     ];
 @endphp
 
@@ -30,9 +30,9 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="card-title text-capitalize">Table {{ $dataPage['page'] }}</h6>
-                                <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
+                                <a href={{ url('admin/category/create') }} class="btn btn-primary">
                                     <i class="ti ti-plus me-2"></i>
-                                    Add</a>
+                                    Tambah</a>
                             </div>
                             <div class="table-responsive" style="min-height: 400px">
 
@@ -41,9 +41,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Category Name</th>
-                                            <th>Description</th>
-                                            <th>Action</th>
+                                            <th>Nama Kategori</th>
+                                            <th>Deskripsi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

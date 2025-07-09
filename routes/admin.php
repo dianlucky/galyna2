@@ -71,5 +71,10 @@ Route::prefix('admin')
                 Route::put('/order/{id}', 'update');
                 Route::delete('/order', 'destroy');
             });
+
+            // Admin Omset
+            Route::controller(App\Http\Controllers\Admin\DashboardController::class)->group(function () {
+                Route::get('/omset', 'omsetAll');
+            });
         }
     );

@@ -81,7 +81,15 @@
                                             <td>
                                                 {{-- Dropdown untuk Detail dan Hapus/Cancel --}}
                                                 @if ($order->status == 'pending' || $order->status == 'waiting_payment')
-                                                    <div class="dropdown">
+                                                    <form action="{{ url('/cart/remove/' . $order->id_order) }}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-sm btn-warning text-white shadow-lg"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">Hapus</button>
+                                                    </form>
+                                                    {{-- <a class="btn btn-sm btn-danger text-white shadow-lg"
+                                                        href="{{ url('/cart/remove/' . $order->id_order) }}">Hapus</a> --}}
+                                                    {{-- <div class="dropdown">
                                                         <button class="btn btn-sm btn-secondary dropdown-toggle"
                                                             type="button" id="dropdownMenuButton{{ $order->id_order }}"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,23 +98,17 @@
                                                         <ul class="dropdown-menu"
                                                             aria-labelledby="dropdownMenuButton{{ $order->id_order }}">
                                                             <li><a class="dropdown-item"
-                                                                    href="{{ url('/checkout/detail/' . $order->id_order) }}">Detail</a>
+                                                                    href="{{ url('/checkout/detail/' . $order->id_order) }}"><i
+                                                                        class="ti ti-info-alt"></i></a>
                                                             </li>
                                                             <li>
-                                                                <form
-                                                                    action="{{ url('/checkout/hapus/' . $order->id_order) }}"
-                                                                    method="POST" class="d-inline">
-                                                                    @csrf
-                                                                    @method('PUT') {{-- Menggunakan PUT untuk update status --}}
-                                                                    <button type="submit" class="dropdown-item"
-                                                                        onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Hapus</button>
-                                                                </form>
+
                                                             </li>
                                                         </ul>
-                                                    </div>
+                                                    </div> --}}
                                                 @else
-                                                    <a class="btn btn-sm btn-secondary"
-                                                        href="{{ url('/detail-paid/' . $order->id_order) }}">View</a>
+                                                    <a class="btn btn-sm btn-primary text-white shadow-lg"
+                                                        href="{{ url('/cart/detail-paid/' . $order->id_order) }}">Detail</a>
                                                 @endif
                                             </td>
                                         </tr>

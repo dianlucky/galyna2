@@ -2,7 +2,7 @@
 
 @php
     $dataPage = [
-        'page' => 'product',
+        'page' => 'Produk',
     ];
 @endphp
 
@@ -13,12 +13,12 @@
         <nav class="p-0 page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('admin/' . $dataPage['page']) }}" class="text-capitalize">
+                    <a href="{{ url('admin/product' ) }}" class="text-capitalize">
                         {{ $dataPage['page'] }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active text-capitalize" aria-current="page">
-                    Table {{ $dataPage['page'] }}
+                    Daftar {{ $dataPage['page'] }}
                 </li>
             </ol>
         </nav>
@@ -29,16 +29,16 @@
             <form action="" method="GET">
                 <div class="mb-3 input-group">
                     <input name="query" value="{{ request()->get('query') ?? '' }}" type="text"
-                        class="form-control" placeholder="Search Product" aria-label="Search Product"
+                        class="form-control" placeholder="Cari produk" aria-label="Search Product"
                         aria-describedby="button-addon2">
                     <button class="text-white btn btn-primary" type="submit" id="button-addon2">
                         <i class="ti ti-search"></i>
                     </button>
                 </div>
             </form>
-            <a href="{{ url('admin/' . $dataPage['page'] . '/create') }}" class="btn btn-primary">
+            <a href="{{ url('admin/product/create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-2"></i>
-                Add
+                Tambah
             </a>
         </div>
 
@@ -58,11 +58,11 @@
                                 <i class="ti ti-settings"></i>
                             </button>
                             <div class="dropdown-menu" style="font-size: 15px;">
-                                <a class="dropdown-item" href="{{ url('admin/' . $dataPage['page'] . '/edit/' . $item->id_product) }}">
+                                <a class="dropdown-item" href="{{ url('admin/product/edit/' . $item->id_product) }}">
                                     <i class="ti ti-pencil me-3"></i>
                                     Edit
                                 </a>
-                                <form action="{{ url('admin/' . $dataPage['page']) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                <form action="{{ url('admin/product') }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <input type="hidden" name="id" value="{{ $item->id_product }}">

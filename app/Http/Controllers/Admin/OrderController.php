@@ -13,6 +13,7 @@ class OrderController extends Controller
         $orders = OrderModel::with('product')
             ->orderBy('created_at', 'desc')
             ->get();
+            // dd($orders);
         return view('admin.order.data', [
             'orders' => $orders
         ]);

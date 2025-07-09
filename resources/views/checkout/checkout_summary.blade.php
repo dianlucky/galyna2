@@ -1,4 +1,4 @@
-@extends('layout.user_layout') {{-- Sesuaikan dengan layout utama pengguna Anda --}}
+@extends('layout.user_layout') 
 
 @section('content')
     <section class="bg-motif-1 pt-5" style="min-height: 92.7vh">
@@ -52,13 +52,21 @@
                                     <h6 class="mb-3">Daftar Pesanan:</h6>
                                     <ul class="list-group mb-3">
                                         @foreach ($ordersToProcess as $multiOrder)
-                                            <li class="list-group-item">
-                                                <strong>Order #{{ $multiOrder->code }}</strong><br>
-                                                Produk: {{ optional($multiOrder->product)->name ?? 'N/A' }}
-                                                ({{ $multiOrder->quantity }}x)
-                                                <br>
-                                                Total: Rp {{ number_format($multiOrder->total, 0, ',', '.') }}
-                                            </li>
+                                            <div class="row mb-1">
+                                                <div class="col-md-2 text-end">
+                                                    <img src="{{ asset('images/' . $multiOrder->product->cover_image) }}"
+                                                        class="rounded" style="height: 75px; width: 60px;" alt="{{ $multiOrder->product->name }}">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <li class="list-group-item">
+                                                        <strong>Order #{{ $multiOrder->code }}</strong><br>
+                                                        Produk: {{ optional($multiOrder->product)->name ?? 'N/A' }}
+                                                        ({{ $multiOrder->quantity }}x)
+                                                        <br>
+                                                        Total: Rp {{ number_format($multiOrder->total, 0, ',', '.') }}
+                                                    </li>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </ul>
                                     <p class="fw-bold">Total Harga Produk Keseluruhan: Rp
@@ -70,117 +78,98 @@
                         </div>
                     </div>
 
-                    {{-- Bagian Pengiriman (Raja Ongkir) --}}
+                    {{-- RAJAONGKIR PENGIRIMAN --}}
                     <div class="card mb-4">
                         <div class="card-header bg-info text-white">
                             Informasi Pengiriman
                         </div>
                         <div class="card-body">
-                            {{-- Perbaikan: Pastikan variabel alamat ada sebelum digunakan --}}
-                            @php
-                                $currentAddress = null;
-                                if (isset($order)) {
-                                    $currentAddress = $order->address;
-                                } elseif (isset($ordersToProcess) && $ordersToProcess->isNotEmpty()) {
-                                    $firstOrderInProcess = $ordersToProcess->first();
-                                    $currentAddress = $firstOrderInProcess->address;
-                                }
-                            @endphp
-                            {{-- <p id="address-destination">Alamat Pengiriman: </p>
+                            @csrf
+                            {{-- Input pencarian alamat --}}
                             <div class="mb-3">
-                                <label for="address" class="form-label">Alamat pengiriman</label>
-                                <select class="form-select" id="address" name="address" required>
-                                    <option value="">Alamat Pengiriman</option>
-                                    <option value="jne">JNE</option>
-                                    <option value="pos">POS Indonesia</option>
-                                    <option value="tiki">TIKI</option>
-                                </select>
-                            </div> --}}
-
-                            <p id="address-destination">Alamat Pengiriman:</p>
-
-                            <div class="mb-3">
-                                <label for="address-search" class="form-label">Alamat pengiriman</label>
-
+                                <label for="address-search" class="form-label">Alamat Pengiriman</label>
                                 <div class="searchable-select">
                                     <div class="input-group">
                                         <input type="text" id="address-search" class="form-control"
                                             placeholder="Masukkan alamat anda..." autocomplete="off" />
-                                        <button type="button" id="search-button" class="btn btn-primary">Cari</button>
                                     </div>
-
-                                    <!-- Dropdown hasil pencarian -->
                                     <ul id="address-options" class="options-list"
                                         style="list-style: none; padding-left: 0; margin-top: 8px;"></ul>
-
-                                    <!-- Hidden input untuk submit value -->
                                     <input type="hidden" name="address" id="address" required />
+                                    <input type="hidden" id="destination_id" name="destination_id" />
                                 </div>
                             </div>
 
+                            {{-- Pilih kurir --}}
+                            <div class="mb-3">
+                                <label for="courier" class="form-label">Kurir</label>
+                                <select class="form-select" id="courier" name="courier" required>
+                                    <option value="">Pilih Kurir</option>
+                                    <option value="jne">JNE</option>
+                                    <option value="pos">POS Indonesia</option>
+                                    <option value="tiki">TIKI</option>
+                                </select>
+                            </div>
 
+                            {{-- Layanan kurir muncul setelah hitung ongkir --}}
+                            <div class="mb-3">
+                                <label for="courier-service" class="form-label">Layanan Pengiriman</label>
+                                <select class="form-select" id="courier-service" name="courier_service" required>
+                                    <option value="">Pilih Layanan</option>
+                                </select>
+                            </div>
 
-                            <form id="shippingForm">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="courier" class="form-label">Kurir</label>
-                                    <select class="form-select" id="courier" name="courier" required>
-                                        <option value="">Pilih Kurir</option>
-                                        <option value="jne">JNE</option>
-                                        <option value="pos">POS Indonesia</option>
-                                        <option value="tiki">TIKI</option>
-                                    </select>
-                                </div>
-                                {{-- <button type="button" id="calculateShippingBtn" class="btn btn-outline-info">Cek Ongkir</button> --}}
-                                <div id="shippingCostResult" class="mt-2" style="display: none;">
-                                    <p>Biaya Pengiriman: <span id="shippingCostDisplay">Rp 0</span></p>
-                                    <p>Estimasi Waktu: <span id="shippingEtdDisplay">-</span></p>
-                                </div>
-                                <p>Biaya ongkir: Rp. 100.000</p>
+                            {{-- Hasil --}}
+                            <div id="shippingCostResult" class="mt-2" style="display: none;">
+                                <p>Biaya Pengiriman: <span id="shippingCostDisplay">Rp 0</span></p>
+                                <p>Estimasi Waktu: <span id="shippingEtdDisplay">-</span></p>
+                            </div>
 
-                                <input type="hidden" id="hiddenShippingCost" name="shipping_cost" value="0">
-                            </form>
+                            <input type="hidden" id="hiddenShippingCost" name="shipping_cost" value="0">
                         </div>
-
                     </div>
+
                     <form id="paymentForm">
                         @csrf
-                        <input type="hidden" id="totalPayment"
-                            value={{ isset($order) ? $order->total : $grandTotal + 100000 }}>
-                        {{-- {{dd($selectedOrderIds[0])}} --}}
-                        {{-- <input type="hidden" id="id_order" value={{$selectedOrderIds[0]}}> --}}
+                        <input type="hidden" id="hiddenShippingCost" name="shipping_cost" value="0">
+                        {{-- default 0 --}}
+                        <input type="hidden" id="selectedCourier">
+                        <input type="hidden" id="estimatedDay">
+                        <input type="hidden" id="totalPayment" value="{{ isset($order) ? $order->total : $grandTotal }}">
                         <input type="hidden" id="selectedOrderIds" value='@json($selectedOrderIds)'>
                         <button type="submit" class="btn btn-outline-info">Bayar Sekarang</button>
                     </form>
                 </div>
+
                 <div class="col-md-4">
-                    {{-- Kolom samping untuk ringkasan total --}}
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Ringkasan Pembayaran</h5>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Total Harga Produk
-                                    <span>Rp <span
-                                            id="summaryProductTotal">{{ number_format(isset($order) ? $order->total : $grandTotal, 0, ',', '.') }}</span></span>
+                                    <span>Rp <span id="summaryProductTotal">
+                                            {{ number_format(isset($order) ? $order->total : $grandTotal, 0, ',', '.') }}
+                                        </span></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
-                                    id="shippingSummaryItem" style="display: none;">
+                                    id="shippingSummaryRow" style="display: none;">
                                     Biaya Pengiriman
-                                    <span id="shippingSummaryCost">Rp 100.000</span>
+                                    <span>Rp <span id="shippingCostDisplay2">0</span></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
                                     Total Bayar
-                                    <span>Rp
-                                        {{ number_format(isset($order) ? $order->total : $grandTotal + 100000, 0, ',', '.') }}</span>
+                                    <span>Rp <span id="summaryTotalBayar">
+                                            {{ number_format(isset($order) ? $order->total : $grandTotal, 0, ',', '.') }}
+                                        </span></span>
                                 </li>
-                                {{-- <input type="hidden" id=""> --}}
                             </ul>
                             <p class="mt-3 text-muted small">Pastikan semua detail pesanan sudah benar sebelum melanjutkan
                                 pembayaran.</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -190,105 +179,166 @@
     @parent {{-- Penting: panggil @parent untuk menjaga script dari layout utama --}}
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
     </script>
-    <script>
-        const input = document.getElementById("address-search");
-        const list = document.getElementById("address-options");
-        const hidden = document.getElementById("address");
-        const button = document.getElementById("search-button");
-
-        let debounceTimer;
-
-        // Ganti event listener dari button click ke input
-        input.addEventListener("input", () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(async () => {
-                const keyword = input.value.trim();
-                if (keyword.length < 2) {
-                    list.style.display = "none";
-                    return;
-                }
-                await searchDestination(keyword);
-            }, 500); // Wait 500ms after user stops typing
-        });
-
-        async function searchDestination(keyword) {
-            try {
-                const response = await fetch(`/api/search-destination?keyword=${encodeURIComponent(keyword)}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-
-                if (response.status === 429) {
-                    console.warn("Rate limit exceeded. Please wait...");
-                    list.innerHTML = "<li style='color: red;'>Terlalu banyak request, coba lagi nanti</li>";
-                    list.style.display = "block";
-                    return;
-                }
-
-                const data = await response.json();
-                if (data.success && Array.isArray(data.results)) {
-                    renderDropdown(data.results);
-                } else {
-                    renderDropdown([]);
-                }
-            } catch (error) {
-                console.error("Error fetching destinations:", error);
-                renderDropdown([]);
-            }
-        }
-
-        function renderDropdown(options = []) {
-            list.innerHTML = "";
-
-            if (!options.length) {
-                list.style.display = "none";
-                return;
-            }
-
-            options.forEach(opt => {
-                const li = document.createElement("li");
-                li.textContent = opt.label;
-                li.dataset.value = opt.value;
-                list.appendChild(li);
-            });
-
-            list.style.display = "block";
-        }
-
-        // ketika salah satu opsi diklik
-        list.addEventListener("click", e => {
-            if (e.target.tagName === "LI") {
-                input.value = e.target.textContent;
-                hidden.value = e.target.dataset.value;
-                list.style.display = "none";
-            }
-        });
-
-        // tutup dropdown kalau klik di luar
-        document.addEventListener("click", e => {
-            if (!e.target.closest(".searchable-select")) {
-                list.style.display = "none";
-            }
-        });
-    </script>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // console.log("Client Key:", "{{ env('MIDTRANS_CLIENT_KEY') }}");
+            const addressInput = document.getElementById("address-search");
+            const addressOptions = document.getElementById("address-options");
+            const courierSelect = document.getElementById("courier");
+            const courierServiceSelect = document.getElementById("courier-service");
+            const selectedCourier = document.getElementById("selectedCourier");
+            const estimatedDay = document.getElementById("estimatedDay");
+
+            const shippingCostResult = document.getElementById("shippingCostResult");
+            const shippingCostDisplay = document.getElementById("shippingCostDisplay");
+            const shippingEtdDisplay = document.getElementById("shippingEtdDisplay");
+
+            const hiddenShippingCost = document.getElementById("hiddenShippingCost");
+            const hiddenAddress = document.getElementById("address");
+            const destinationIdInput = document.getElementById("destination_id");
+
+            const costDisplay = document.getElementById('shippingCostDisplay2');
+            const shippingRow = document.getElementById('shippingSummaryRow');
+            const totalPaymentInput = document.getElementById('totalPayment');
+            const summaryTotalBayar = document.getElementById('summaryTotalBayar');
+
+            let selectedDestinationId = null;
+            let debounceTimer = null;
+
+            addressInput.addEventListener("input", () => {
+                clearTimeout(debounceTimer);
+                const keyword = addressInput.value.trim();
+                if (keyword.length < 2) {
+                    addressOptions.style.display = "none";
+                    return;
+                }
+                debounceTimer = setTimeout(() => searchDestination(keyword), 400);
+            });
+
+            async function searchDestination(keyword) {
+                try {
+                    const response = await fetch(
+                        `/api/search-destination?keyword=${encodeURIComponent(keyword)}`);
+                    const result = await response.json();
+                    if (result.success && Array.isArray(result.results)) {
+                        renderDropdown(result.results);
+                    } else {
+                        addressOptions.innerHTML = "<li>Tidak ditemukan</li>";
+                        addressOptions.style.display = "block";
+                    }
+                } catch (error) {
+                    console.error("Gagal fetch alamat:", error);
+                }
+            }
+
+            function renderDropdown(results) {
+                addressOptions.innerHTML = "";
+                results.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item.label;
+                    li.style.cursor = "pointer";
+                    li.style.padding = "5px";
+                    li.style.borderBottom = "1px solid #ddd";
+                    li.addEventListener("click", () => {
+                        addressInput.value = item.label;
+                        hiddenAddress.value = item.label;
+                        destinationIdInput.value = item.id;
+                        selectedDestinationId = item.id;
+                        addressOptions.style.display = "none";
+                        courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
+                    });
+                    addressOptions.appendChild(li);
+                });
+                addressOptions.style.display = "block";
+            }
+
+            courierSelect.addEventListener("change", () => {
+                const courier = courierSelect.value;
+                selectedCourier.value = courierSelect.value;
+                if (!selectedDestinationId || !courier) return;
+
+                calculateOngkir(courier, selectedDestinationId);
+            });
+
+            async function calculateOngkir(courier, destination) {
+                try {
+                    const response = await fetch("/api/calculate-shipping", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        },
+                        body: new URLSearchParams({
+                            origin: 3820,
+                            destination: destination,
+                            weight: 500,
+                            courier: courier
+                        })
+                    });
+
+                    const result = await response.json();
+                    console.log("Response ongkir:", result);
+
+                    if (result.success && Array.isArray(result.data)) {
+                        courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
+                        result.data.forEach(service => {
+                            const option = document.createElement("option");
+                            option.value = service.cost;
+                            option.text =
+                                `${service.service} - Rp ${service.cost.toLocaleString()} (${service.etd})`;
+                            option.dataset.etd = service.etd;
+                            courierServiceSelect.appendChild(option);
+                        });
+                    } else {
+                        console.error("Gagal hitung ongkir:", result.message);
+                    }
+
+                } catch (err) {
+                    console.error("Error calculate ongkir:", err);
+                }
+            }
+
+            const productTotal = {{ isset($order) ? $order->total : $grandTotal }};
+
+            function updateShippingCost(shippingCost, etd = null) {
+                // console.log("Ongkir :",shippingCost);
+                costDisplay.textContent = shippingCost.toLocaleString('id-ID');
+                hiddenShippingCost.value = shippingCost;
+                shippingRow.style.display = 'flex';
+
+                const total = productTotal + shippingCost;
+                summaryTotalBayar.textContent = total.toLocaleString('id-ID');
+                totalPaymentInput.value = total;
+            }
+
+            courierServiceSelect.addEventListener("change", () => {
+                const selected = courierServiceSelect.selectedOptions[0];
+                const value = parseInt(selected.value || 0);
+                const etd = selected.dataset.etd || "-";
+                if (!isNaN(value)) {
+                    updateShippingCost(value);
+                }
+
+                hiddenShippingCost.value = value;
+                shippingCostDisplay.textContent = `Rp ${value.toLocaleString("id-ID")}`;
+                shippingEtdDisplay.textContent = etd;
+                estimatedDay.value = etd;
+                shippingCostResult.style.display = "block";
+            });
             const paymentForm = document.getElementById('paymentForm');
-            const totalPayment = document.getElementById('totalPayment').value;
-            // const idOrder = document.getElementById('id_order').value;
 
             paymentForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
-
+                const totalPayment = document.getElementById('totalPayment').value;
+                const shippingCost = document.getElementById('hiddenShippingCost').value;
+                if (shippingCost == 0 || shippingCost == null) {
+                    alert(
+                        'Harap mengisi formulir pengiriman terlebih dahulu');
+                    return;
+                }
                 try {
-                    // Panggil endpoint API Laravel yang return snap_token saja
+                // BUAT NAMPILIN SNAP PEMBAYARAN
                     const response = await fetch('/midtrans-test-token', {
                         method: 'POST',
                         headers: {
@@ -307,8 +357,8 @@
                             onSuccess: async function() {
                                 const selectedOrderIds = JSON.parse(document.getElementById(
                                     'selectedOrderIds').value);
-
                                 try {
+
                                     const updateResponse = await fetch(
                                         '/update-payment-status', {
                                             method: 'POST',
@@ -317,8 +367,13 @@
                                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                             },
                                             body: JSON.stringify({
-                                                order_ids: selectedOrderIds
+                                                order_ids: selectedOrderIds,
+                                                address: hiddenAddress.value,
+                                                delivery_cost: shippingCost,
+                                                courier: selectedCourier.value,
+                                                estimatedDay: estimatedDay.value
                                             })
+
                                         });
 
                                     const updateResult = await updateResponse.json();
@@ -342,10 +397,7 @@
                             },
                             onError: function() {
                                 alert('Pembayaran gagal.');
-                            },
-                            // onClose: function () {
-                            //     alert('Popup ditutup.');
-                            // }
+                            }
                         });
                     } else {
                         alert('Token tidak diterima, ada pembayaran yang belum diselesaikan');
@@ -357,189 +409,4 @@
             });
         });
     </script>
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const calculateShippingBtn = document.getElementById('calculateShippingBtn');
-            const courierSelect = document.getElementById('courier');
-            const shippingCostResult = document.getElementById('shippingCostResult');
-            const shippingCostDisplay = document.getElementById('shippingCostDisplay');
-            const shippingEtdDisplay = document.getElementById('shippingEtdDisplay');
-            const hiddenShippingCost = document.getElementById('hiddenShippingCost');
-            const shippingSummaryItem = document.getElementById('shippingSummaryItem');
-            const shippingSummaryCost = document.getElementById('shippingSummaryCost');
-            const finalTotalDisplay = document.getElementById('finalTotalDisplay');
-            const finalShippingCostForPayment = document.getElementById('finalShippingCostForPayment');
-            const paymentForm = document.getElementById('paymentForm');
-
-            const initialProductTotal = json((isset($order) ? $order => total : $grandTotal) ?? 0);
-            let currentShippingCost = 100000;
-
-            function updateFinalTotal() {
-                const finalTotal = initialProductTotal + currentShippingCost;
-                finalTotalDisplay.textContent = 'Rp ' + finalTotal.toLocaleString('id-ID');
-                finalShippingCostForPayment.value = currentShippingCost;
-            }
-
-            // calculateShippingBtn.addEventListener('click', async () => {
-            //     const courier = courierSelect.value;
-            //     if (!courier) {
-            //         alert('Mohon pilih kurir terlebih dahulu.');
-            //         return;
-            //     }
-
-            //     // Perbaikan: Menentukan alamat tujuan dengan lebih aman
-            //     let destinationAddress = '';
-            //     // Menggunakan PHP untuk mengekstrak alamat dengan aman sebelum di-JSON-kan
-            //     <?php
-            //     $addressToUse = null;
-            //     if (isset($order)) {
-            //         $addressToUse = $order->address;
-            //     } elseif (isset($ordersToProcess) && $ordersToProcess->isNotEmpty()) {
-            //         $firstOrderInProcess = $ordersToProcess->first();
-            //         $addressToUse = $firstOrderInProcess->address;
-            //     }
-            //
-            ?>
-            //     destinationAddress = json($addressToUse ?? '');
-
-            //     const totalWeight = 1000;
-
-            //     const apiUrl = `{{ route('shipping.calculate') }}`;
-
-            //     try {
-            //         calculateShippingBtn.textContent = 'Menghitung...';
-            //         calculateShippingBtn.disabled = true;
-
-            //         const response = await fetch(apiUrl, {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //             },
-            //             body: JSON.stringify({
-            //                 courier: courier,
-            //                 destination_address: destinationAddress,
-            //                 weight: totalWeight
-            //             })
-            //         });
-
-            //         if (!response.ok) {
-            //             const errorData = await response.json();
-            //             throw new Error(errorData.message || 'Gagal menghitung ongkir.');
-            //         }
-
-            //         const data = await response.json();
-
-            //         if (data.success && data.cost && data.etd) {
-            //             currentShippingCost = data.cost;
-            //             shippingCostDisplay.textContent = 'Rp ' + data.cost.toLocaleString('id-ID');
-            //             shippingEtdDisplay.textContent = data.etd;
-            //             hiddenShippingCost.value = data.cost;
-            //             shippingSummaryCost.textContent = 'Rp ' + data.cost.toLocaleString('id-ID');
-            //             shippingSummaryItem.style.display = 'flex';
-            //             shippingCostResult.style.display = 'block';
-
-            //             updateFinalTotal();
-            //         } else {
-            //             alert(data.message || 'Tidak ada biaya pengiriman ditemukan.');
-            //             shippingCostResult.style.display = 'none';
-            //             shippingSummaryItem.style.display = 'none';
-            //             currentShippingCost = 0;
-            //             updateFinalTotal();
-            //         }
-
-            //     } catch (error) {
-            //         console.error('Error saat menghitung ongkir:', error);
-            //         alert('Terjadi kesalahan: ' + error.message);
-            //         shippingCostResult.style.display = 'none';
-            //         shippingSummaryItem.style.display = 'none';
-            //         currentShippingCost = 0;
-            //         updateFinalTotal();
-            //     } finally {
-            //         calculateShippingBtn.textContent = 'Cek Ongkir';
-            //         calculateShippingBtn.disabled = false;
-            //     }
-            // });
-
-            // Midtrans Snap Integration (Example)
-            paymentForm.addEventListener('submit', async function(event) {
-                event.preventDefault(); // Prevent default form submission
-
-                const form = event.target;
-                const url = form.action;
-                const method = form.method;
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
-                // Tambahkan order_ids jika ini multiple checkout
-                const orderIds = [];
-                document.querySelectorAll('input[name="order_ids[]"]').forEach(input => {
-                    orderIds.push(input.value);
-                });
-                if (orderIds.length > 0) {
-                    data.order_ids = orderIds;
-                }
-
-                // Tambahkan biaya pengiriman yang sudah dihitung
-                data.shipping_cost = finalShippingCostForPayment.value;
-
-                try {
-                    const response = await fetch(url, {
-                        method: method,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.message || 'Gagal memproses pembayaran.');
-                    }
-
-                    const result = await response.json();
-
-                    if (result.snap_token) {
-                        // Render Midtrans Snap pop-up
-                        snap.pay(result.snap_token, {
-                            onSuccess: function(response) {
-                                /* You may add your own implementation here */
-                                alert("Pembayaran berhasil!");
-                                window.location.href =
-                                '{{ route('order.my') }}'; // Redirect ke halaman My Orders
-                            },
-                            onPending: function(response) {
-                                /* You may add your own implementation here */
-                                alert("Menunggu pembayaran Anda.");
-                                window.location.href = '{{ route('order.my') }}';
-                            },
-                            onError: function(response) {
-                                /* You may add your own implementation here */
-                                alert("Pembayaran gagal!");
-                                window.location.href = '{{ route('order.my') }}';
-                            },
-                            onClose: function() {
-                                /* You may add your own implementation here */
-                                alert(
-                                'Anda menutup pop-up tanpa menyelesaikan pembayaran.');
-                            }
-                        });
-                    } else {
-                        // Jika tidak ada snap_token, berarti pembayaran langsung di backend (contoh: status langsung sukses)
-                        alert(result.message || 'Pembayaran berhasil diproses.');
-                        window.location.href = '{{ route('order.my') }}';
-                    }
-
-                } catch (error) {
-                    console.error('Error saat memproses pembayaran:', error);
-                    alert('Terjadi kesalahan saat memproses pembayaran: ' + error.message);
-                }
-            });
-
-            // Panggil updateFinalTotal saat halaman dimuat untuk memastikan total awal benar
-            updateFinalTotal();
-        });
-    </script> --}}
 @endsection

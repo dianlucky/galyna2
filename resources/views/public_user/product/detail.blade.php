@@ -59,46 +59,8 @@
                                 {{ $product->created_at->format('d F Y') }}</small></p>
                         <div class="mb-3">{!! $product->description !!}</div>
                         <p class="text-muted"><small><i class="bi bi-eye"></i> {{ $product->views }} views</small></p>
-                        {{-- <div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#modalKeranjang">Tambah ke keranjang</button>
-                        </div> --}}
-
-                        <!-- Modal -->
-                        {{-- <div class="modal fade" id="modalKeranjang" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <form action="">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Masukkan keranjang</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Nama produk</label>
-                                                <input type="text" class="form-control" id="name"
-                                                    value="{{ $product->name }}" readonly>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="email" class="form-label">Jumlah item</label>
-                                                <input type="number" class="form-control" id="email"
-                                                    aria-describedby="emailHelp">
-                                            </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup</button>
-                                            <button type="button" class="btn btn-primary">Tambah ke keranjang</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div> --}}
-                        {{-- Order Form --}}
+                       
+                            {{-- Order Form --}}
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h5 class="card-title">Create Order</h5>
@@ -127,7 +89,6 @@
                                 <form action="{{ route('order.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="product_code" value="{{ $product->code }}">
-
                                     @foreach ([
                                         'name' => 'Name',
                                         'email' => 'Email address',
@@ -146,14 +107,7 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label">Address</label>
-                                        <textarea id="address" name="address" rows="3" class="form-control @error('address') is-invalid @enderror"
-                                            required>{{ old('address', $user->address ?? '') }}</textarea>
-                                        @error('address')
-                                            {{-- <div class="invalid-feedback">{{ $message }}</div> --}}
-                                        @enderror
-                                    </div>
+                                   
 
                                     <div class="mb-3">
                                         <label for="message" class="form-label">Message (Optional)</label>

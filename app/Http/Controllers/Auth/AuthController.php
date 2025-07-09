@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Mail\RegisterMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -31,12 +32,9 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Check Role
             if (Auth::user()->role === 'admin') {
                 return redirect()->intended('admin/dashboard');
             }
-
-
 
             return redirect()->intended('/home');
         }
@@ -67,9 +65,12 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = password_hash($request->password, PASSWORD_DEFAULT);
         $user->save();
-
+        $data = [
+            'name' => $request->name ?? 'Pelanggan',
+        ];
+        Mail::to($request->email ?? 'imelda.aryani@mhs.politala.ac.id')->send(new RegisterMail($data));
         // Return back with success message
-        session()->flash('success', 'Data saved successfully');
+        session()->flash('success', 'Registrasi akun berhasil!');
         return redirect('/login');
     }
 

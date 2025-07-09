@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Mail\SendTestMail;
+use Illuminate\Support\Facades\Mail;
 
 // Tambahkan use statement untuk Midtrans
 use Midtrans\Config;
@@ -46,7 +48,6 @@ class OrderController extends Controller
             'product_code' => 'required|string',
             'quantity' => 'required|integer|min:1',
             'phone_number' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
             'message' => 'nullable|string|max:500',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -77,7 +78,6 @@ class OrderController extends Controller
         $order->name = $request->name;
         $order->email = $request->email;
         $order->phone = $request->phone_number;
-        $order->address = $request->address;
         $order->message = $request->message;
         $order->transaction_token = '';
 
@@ -87,7 +87,10 @@ class OrderController extends Controller
             return redirect()->route('order.my')->with('success', 'Pesanan berhasil dibuat!');
         } catch (\Exception $e) {
             Log::error('Gagal menyimpan order: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan pesanan: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan pesanan: ' . $e->getMessage());
         }
     }
 
@@ -98,10 +101,7 @@ class OrderController extends Controller
             return redirect()->route('login')->with('error', 'Anda harus login untuk melihat pesanan.');
         }
 
-        $orders = OrderModel::where('id_user', $user->id_user)
-            ->with('product.category')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $orders = OrderModel::where('id_user', $user->id_user)->with('product.category')->orderBy('created_at', 'desc')->get();
 
         return view('public_user.product.my_order', compact('orders', 'user'));
     }
@@ -234,11 +234,7 @@ class OrderController extends Controller
         $selectedOrderIds = $request->input('order_ids');
 
         // Ambil order yang dipilih dari database
-        $ordersToProcess = OrderModel::whereIn('id_order', $selectedOrderIds)
-            ->where('id_user', $user->id_user)
-            ->where('status', 'pending') // Hanya ambil order yang masih pending
-            ->with('product') // Eager load produk untuk detail tampilan
-            ->get();
+        $ordersToProcess = OrderModel::whereIn('id_order', $selectedOrderIds)->where('id_user', $user->id_user)->where('status', 'pending')->with('product')->get();
 
         if ($ordersToProcess->isEmpty()) {
             return redirect()->route('order.my')->with('error', 'Tidak ada pesanan valid yang dipilih untuk diproses.');
@@ -246,8 +242,8 @@ class OrderController extends Controller
 
         // Hitung total keseluruhan dari pesanan yang dipilih
         $grandTotal = $ordersToProcess->sum('total');
-
-        return view('checkout.checkout_summary', compact('ordersToProcess', 'grandTotal', "selectedOrderIds"));
+        // dd($ordersToProcess);
+        return view('checkout.checkout_summary', compact('ordersToProcess', 'grandTotal', 'selectedOrderIds'));
     }
 
     /**
@@ -272,11 +268,7 @@ class OrderController extends Controller
         $selectedOrderIds = $request->input('order_ids');
         $finalShippingCost = $request->input('final_shipping_cost');
 
-        $ordersToProcess = OrderModel::whereIn('id_order', $selectedOrderIds)
-            ->where('id_user', $user->id_user)
-            ->where('status', 'pending')
-            ->with('product')
-            ->get();
+        $ordersToProcess = OrderModel::whereIn('id_order', $selectedOrderIds)->where('id_user', $user->id_user)->where('status', 'pending')->with('product')->get();
 
         if ($ordersToProcess->isEmpty()) {
             return response()->json(['message' => 'Tidak ada pesanan valid yang dipilih untuk diproses.'], 400);
@@ -308,11 +300,6 @@ class OrderController extends Controller
                     'price' => $order->total,
                     'quantity' => 1,
                 ];
-                // Jangan mengubah status order di sini sebelum pembayaran berhasil
-                // Biarkan status pending, nanti akan diupdate oleh webhook Midtrans
-                // atau setelah pembayaran berhasil
-                // $order->status = 'waiting_payment'; // <-- Hapus baris ini
-                // $order->save(); // <-- Hapus baris ini
             }
 
             if ($finalShippingCost > 0) {
@@ -357,35 +344,52 @@ class OrderController extends Controller
         }
     }
 
-
     public function updatePayment(Request $request)
     {
         $orderIds = $request->input('order_ids');
-    
+        // dd($request);
+
         // Validasi bahwa order_ids adalah array dan tidak kosong
         if (!is_array($orderIds) || empty($orderIds)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Data order tidak valid.'
-            ], 400);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Data order tidak valid.',
+                ],
+                400,
+            );
         }
-    
+
         // Update status menjadi 'paid' untuk semua order yang cocok
         try {
             OrderModel::whereIn('id_order', $orderIds)->update([
-                'status' => 'paid'
+                'status' => 'paid',
+                'address' => $request->input('address'),
+                'delivery_cost' => $request->input('delivery_cost'),
+                'courier' => $request->input('courier'),
+                'estimated_day' => $request->input('estimatedDay'),
             ]);
-    
+            $order = OrderModel::whereIn('id_order', $orderIds)->first();
+
+            $data = [
+                'name' => $order->name ?? 'Pelanggan',
+                'code' => $order->code ?? 'KODE PEMESANAN',
+            ];
+            Mail::to($order->email ?? 'imelda.aryani@mhs.politala.ac.id')->send(new SendTestMail($data));
+
             return response()->json([
                 'success' => true,
-                'message' => 'Status pembayaran berhasil diperbarui.'
+                'message' => 'Status pembayaran berhasil diperbarui.',
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan saat update status.',
-                'error' => $e->getMessage()
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat update status.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
         }
     }
 }

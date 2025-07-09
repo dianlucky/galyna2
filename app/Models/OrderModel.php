@@ -12,20 +12,23 @@ class OrderModel extends Model
     protected $table = 'order';
     protected $primaryKey = 'id_order';
 
-    protected $fillable = [
-        'id_product',
-        'name',
-        'email',
-        'phone', // Sesuai DB: 'phone', bukan 'phone_number'. Ini yang akan diisi dari $request->phone_number di controller.
-        'address',
-        'message',
-        'status',
-        'id_user',
-        'quantity',
-        'total',
-        'code',
-        'transaction_token',
-    ];
+        protected $fillable = [
+            'id_product',
+            'name',
+            'email',
+            'phone', 
+            'address',
+            'message',
+            'status',
+            'id_user',
+            'quantity',
+            'total',
+            'courier',
+            'delivery_cost',
+            'estimated_day',
+            'code',
+            'transaction_token',
+        ];
 
     public $timestamps = true;
 

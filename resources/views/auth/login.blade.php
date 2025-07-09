@@ -36,6 +36,10 @@
                 </a>
             </section>
 
+            <section>
+
+            </section>
+
             {{-- Login Section --}}
             <section id="login-section">
                 <h1 class="text-center charmonman-bold" style="font-size: 3.6rem">
@@ -76,7 +80,8 @@
 
                     {{-- Don't have an account link --}}
                     <div class="mt-3 text-center">
-                        <p>Don't have an account? <a href="{{url('register')}}" style="text-decoration: none">Register</a></p>
+                        <p>Don't have an account? <a href="{{ url('register') }}"
+                                style="text-decoration: none">Register</a></p>
                     </div>
                 </form>
             </section>
@@ -95,6 +100,30 @@
 
     {{-- Javascript --}}
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "{{ session('success') }}",
+            });
+            document.addEventListener('DOMContentLoaded', function() {});
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "{{ session('error') }}",
+                });
+            });
+        </script>
+    @endif
     <script>
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
@@ -107,6 +136,11 @@
             }
         });
     </script>
+
 </body>
 
 </html>
+
+@section('script')
+    @include('components.notifications')
+@endsection

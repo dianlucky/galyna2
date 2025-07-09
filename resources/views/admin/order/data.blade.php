@@ -13,13 +13,13 @@
         {{-- Header Page --}}
         <div class="row ps-lg-3 ps-sm-0">
             {{-- Menggunakan judul yang lebih spesifik untuk "My Order" --}}
-            <h4 class="p-0 text-capitalize">My Orders</h4>
+            <h4 class="p-0 text-capitalize">Daftar Pesanan</h4>
             <nav class="p-0 page-breadcrumb">
                 <ol class="breadcrumb">
                     {{-- Sesuaikan link breadcrumb jika ini bukan halaman admin --}}
                     <li class="breadcrumb-item"><a href="{{ url('/my-order') }}"
-                            class="text-capitalize">Orders</a></li> {{-- Menggunakan '/my-order' sebagai base --}}
-                    <li class="breadcrumb-item active text-capitalize" aria-current="page">My Orders List</li>
+                            class="text-capitalize">Pesanan</a></li> {{-- Menggunakan '/my-order' sebagai base --}}
+                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Daftar pesanan</li>
                 </ol>
             </nav>
         </div>
@@ -32,11 +32,8 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 {{-- Judul tabel yang lebih spesifik --}}
-                                <h6 class="card-title text-capitalize">List of My Orders</h6>
-                                {{-- Jika ada tombol tambah order baru dari sini, bisa diaktifkan --}}
-                                {{-- <a href={{ url('admin/' . $dataPage['page'] . '/create') }} class="btn btn-primary">
-                                    <i class="ti ti-plus me-2"></i>
-                                    Add</a> --}}
+                                <h6 class="card-title text-capitalize">Daftar pesanan</h6>
+                             
                             </div>
                             <div class="table-responsive" style="min-height: 400px">
 
@@ -75,8 +72,8 @@
                                                 <td>
                                                     @if ($item->status == 'pending')
                                                         <span class="badge bg-warning text-dark" style="font-size: 10px; width: 70px;">Pending</span>
-                                                    @elseif ($item->status == 'success')
-                                                        <span class="badge bg-success" style="font-size: 10px; width: 70px;">Success</span>
+                                                    @elseif ($item->status == 'paid')
+                                                        <span class="badge bg-success" style="font-size: 10px; width: 70px;">Paid</span>
                                                     @elseif ($item->status == 'expired')
                                                         <span class="badge" style="font-size: 10px; width: 70px; background-color: rgb(205, 205, 205)">Expired</span>
                                                     @elseif ($item->status == 'failed')

@@ -21,22 +21,34 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="card-title">Total Product</h6>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="#">View</a></li>
-                                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                                        <li><a class="dropdown-item" href="#">Delete</a></li>
-                                    </ul>
+                                <h6 class="card-title">Total Produk</h6>
+                                <div>
+                                    <a class="btn btn-secondary" type="button" href="{{url('admin/product')}}">
+                                        Detail
+                                    </a>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <h3 class="mb-0">1,234</h3>
+                                <h3 class="mb-0">{{$totalProduk}}</h3>
                                 <p class="text-muted">Products</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7 p-0" style="margin-left: 10px">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="card-title">Total Omset bulan ini</h6>
+                                <div>
+                                    <a class="btn btn-secondary" type="button" href="{{url('admin/omset')}}">
+                                        Detail
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h3 class="mb-0">Rp. {{ number_format($totalOmset, 0, ',', '.') }}</h3>
+                                <p class="text-muted">Rupiah</p>
                             </div>
                         </div>
                     </div>

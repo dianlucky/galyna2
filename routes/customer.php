@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\MidtransController;
-use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\CheckoutSummaryController;
-
+use App\Mail\SendTestMail;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Customer Routes
@@ -18,24 +18,23 @@ Route::middleware(['auth'])->group(function () {
 
     // ================== CART ROUTES ==================
     Route::prefix('cart')->group(function () {
-        Route::get('/', [CartController::class, 'index'])->name('cart.index');             // Tampilkan isi keranjang
+        Route::get('/', [CartController::class, 'index'])->name('cart.index'); 
         Route::post('/add/{productId}', [CartController::class, 'add'])->name('cart.add'); // Tambah produk ke keranjang
-        Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('cart.remove'); // Hapus produk dari keranjang
+        Route::get('/detail-paid/{id}', [CartController::class, 'detail'])->name('cart.detail');
+        Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('cart.remove'); 
     });
 
     // ================== ORDER ROUTES ==================
     // Tampilkan form order produk berdasarkan kode produk
     Route::get('/make-order/{code_product}', [OrderController::class, 'showOrderForm'])->name('order.form');
-
     // Proses penyimpanan order
     Route::post('/order/store', [OrderController::class, 'storeOrder'])->name('order.store');
     Route::post('/update-payment-status', [OrderController::class, 'updatePayment']);
+    // MIDTRANS PUNYA LAAAHHH 
     Route::post('/midtrans-test-token', [MidtransController::class, 'make_snap']);
     Route::post('/midtrans-callback', [MidtransController::class, 'callback']);
     // Tampilkan daftar order milik user yang login
     Route::get('/orders/my', [OrderController::class, 'myOrder'])->name('order.my');
-
-
     // Raja Ongkir API
     // Route::middleware(['web', 'throttle:none'])->group(function () {
     //     Route::get('/search-destination', [RajaOngkirController::class, 'getDestination']);
@@ -62,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/{order}', [OrderController::class, 'showCheckout'])->name('checkout.show');
     });
+
 });
 
 // ================== PUBLIC ROUTES (optional) ==================

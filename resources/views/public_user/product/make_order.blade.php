@@ -132,15 +132,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Address Input --}}
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3" required>{{ old('address', $user->address ?? '') }}</textarea>
-                                    @error('address')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
                                 {{-- Message Input --}}
                                 <div class="mb-3">
                                     <label for="message" class="form-label">Message</label>

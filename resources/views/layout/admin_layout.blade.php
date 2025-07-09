@@ -60,6 +60,22 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ Request::is('admin/order*') ? 'active' : '' }}" href="{{url('admin/order')}}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-shopping-cart"></i>
+                                </span>
+                                <span class="hide-menu">Pesanan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ Request::is('admin/omset*') ? 'active' : '' }}" href="{{url('admin/omset')}}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-printer"></i>
+                                </span>
+                                <span class="hide-menu">Omset</span>
+                            </a>
+                        </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Data Master</span>
@@ -72,7 +88,7 @@
                                 <span>
                                     <i class="ti ti-category-2"></i>
                                 </span>
-                                <span class="hide-menu">Category</span>
+                                <span class="hide-menu">Kategori</span>
                             </a>
                         </li>
 
@@ -83,7 +99,7 @@
                                 <span>
                                     <i class="ti ti-shirt"></i>
                                 </span>
-                                <span class="hide-menu">Products</span>
+                                <span class="hide-menu">Produk</span>
                             </a>
                         </li>
 
@@ -94,7 +110,7 @@
                                 <span>
                                     <i class="ti ti-file-description"></i>
                                 </span>
-                                <span class="hide-menu">Article</span>
+                                <span class="hide-menu">Artikel</span>
                             </a>
                         </li>
 
@@ -105,46 +121,18 @@
                                 <span>
                                     <i class="ti ti-link"></i>
                                 </span>
-                                <span class="hide-menu">Links</span>
+                                <span class="hide-menu">Link</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">
-                            <span class="hide-menu">COMPANY</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-building"></i>
-                                </span>
-                                <span class="hide-menu">Setting</span>
-                            </a>
+                            <span class="hide-menu">Lain - lain</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{url('admin/user')}}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
-                                <span class="hide-menu">Users</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">OTHER</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/order*') ? 'active' : '' }}" href="{{url('admin/order')}}" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-shopping-cart"></i>
-                                </span>
-                                <span class="hide-menu">Order</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-message-2"></i>
-                                </span>
-                                <span class="hide-menu">Comments</span>
+                                <span class="hide-menu">User</span>
                             </a>
                         </li>
                     </ul>
@@ -167,7 +155,7 @@
                             </a>
                         </li>
                         <li class="nav-item d-none d-xl-block">
-                            <p style="margin: 0 20px;">Welcome back, <span class="fw-bold text-secondary">Admin</span></p>
+                            <p style="margin: 0 20px;">Selamat datang, <span class="fw-bold text-secondary">{{ Auth::user()->name }}</span></p>
                         </li>
                     </ul>
                     <div class="px-0 navbar-collapse justify-content-end" id="navbarNav">
