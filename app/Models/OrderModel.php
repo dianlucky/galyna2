@@ -13,32 +13,34 @@ class OrderModel extends Model
     protected $primaryKey = 'id_order';
 
         protected $fillable = [
-            'id_product',
-            'name',
-            'email',
-            'phone', 
-            'address',
-            'message',
-            'status',
             'id_user',
-            'quantity',
-            'total',
-            'courier',
-            'delivery_cost',
-            'estimated_day',
-            'code',
-            'transaction_token',
+            'id_payment',
+            'id_delivery',
+            'order_code',
+            'code_promo',
+            'message',
+            'status_payment',
+            'status_order',
         ];
 
     public $timestamps = true;
 
-    public function product()
-    {
-        return $this->belongsTo(ProductModel::class, 'id_product', 'id_product');
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(ProductModel::class, 'id_product', 'id_product');
+    // }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+    public function payment()
+    {
+        return $this->belongsTo(PaymentModel::class, 'id_payment', 'id_payment');
+    }
+    
+    public function delivery()
+    {
+        return $this->belongsTo(DeliveryModel::class, 'id_delivery', 'id_delivery');
     }
 }
