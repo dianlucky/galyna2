@@ -355,7 +355,8 @@
 
                     if (result.snap_token) {
                         snap.pay(result.snap_token, {
-                            onSuccess: async function() {
+                            onSuccess: async function(result) {
+                                console.log("Hasil Midtrans:", result);
                                 const selectedOrderIds = JSON.parse(document.getElementById(
                                     'selectedOrderIds').value);
                                 try {
@@ -383,15 +384,14 @@
                                                 address: addressSelect.value,
                                                 delivery_cost: shippingCost,
                                                 courier: selectedCourier.value,
-                                                payment_code: generatedOrderId,
+                                                payment_code: result.transaction_id,
+                                                payment_type: result.payment_type,
+                                                bank: result.payment_type == "bank_transfer" ? result.va_numbers[0].bank : '',
                                                 amount: totalPaymentInput.value,
-                                                estimated_day: estimatedDay
-                                                    .value,
-                                                destination_code: destinationCode
-                                                    .value,
+                                                estimated_day: estimatedDay.value,
+                                                destination_code: destinationCode .value,
                                                 destination: destination.value,
-                                                delivery_type: deliveryType
-                                                    .value,
+                                                delivery_type: deliveryType.value,
                                             })
                                         });
 

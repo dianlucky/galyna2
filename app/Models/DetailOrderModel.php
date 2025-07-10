@@ -15,6 +15,7 @@ class DetailOrderModel extends Model
     protected $fillable = [
         'id_order',
         'id_product',
+        'quantity',
     ];
 
     public $timestamps = true;

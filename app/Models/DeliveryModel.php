@@ -18,6 +18,8 @@ class DeliveryModel extends Model
         'detail_destination',
         'courier',
         'delivery_type',
+        'delivery_cost',
+        'delivery_code',
         'estimated_day',
     ];
 
