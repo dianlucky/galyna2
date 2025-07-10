@@ -44,7 +44,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('history-order')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('history-order.index');
+        Route::get('/{code}', [OrderController::class, 'detail'])->name('history-order.detail');
     });
+
+
+
+
+
+
+
 
     // ================== ORDER ROUTES ==================
     // Tampilkan form order produk berdasarkan kode produk

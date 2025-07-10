@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailOrderModel;
 use Carbon\Carbon;
 use App\Models\OrderModel;
 use App\Models\AddressModel;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     public function index(){
-        $orders = OrderModel::where('id_user', Auth::user()->id_user)->with('delivery', 'payment')->get();
+        $orders = OrderModel::where('id_user', Auth::user()->id_user)->with('delivery', 'payment')->orderBy('created_at', 'asc')->get();
         $dataOrder = $orders->map(function ($order) {
             preg_match('/(\d+)/', $order->delivery->estimated_day ?? '0', $matches);
             $daysToAdd = isset($matches[1]) ? (int) $matches[1] : 0;
@@ -24,6 +25,21 @@ class OrderController extends Controller
             return $order;
         });
         return view('history-order.index', compact('dataOrder'));
+    }
+
+
+    public function detail($code){
+        $order = OrderModel::where('order_code', $code)->with('delivery', 'payment', 'user')->first();
+        if ($order) {
+            preg_match('/(\d+)/', $order->delivery->estimated_day ?? '0', $matches);
+            $daysToAdd = isset($matches[1]) ? (int) $matches[1] : 0;
+            $estimatedDate = Carbon::parse($order->created_at)->addDays($daysToAdd);
+            $order->estimated_arrival = $estimatedDate->translatedFormat('l, d F Y');
+        }
+        $detailOrders = DetailOrderModel::where('id_order', $order->id_order)->with('product')->get();
+
+        return view('history-order.detail' , compact('order', 'detailOrders'));
+        // dd($detailOrders);
     }
    
 

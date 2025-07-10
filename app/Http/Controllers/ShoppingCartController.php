@@ -14,7 +14,7 @@ class ShoppingCartController extends Controller
      * To access shopping cart pages
      */
 public function index(){
-    $carts = ShoppingCartModel::where('id_user', Auth::user()->id_user)->with('product')->get();
+    $carts = ShoppingCartModel::where('id_user', Auth::user()->id_user)->with('product')->orderBy('status', 'asc')->get();
 
     return view('cart.index', ['carts' => $carts]);
 }

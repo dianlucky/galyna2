@@ -111,7 +111,7 @@
                                             {{ $data->status == true ? 'selected' : '' }}
                                         >
                                             {{ $data->city_name }} | {{ $data->address_name }}
-                                            {{ $data->status == true ? '(alamat utama)' : '' }}
+                                          
                                         </option>
                                     @endforeach
                                 </select>
@@ -399,7 +399,7 @@
                                     if (updateResult.success) {
                                         alert(
                                             'Pembayaran berhasil dan status order diperbarui!');
-                                        // window.location.href = '/my-order';
+                                        window.location.href = '/history-order';
                                     } else {
                                         alert(
                                             'Pembayaran berhasil, tapi gagal update status order.');
