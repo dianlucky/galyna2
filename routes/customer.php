@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\CheckoutSummaryController;
+use App\Http\Controllers\User\OrderController as UserOrderController;
 use App\Mail\SendTestMail;
 use App\Models\ShoppingCartModel;
 use Illuminate\Support\Facades\Mail;
@@ -39,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('checkout-order')->group(function () {
         Route::post('/add', [CheckoutController::class, 'store'])->name('checkout-order.store');
+    });
+
+    Route::prefix('history-order')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('history-order.index');
     });
 
     // ================== ORDER ROUTES ==================

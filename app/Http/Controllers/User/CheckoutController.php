@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Mail\CheckoutMail;
+use App\Models\OrderModel;
+use Illuminate\Support\Str;
+use App\Models\PaymentModel;
+use Illuminate\Http\Request;
 use App\Models\DeliveryModel;
 use App\Models\DetailOrderModel;
-use App\Models\OrderModel;
-use App\Models\PaymentModel;
 use App\Models\ShoppingCartModel;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -33,7 +36,7 @@ class CheckoutController extends Controller
             // Simpan data pembayaran
             $payment = PaymentModel::create([
                 'payment_code' => $request->payment_code,
-                'payment_type' => $request->payment_type, // pastikan ada payment_method
+                'payment_type' => $request->payment_type, 
                 'bank' => $request->bank ?? null,
                 'amount' => $request->amount,
                 'status' => 'paid',
@@ -46,21 +49,32 @@ class CheckoutController extends Controller
                 'id_user' => Auth::user()->id_user,
                 'order_code' => 'ORD-' . strtoupper(Str::random(8)),
                 'code_promo' => $request->code_promo ?? '',
-                'status_payment' => 'Paid',
+                'status_payment' => 'paid',
             ]);
 
             // Simpan detail pesanan (jika ada order_ids dari frontend)
             if (is_array($request->order_ids)) {
                 foreach ($request->order_ids as $id_cart) {
                    $cart =  ShoppingCartModel::where('id_cart', $id_cart)->first();
-                   Log::info('DATA KERANJANG:', ['id_product' => $cart->quantity]); 
                     DetailOrderModel::create([
                         'id_order' => $order->id_order,
                         'id_product' => $cart->id_product,
                         'quantity' => $cart->quantity,
                     ]);
+                    $cart->update([
+                        'status' => "paid"
+                    ]);
+
                 }
             }
+
+            
+            $data = [
+                'name' => Auth::user()->name,
+                'code' => $order->order_code ?? 'KODE PEMESANAN',
+                'amount' => $payment->amount,
+            ];
+            Mail::to(Auth::user()->email)->send(new CheckoutMail($data));
 
             return response()->json([
                 'success' => true,

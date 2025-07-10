@@ -11,9 +11,9 @@
             </nav>
 
             <div class="title-section mb-4">
-                <h1 class="m-0 fw-bold">My Cart</h1>
+                <h1 class="m-0 fw-bold">My Shopping Cart</h1>
                 <p>
-                    View your past orders and their details.
+                    View your cart and checkout your items!
                 </p>
             </div>
 
@@ -45,6 +45,7 @@
                                         <th>Quantity</th>
                                         <th>Total Price</th>
                                         <th>Order Date</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -53,9 +54,12 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                <input class="form-check-input order-checkbox" type="checkbox"
-                                                    name="cart_ids[]" value="{{ $data->id_cart }}"
-                                                    id="orderCheck{{ $data->id_cart }}">
+                                                @if ($data->status == 'cart')
+                                                    <input class="form-check-input order-checkbox" type="checkbox"
+                                                        name="cart_ids[]" value="{{ $data->id_cart }}"
+                                                        id="orderCheck{{ $data->id_cart }}">
+                                                @endif
+
 
                                             </td>
                                             <td class="text-start">{{ optional($data->product)->name ?? 'N/A' }}</td>
@@ -65,11 +69,22 @@
                                             </td>
                                             <td>{{ $data->created_at->format('d M Y') }}</td>
                                             <td>
-                                                <form action="{{ url('/shopping-cart/remove/' . $data->id_cart) }}" method="POST">
+                                                @if ($data->status == 'cart')
+                                                    <span class="badge bg-warning text-dark">cart</span>
+                                                @elseif ($data->status == 'paid')
+                                                    <span class="badge bg-success">Paid</span>
+                                                @else
+                                                    <span class="badge bg-secondary">{{ ucfirst($data->status) }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <form action="{{ url('/shopping-cart/remove/' . $data->id_cart) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-warning text-white shadow-lg">Hapus</button>
-                                                </form> 
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-warning text-white shadow-lg">Hapus</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -140,7 +155,7 @@
                     // Redirect ke halaman checkout_summary dengan order_ids di URL
                     const queryString = selectedOrderIds.map(id => `cart_ids[]=${encodeURIComponent(id)}`)
                         .join('&');
-                        console.log('id: ', queryString)
+                    console.log('id: ', queryString)
                     window.location.href = `{{ route('checkout.summary_multiple') }}?${queryString}`;
                 } else {
                     alert('Mohon pilih setidaknya satu pesanan untuk checkout.');

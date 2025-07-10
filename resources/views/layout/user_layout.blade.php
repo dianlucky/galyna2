@@ -123,7 +123,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" href="{{ url('/profile') }}">Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('/my-order') }}">History order</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('/history-order') }}">History order</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
