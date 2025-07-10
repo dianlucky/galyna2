@@ -58,90 +58,61 @@
                         <p class="text-muted"><small><i class="bi bi-calendar"></i>
                                 {{ $product->created_at->format('d F Y') }}</small></p>
                         <div class="mb-3">{!! $product->description !!}</div>
-                        <p class="text-muted"><small><i class="bi bi-eye"></i> {{ $product->views }} views</small></p>
-                       
-                            {{-- Order Form --}}
-                        <div class="card mt-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Create Order</h5>
-                                @if (session('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
+                        {{-- <p class="text-muted"><small><i class="bi bi-eye"></i> {{ $product->views }} views</small></p> --}}
+                        <div style="margin-top: 20px">
+                            <button class="btn btn-outline-danger btn-lg me-1" style="color: red" data-bs-toggle="modal"
+                                data-bs-target="#addCart">Masukkan keranjang</button>
+                            {{-- <a href={{url('/')}} class="btn btn-primary btn-lg me-1" style="color: white" >Beli
+                                sekarang</a> --}}
+                        </div>
 
-                                @if (session('error'))
-                                    <div class="alert alert-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul class="mb-0">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-
-                                <form action="{{ route('order.store') }}" method="POST">
+                        {{-- MODAL TAMBAH KERANJANG --}}
+                        <div class="modal fade" id="addCart" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form action={{ url('/shopping-cart/add') }} method="POST">
                                     @csrf
-                                    <input type="hidden" name="product_code" value="{{ $product->code }}">
-                                    @foreach ([
-                                        'name' => 'Name',
-                                        'email' => 'Email address',
-                                        'phone_number' => 'Phone Number',
-                                    ] as $field => $label)
-                                        <div class="mb-3">
-                                            <label for="{{ $field }}"
-                                                class="form-label">{{ $label }}</label>
-                                            <input type="{{ $field === 'email' ? 'email' : 'text' }}"
-                                                id="{{ $field }}" name="{{ $field }}"
-                                                class="form-control @error($field) is-invalid @enderror"
-                                                value="{{ old($field, $user->$field ?? '') }}" required>
-                                            @error($field)
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                    <input type="hidden" name="id_product" value="{{ $product->id_product }}">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Masukkan keranjang</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                                    @endforeach
+                                        <div class="modal-body">
 
-                                   
+                                            <div class="mb-3">
+                                                <label for="product_name" class="form-label">Nama produk</label>
+                                                <input type="text" class="form-control" id="product_name"
+                                                    name="product_name" value="{{ $product->name }}" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="product_price" class="form-label">Harga produk</label>
+                                                <input type="text" class="form-control" id="product_price"
+                                                    name="product_price"
+                                                    value="Rp {{ number_format($product->price, 0, ',', '.') }}" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="quantity" class="form-label">Jumlah yang dibeli</label>
+                                                <input type="number" class="form-control" id="quantity" min="1"
+                                                    name="quantity" value="" required>
+                                            </div>
 
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label">Message (Optional)</label>
-                                        <textarea id="message" name="message" rows="3" class="form-control @error('message') is-invalid @enderror">{{ old('message') }}</textarea>
-                                        @error('message')
-                                            {{-- <div class="invalid-feedback">{{ $message }}</div> --}}
-                                        @enderror
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary text-white"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary text-white">Simpan</button>
+                                        </div>
                                     </div>
-
-                                    <div class="mb-3">
-                                        <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" id="quantity" name="quantity" min="1"
-                                            value="{{ old('quantity', 1) }}"
-                                            class="form-control @error('quantity') is-invalid @enderror" required>
-                                        @error('quantity')
-                                            {{-- <div class="invalid-feedback">{{ $message }}</div> --}}
-                                        @enderror
-                                    </div>
-{{-- 
-                                    <div class="mb-3">
-                                        <label class="form-label">Total Price</label>
-                                        <input type="text" id="total_price" class="form-control-plaintext ps-2"
-                                            readonly>
-                                    </div> --}}
-
-                                    <button type="submit" class="btn btn-primary w-100 text-white">Create Order</button>
-                                    <a href="{{ url('collection/' . $product->code) }}"
-                                        class="d-block mt-3 text-center">Cancel</a>
                                 </form>
                             </div>
                         </div>
-                        <div>
+                        {{-- END FOR MODAL TAMBAH KERANJANG --}}
 
-                        </div>
+                        {{-- MODAL ORDER LANGSUNG --}}
+
+                        {{-- END FOR MODAL ORDER LANGSUNG --}}
                     </div>
                 </div>
 
@@ -174,4 +145,8 @@
             @endif
         </div>
     </section>
+@endsection
+
+@section('script')
+    @include('components.notifications')
 @endsection

@@ -44,6 +44,8 @@
     {{-- Charmonman Font --}}
     <link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
     {{-- Select 2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
@@ -113,7 +115,7 @@
                         @if (Auth::user()->role == 'admin')
                             <a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a>
                         @else
-                            <a class="nav-link" href="{{ url('/my-order') }}">MyOrder</a>
+                            <a class="nav-link" href="{{ url('/shopping-cart') }}">Cart</a>
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -121,6 +123,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" href="{{ url('/profile') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('/my-order') }}">History order</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -141,16 +144,6 @@
     <main>
         @yield('content')
     </main>
-
-    <!-- <footer class="pt-2 text-white bg-primary">
-        <div class="container">
-            <div class="gap-2 p-2 d-flex justify-content-center">
-                <p>Galyna Heiwa &copy; 2024
-                    Developed by <a class="text-white" style="text-decoration: none;" href="https://nusatalent.id"
-                        target="_blank">Galyna Heiwa IT Team</a></p>
-            </div>
-        </div>
-    </footer> -->
 
     {{-- Javascript --}}
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

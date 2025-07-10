@@ -1,58 +1,158 @@
-{{-- resources/views/cart/index.blade.php --}}
-@extends('layouts.app')
+@extends('layout.user_layout') {{-- Sesuaikan dengan layout utama pengguna Anda --}}
 
 @section('content')
-<div class="container mt-5">
-    <h2>Keranjang Belanja</h2>
+    <section class="bg-motif-1" style="padding-top: 10vh; min-height: 92.7vh">
+        <div class="container pt-3 pb-5">
+            <nav style="font-size: 12px; color: #999; margin-bottom: -5px;">
+                <ol class="breadcrumb" style="background-color: transparent; padding: 0;">
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('/') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                </ol>
+            </nav>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+            <div class="title-section mb-4">
+                <h1 class="m-0 fw-bold">My Cart</h1>
+                <p>
+                    View your past orders and their details.
+                </p>
+            </div>
 
-    @if($cartItems->isEmpty())
-        <p>Keranjang kamu masih kosong.</p>
-    @else
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Subtotal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php $total = 0; @endphp
-                @foreach($cartItems as $item)
-                    @php $subtotal = $item->product->price * $item->quantity; $total += $subtotal; @endphp
-                    <tr>
-                        <td>{{ $item->product->name }}</td>
-                        <td>Rp{{ number_format($item->product->price, 0, ',', '.') }}</td>
-                        <td>
-                            <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-flex">
-                                @csrf
-                                @method('PUT')
-                                <input type="number" name="quantity" value="{{ $item->quantity }}" class="form-control w-50 me-2" min="1">
-                                <button type="submit" class="btn btn-sm btn-secondary">Update</button>
-                            </form>
-                        </td>
-                        <td>Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
-                        <td>
-                            <form action="{{ route('cart.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin hapus item ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                <tr>
-                    <th colspan="3">Total</th>
-                    <th colspan="2">Rp{{ number_format($total, 0, ',', '.') }}</th>
-                </tr>
-            </tbody>
-        </table>
-    @endif
-</div>
+            <div class="mt-4">
+                {{-- Menampilkan pesan sukses dari session --}}
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                {{-- Menampilkan pesan error dari session --}}
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if ($carts->count() > 0)
+                    <form id="selectOrdersForm">
+                        @csrf
+                        <div class="table-responsive">
+                            <table class="table table-hover text-center" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th><input type="checkbox" id="selectAllOrders"></th>
+                                        <th class="text-start">Product Name</th>
+                                        <th>Product Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Order Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carts as $data)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <input class="form-check-input order-checkbox" type="checkbox"
+                                                    name="cart_ids[]" value="{{ $data->id_cart }}"
+                                                    id="orderCheck{{ $data->id_cart }}">
+
+                                            </td>
+                                            <td class="text-start">{{ optional($data->product)->name ?? 'N/A' }}</td>
+                                            <td>Rp {{ number_format($data->product->price, 0, ',', '.') }}</td>
+                                            <td>{{ $data->quantity }}</td>
+                                            <td>Rp {{ number_format($data->product->price * $data->quantity, 0, ',', '.') }}
+                                            </td>
+                                            <td>{{ $data->created_at->format('d M Y') }}</td>
+                                            <td>
+                                                <form action="{{ url('/shopping-cart/remove/' . $data->id_cart) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-warning text-white shadow-lg">Hapus</button>
+                                                </form> 
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end p-3">
+                            <button type="button" id="checkoutSelectedBtn" class="btn btn-info" disabled>
+                                Checkout
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    <div class="py-5 text-center alert alert-info" role="alert">
+                        <h1 class="charmonman-regular">You have no orders yet.</h1>
+                        <p>Start by browsing our <a href="{{ url('/collection') }}">products</a>!</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </section>
+@endsection
+
+@section('script')
+    @parent {{-- Penting: panggil @parent untuk menjaga script dari layout utama --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAllCheckbox = document.getElementById('selectAllOrders');
+            const orderCheckboxes = document.querySelectorAll('.order-checkbox');
+            const checkoutSelectedBtn = document.getElementById('checkoutSelectedBtn');
+
+            function toggleCheckoutButton() {
+                const anyChecked = Array.from(orderCheckboxes).some(checkbox => checkbox.checked);
+                checkoutSelectedBtn.disabled = !anyChecked;
+            }
+
+            function toggleSelectAll() {
+                orderCheckboxes.forEach(checkbox => {
+                    if (!checkbox.disabled) { // Hanya centang yang tidak disabled (yaitu status pending)
+                        checkbox.checked = selectAllCheckbox.checked;
+                    }
+                });
+                toggleCheckoutButton();
+            }
+
+            selectAllCheckbox.addEventListener('change', toggleSelectAll);
+
+            orderCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (!checkbox.checked) {
+                        selectAllCheckbox.checked = false;
+                    } else {
+                        const allActiveChecked = Array.from(orderCheckboxes)
+                            .filter(cb => !cb.disabled)
+                            .every(cb => cb.checked);
+                        selectAllCheckbox.checked = allActiveChecked;
+                    }
+                    toggleCheckoutButton();
+                });
+            });
+
+            checkoutSelectedBtn.addEventListener('click', () => {
+                const selectedOrderIds = Array.from(orderCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+
+                if (selectedOrderIds.length > 0) {
+                    // Redirect ke halaman checkout_summary dengan order_ids di URL
+                    const queryString = selectedOrderIds.map(id => `cart_ids[]=${encodeURIComponent(id)}`)
+                        .join('&');
+                        console.log('id: ', queryString)
+                    window.location.href = `{{ route('checkout.summary_multiple') }}?${queryString}`;
+                } else {
+                    alert('Mohon pilih setidaknya satu pesanan untuk checkout.');
+                }
+            });
+
+            // Panggil saat halaman dimuat untuk mengatur status awal tombol
+            toggleCheckoutButton();
+            const allInitialChecked = Array.from(orderCheckboxes)
+                .filter(cb => !cb.disabled)
+                .every(cb => cb.checked);
+            selectAllCheckbox.checked = allInitialChecked;
+        });
+    </script>
 @endsection

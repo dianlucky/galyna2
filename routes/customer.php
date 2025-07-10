@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\CheckoutSummaryController;
 use App\Mail\SendTestMail;
+use App\Models\ShoppingCartModel;
 use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +19,26 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::middleware(['auth'])->group(function () {
-
-     // ================== PROFILE ROUTES ==================
-     Route::prefix('profile')->group(function () {
-        Route::get('/', [HomeController::class, 'profile'])->name('profile.index'); 
-        Route::patch('/update/{id}', [HomeController::class, 'profileUpdate'])->name('profile.update'); 
-
-    });
-     Route::prefix('address')->group(function () {
-        Route::post('/add', [AddressController::class, 'store'])->name('address.store'); 
-        Route::delete('/remove/{id}', [AddressController::class, 'destroy'])->name('address.remove'); 
-        Route::patch('/status/{id}', [AddressController::class, 'status'])->name('address.status'); 
+    // ================== PROFILE ROUTES ==================
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [HomeController::class, 'profile'])->name('profile.index');
+        Route::patch('/update/{id}', [HomeController::class, 'profileUpdate'])->name('profile.update');
     });
 
+    Route::prefix('address')->group(function () {
+        Route::post('/add', [AddressController::class, 'store'])->name('address.store');
+        Route::delete('/remove/{id}', [AddressController::class, 'destroy'])->name('address.remove');
+        Route::patch('/status/{id}', [AddressController::class, 'status'])->name('address.status');
+    });
 
-    // ================== CART ROUTES ==================
-    Route::prefix('cart')->group(function () {
-        Route::get('/', [CartController::class, 'index'])->name('cart.index'); 
-        Route::post('/add/{productId}', [CartController::class, 'add'])->name('cart.add'); // Tambah produk ke keranjang
-        Route::get('/detail-paid/{id}', [CartController::class, 'detail'])->name('cart.detail');
-        Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('cart.remove'); 
+    Route::prefix('shopping-cart')->group(function () {
+        Route::get('/', [ShoppingCartController::class, 'index'])->name('cart.index');
+        Route::post('/add', [ShoppingCartController::class, 'store'])->name('cart.store');
+        Route::delete('/remove/{id}', [ShoppingCartController::class, 'destroy'])->name('shopping-cart.destroy');
+    });
+
+    Route::prefix('checkout-order')->group(function () {
+        Route::post('/add', [CheckoutController::class, 'store'])->name('checkout-order.store');
     });
 
     // ================== ORDER ROUTES ==================
@@ -45,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     // Proses penyimpanan order
     Route::post('/order/store', [OrderController::class, 'storeOrder'])->name('order.store');
     Route::post('/update-payment-status', [OrderController::class, 'updatePayment']);
-    // MIDTRANS PUNYA LAAAHHH 
+    // MIDTRANS PUNYA LAAAHHH
     Route::post('/midtrans-test-token', [MidtransController::class, 'make_snap']);
     Route::post('/midtrans-callback', [MidtransController::class, 'callback']);
     // Tampilkan daftar order milik user yang login
@@ -67,7 +69,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/checkout/{id}', [CheckoutController::class, 'show'])->name('checkout.show');
 
-
         // Calculate shipping cost
         Route::post('/shipping/calculate', [CheckoutSummaryController::class, 'calculateShippingCost'])->name('shipping.calculate');
 
@@ -76,7 +77,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/{order}', [OrderController::class, 'showCheckout'])->name('checkout.show');
     });
-
 });
 
 // ================== PUBLIC ROUTES (optional) ==================

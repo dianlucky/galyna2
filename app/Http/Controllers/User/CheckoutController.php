@@ -2,31 +2,53 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
+use App\Models\DeliveryModel;
 use App\Models\OrderModel;
+use App\Models\PaymentModel;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Midtrans\Snap;
-use Midtrans\Config;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    public function __construct()
+    public function store(Request $request)
     {
-        $this->middleware('auth');
+        // dd($request);
+        Log::info('DATA CHECKOUT:', $request->all());
 
-        Config::$serverKey = config('services.midtrans.serverKey');
-        Config::$isProduction = config('services.midtrans.isProduction');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-    }
+        // return response()->json([
+        //     'success' => true,
+        //     'data' => $request->all(),
+        // ]);
 
-    public function remove($id)
-    {
-        $cartItem = OrderModel::where('order_id', Auth::id())->where('id', $id)->firstOrFail();
-        $cartItem->delete();
+        $delivery = DeliveryModel::create([
+            'destination_code' => $request->destination_code,
+            'destination' => $request->destination,
+            'courier' => $request->courier,
+            'delivery_type' => $request->delivery_type,
+            'delivery_cost' => $request->delivery_cost,
+            'estimated_day' => $request->estimated_day,
+        ]);
 
-        return redirect()->route('cart.index')->with('success', 'Produk berhasil dihapus dari keranjang.');
+        $payment = PaymentModel::create([
+            'payment_code' => $request->payment_code,
+            'amount' => $request->amount,
+            'status' => 'paid',
+        ]);
+
+        $order = OrderModel::create([
+            'id_delivery' => ,
+            'id_payment' => ,
+            'id_user' => Auth::user()->id_user,
+            'order_code' => 'ORD-' . strtoupper(Str::random(8)),
+            'code_promo' => $request->code_promo ?? '',
+            'status_payment' => 'Paid'
+
+            
+        ]);
+
+
     }
 }

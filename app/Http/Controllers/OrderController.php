@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\OrderModel;
-use App\Models\ProductModel;
 use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Midtrans\Config;
 use App\Mail\SendTestMail;
-use Illuminate\Support\Facades\Mail;
+use App\Models\OrderModel;
+use Illuminate\Support\Str;
+use App\Models\AddressModel;
+use App\Models\ProductModel;
+use Illuminate\Http\Request;
+use App\Models\ShoppingCartModel;
+use Illuminate\Support\Facades\Log;
 
 // Tambahkan use statement untuk Midtrans
-use Midtrans\Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Midtrans\Snap; // Jika Anda menggunakan Snap.php
 
 class OrderController extends Controller
@@ -218,32 +220,23 @@ class OrderController extends Controller
      */
     public function showMultiOrderCheckoutSummary(Request $request)
     {
-        // dd($request); // Baris ini bisa dihapus jika tidak lagi diperlukan untuk debugging
-
-        // Validasi bahwa order_ids harus ada dan berupa array
+        // dd($request); 
         $request->validate([
-            'order_ids' => 'required|array',
-            'order_ids.*' => 'exists:order,id_order', // Memastikan setiap ID order ada di database
+            'cart_ids' => 'required|array',
+            // 'cart_ids.*' => 'exists:shopping_cart.id_cart', 
         ]);
 
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'Anda harus login untuk melihat pesanan.');
-        }
-
-        $selectedOrderIds = $request->input('order_ids');
-
-        // Ambil order yang dipilih dari database
-        $ordersToProcess = OrderModel::whereIn('id_order', $selectedOrderIds)->where('id_user', $user->id_user)->where('status', 'pending')->with('product')->get();
-
+        $selectedOrderIds = $request->input('cart_ids');
+        $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)->where('id_user', Auth::user()->id_user)->with('product')->get();
+    //    dd($ordersToProcess);
         if ($ordersToProcess->isEmpty()) {
             return redirect()->route('order.my')->with('error', 'Tidak ada pesanan valid yang dipilih untuk diproses.');
         }
 
-        // Hitung total keseluruhan dari pesanan yang dipilih
-        $grandTotal = $ordersToProcess->sum('total');
-        // dd($ordersToProcess);
-        return view('checkout.checkout_summary', compact('ordersToProcess', 'grandTotal', 'selectedOrderIds'));
+        $addresses = AddressModel::where('id_user', Auth::user()->id_user)->get();
+
+
+        return view('checkout.checkout_summary', compact('ordersToProcess', 'selectedOrderIds', 'addresses'));
     }
 
     /**
