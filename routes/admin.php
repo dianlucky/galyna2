@@ -76,5 +76,10 @@ Route::prefix('admin')
             Route::controller(App\Http\Controllers\Admin\DashboardController::class)->group(function () {
                 Route::get('/omset', 'omsetAll');
             });
+
+            // Admin - Promo
+            Route::controller(App\Http\Controllers\Admin\PromoController::class)->group(function () {
+                Route::get('/promo', 'index');
+            });
         }
     );

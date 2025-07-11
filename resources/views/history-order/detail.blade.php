@@ -21,28 +21,37 @@
                         <div class=" d-flex justify-content-between card-header bg-primary text-white">
                             <h5><strong>Order detail</strong></h5>
                             {{-- <p>{{ Carbon::parse($dataOrder->updated_at)->translatedFormat('d F Y') }}</p> --}}
+                            <div>
+                                @if ($order->status_order == 'packing')
+                                    <span class="badge bg-warning text-white">Packing</span>
+                                @elseif ($order->status == 'shipping')
+                                    <span class="badge bg-warning">Shipping</span>
+                                @else
+                                    <span class="badge bg-secondary">{{ ucfirst($data->status) }}</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="card-body">
                             <h6 class="mb-3">Detail product:</h6>
                             @foreach ($detailOrders as $data)
-                            <ul class="list-group mb-3">
-                                <div class="row mb-1">
-                                    <div class="col-md-2 text-end">
-                                        <img src="{{ asset('images/' . $data->product->cover_image) }}" class="rounded"
-                                            style="height: 75px; width: 60px;" alt="{{ $data->product->name }}">
+                                <ul class="list-group mb-3">
+                                    <div class="row mb-1">
+                                        <div class="col-md-2 text-end">
+                                            <img src="{{ asset('images/' . $data->product->cover_image) }}" class="rounded"
+                                                style="height: 75px; width: 60px;" alt="{{ $data->product->name }}">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <li class="list-group-item">
+                                                <strong>Order #{{ $order->order_code }}</strong><br>
+                                                Product: {{ optional($data->product)->name ?? 'N/A' }}
+                                                ({{ $data->quantity }}x)
+                                                <br>
+                                                Total price : Rp
+                                                {{ number_format($data->product->price, 0, ',', '.') }}
+                                            </li>
+                                        </div>
                                     </div>
-                                    <div class="col-md-10">
-                                        <li class="list-group-item">
-                                            <strong>Order #{{ $order->order_code }}</strong><br>
-                                            Product: {{ optional($data->product)->name ?? 'N/A' }}
-                                            ({{ $data->quantity }}x)
-                                            <br>
-                                            Total price : Rp
-                                            {{ number_format($data->product->price , 0, ',', '.') }}
-                                        </li>
-                                    </div>
-                                </div>
-                            </ul>
+                                </ul>
                             @endforeach
 
                             <p class="fw-bold">Total price of all product: Rp
@@ -53,7 +62,7 @@
 
                     <div class="card mb-4">
                         <div class="card-header bg-info text-white">
-                          <h5><strong>Delivery Information</strong></h5> 
+                            <h5><strong>Delivery Information</strong></h5>
                         </div>
                         <div class="card-body">
                             @csrf
@@ -66,15 +75,17 @@
                                 <label for="address-search" class="form-label">Delivery address : </label>
                                 <p style="margin-top: -10px"><strong>{{ $order->delivery->destination }}</strong></p>
                             </div>
-                        
+
                             <div class="mb-1">
                                 <label for="address-search" class="form-label">Expedition by : </label>
-                                <p style="margin-top: -10px"><span style="text-transform: uppercase">{{ $order->delivery->courier }}</span> {{$order->delivery->delivery_type}}</p>
+                                <p style="margin-top: -10px"><span
+                                        style="text-transform: uppercase">{{ $order->delivery->courier }}</span>
+                                    {{ $order->delivery->delivery_type }}</p>
                             </div>
                             <div class="mb-1">
                                 <label for="address-search" class="form-label">Estimated arrival by: </label>
                                 <p style="margin-top: -10px">
-                                    <strong>{{ $order->estimated_arrival}}</strong>
+                                    <strong>{{ $order->estimated_arrival }}</strong>
                                 </p>
                             </div>
 
@@ -98,13 +109,13 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     style="display: none;">
                                     Delivery cost
-                                    <span>Rp.  {{ number_format($order->delivery->delivery_cost, 0, ',', '.') }}</span>
+                                    <span>Rp. {{ number_format($order->delivery->delivery_cost, 0, ',', '.') }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
                                     Total payment
-                                    <span>Rp 
+                                    <span>Rp
                                         {{ number_format($order->payment->amount, 0, ',', '.') }}
-                                       </span>
+                                    </span>
                                 </li>
                             </ul>
                             <p class="mt-3 text-muted small">Please be patient while your order is being processed.</p>

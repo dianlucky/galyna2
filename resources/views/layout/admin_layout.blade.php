@@ -61,11 +61,31 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ Request::is('admin/order*') ? 'active' : '' }}" href="{{url('admin/order')}}" aria-expanded="false">
+                            <a class="sidebar-link has-arrow {{ Request::is('admin/order*') ? 'active' : '' }}" href="javascript:void(0)" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shopping-cart"></i>
                                 </span>
                                 <span class="hide-menu">Pesanan</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level {{ Request::is('admin/order*') ? 'in' : '' }}">
+                                <li class="sidebar-item">
+                                    <a href="{{ url('admin/order/proses') }}" class="sidebar-link {{ Request::is('admin/order/proses') ? 'active' : '' }}">
+                                        <span class="hide-menu">Pesanan belum diproses</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{{ url('admin/order/dikirim') }}" class="sidebar-link {{ Request::is('admin/order/dikirim') ? 'active' : '' }}">
+                                        <span class="hide-menu">Pesanan selesai</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ Request::is('admin/promo*') ? 'active' : '' }}" href="{{url('admin/promo')}}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-ticket"></i>
+                                </span>
+                                <span class="hide-menu">Promo</span>
                             </a>
                         </li>
                         <li class="sidebar-item">

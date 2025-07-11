@@ -22,4 +22,9 @@ class PromoModel extends Model
     ];
 
     public $timestamps = true;
+
+    public function product()
+    {
+        return $this->belongsTo(ProductModel::class, 'id_product', 'id_product');
+    }
 }
