@@ -69,8 +69,8 @@
                         <label for="name" class="form-label">Nama promo</label>
                         <input type="text" class="form-control" id="title" name="name"
                             placeholder="Masukkan nama promo" @error('title') error @enderror
-                            value="{{ old('title', $article->title ?? '') }}">
-                        @error('title')
+                            value="{{ old('name', $promo->name ?? '') }}">
+                        @error('product')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -82,12 +82,14 @@
                                 <label for="product" class="form-label">Produk </label>
                                 <select name="id_product" class="form-control" id="product" required>
                                     <option value="">Pilih produk yang ingin diberi promo</option>
+                                    <option price="{{ $promo->product->price }}" value="{{ $promo->product->id_product }}"
+                                        selected>{{ $promo->product->name }}</option>
                                     @foreach ($data['product'] as $data)
                                         <option price="{{ $data->price }}" value="{{ $data->id_product }}">
                                             {{ $data->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('location')
+                                @error('product')
                                     <span class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -96,8 +98,9 @@
                                 <label for="code_promo" class="form-label">Kode promo</label>
                                 <input type="text" class="form-control" id="code_promo" name="code_promo"
                                     placeholder="Masukkan kode promo | contoh : AUGS-001 / BELANJAHEMAT /GALYNAAJA"
-                                    @error('author') error @enderror value="{{ old('author', $article->author ?? '') }}">
-                                @error('author')
+                                    @error('code_promo') error @enderror
+                                    value="{{ old('code_promo', $promo->code_promo ?? '') }}">
+                                @error('code_promo')
                                     <span class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -110,10 +113,11 @@
                             <div class="mb-3">
                                 <label for="type" class="form-label">Tipe promo</label>
                                 <select name="type" class="form-control" id="type">
+                                    <option value="{{ $promo->type }}">{{ $promo->type }}</option>
                                     <option value="persen">Persen</option>
                                     <option value="potongan">Potongan langsung</option>
                                 </select>
-                                @error('location')
+                                @error('type')
                                     <span class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -121,7 +125,9 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="normal_price" class="form-label">Harga awal</label>
-                                        <input type="text" class="form-control" id="normal_price" disabled>
+                                        <input type="text" class="form-control" id="normal_price"
+                                            value="{{ $promo ? number_format($promo->product->price, 0, ',', '.') : 0 }}"
+                                            disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -130,7 +136,7 @@
                                         <input onfocus="this.showPicker()" type="number" class="form-control"
                                             id="amount" name="amount" placeholder="Masukkan jumlah potongan / diskon"
                                             @error('amount') error @enderror
-                                            value="{{ old('amount', isset($article) ? $article->amount : now()->format('Y-m-d')) }}">
+                                            value="{{ old('amount', isset($promo) ? $promo->amount : now()->format('Y-m-d')) }}">
                                         @error('amount')
                                             <span class="error-message">{{ $message }}</span>
                                         @enderror
@@ -140,7 +146,13 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="discount_price" class="form-label">Harga akhir</label>
-                                        <input type="text" class="form-control" id="discount_price" disabled>
+                                        <input type="text" class="form-control" id="discount_price"
+                                            value="{{ $promo && $promo->type == 'persen'
+                                                ? number_format($promo->product->price - (($promo->product->price * $promo->amount) / 100) , 0, ',', '.')
+                                                : ($promo && $promo->type == 'potongan'
+                                                    ? number_format($data->product->price - $promo->amount, 0, ',', '.')
+                                                    : 0) }}"
+                                            disabled>
                                     </div>
                                 </div>
                             </div>
@@ -154,12 +166,12 @@
                     {{-- Content Column Input --}}
                     <div class="mb-3">
                         <label for="content" class="form-label">Deskripsi promo</label>
-                        @error('content')
+                        @error('description')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                         <textarea style="height: 600px" class="form-control" id="editor" name="description"
                             placeholder="Masukkan deskripsi dari promo" @error('content') error @enderror>
-                            {{-- {{ old('content', $article->content ?? '') }} --}}
+                            {{ old('description', $promo->description ?? '') }}
                         </textarea>
                     </div>
                     {{-- Submit Button --}}
@@ -212,7 +224,7 @@
             })
             .then(editor => {
                 window.editor = editor;
-                editor.setData(`{!! old('content', $article->content ?? '') !!}`);
+                editor.setData(`{!! old('content', $promo->description ?? '') !!}`);
             })
             .catch(error => {
                 console.error(error);

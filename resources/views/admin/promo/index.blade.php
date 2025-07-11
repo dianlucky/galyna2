@@ -79,13 +79,13 @@
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <input type="hidden" name="id"
-                                                                        value={{ $data->id_category }}>
+                                                                        value={{ $data->id_promo }}>
                                                                     <button type="submit"
                                                                         class="dropdown-item">Delete</button>
                                                                 </form>
                                                             </li>
                                                             <li><a class="dropdown-item"
-                                                                    href={{ url('admin/category/edit/' . $data->id_category) }}>Edit</a>
+                                                                    href={{ url('admin/promo/edit/' . $data->id_promo) }}>Edit</a>
                                                             </li>
                                                         </ul>
                                                     </div>
