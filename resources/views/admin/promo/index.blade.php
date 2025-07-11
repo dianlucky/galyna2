@@ -63,7 +63,7 @@
                                                 <td>{{ $data->name }}</td>
                                                 <td>{{ $data->product->name }}</td>
                                                 <td class="text-end">Rp. {{ number_format($data->product->price, 0, ',', '.') }} </td>
-                                                <td class="text-end">Rp.{{ number_format($discountValue, 0, ',', '.') }}</td>
+                                                <td class="text-end">{{  $data->type =="persen" ? $data->amount .'%' : 'Rp.' .number_format($discountValue, 0, ',', '.') }}</td>
                                                 <td class="text-end">Rp.
                                                      {{ number_format($data->product->price - $discountValue, 0, ',', '.') }}  
                                                 </td>

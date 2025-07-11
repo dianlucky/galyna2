@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductModel;
 use App\Models\PromoModel;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,14 @@ class PromoController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'form' => 'Create',
+            'action' => url('admin/promo'),
+            'product' => ProductModel::get(),
+        ];
+        // dd($data['product']);
+        // Return view with data
+        return view('admin.promo.form', compact('data'));
     }
 
     /**
@@ -31,7 +39,28 @@ class PromoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'name' => 'required|min:6',
+            'code_promo' => 'required|min:3',
+            'id_product' => 'required|exists:product,id_product',
+            'type' => 'required|in:persen,potongan',
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $status = PromoModel::create([
+            'name' => $request->name,
+            'code_promo' => $request->code_promo,
+            'id_product' => $request->id_product,
+            'type' => $request->type,
+            'amount' => $request->amount,
+            'description' => $request->description,
+        ]);
+
+        if($status){
+            session()->flash('success', 'Data saved successfully');
+            return redirect('admin/promo');
+        }
     }
 
     /**

@@ -80,6 +80,8 @@ Route::prefix('admin')
             // Admin - Promo
             Route::controller(App\Http\Controllers\Admin\PromoController::class)->group(function () {
                 Route::get('/promo', 'index');
+                Route::get('/promo/create', 'create');
+                Route::post('/promo', 'store');
             });
         }
     );
