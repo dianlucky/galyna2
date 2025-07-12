@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory; // Opsional: Tambahkan in
 
 class ProductModel extends Model
 {
-
     protected $table = 'product';
     protected $primaryKey = 'id_product';
     public $incrementing = true;
@@ -23,14 +22,15 @@ class ProductModel extends Model
         'price',
     ];
 
-
     public $timestamps = true;
-
 
     public function category()
     {
         return $this->belongsTo(CategoryModel::class, 'id_category', 'id_category');
     }
 
- 
+    public function promos()
+    {
+        return $this->hasMany(PromoModel::class, 'id_product', 'id_product');
+    }
 }

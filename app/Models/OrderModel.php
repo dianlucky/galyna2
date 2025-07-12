@@ -17,7 +17,6 @@ class OrderModel extends Model
             'id_payment',
             'id_delivery',
             'order_code',
-            'code_promo',
             'message',
             'status_payment',
             'status_order',

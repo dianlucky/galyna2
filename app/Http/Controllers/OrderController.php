@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index(){
-        $orders = OrderModel::where('id_user', Auth::user()->id_user)->with('delivery', 'payment')->orderBy('created_at', 'asc')->get();
+    public function index()
+    {
+        $orders = OrderModel::where('id_user', Auth::user()->id_user)
+            ->with('delivery', 'payment')
+            ->orderBy('created_at', 'asc')
+            ->get();
         $dataOrder = $orders->map(function ($order) {
             preg_match('/(\d+)/', $order->delivery->estimated_day ?? '0', $matches);
             $daysToAdd = isset($matches[1]) ? (int) $matches[1] : 0;
@@ -27,8 +31,8 @@ class OrderController extends Controller
         return view('history-order.index', compact('dataOrder'));
     }
 
-
-    public function detail($code){
+    public function detail($code)
+    {
         $order = OrderModel::where('order_code', $code)->with('delivery', 'payment', 'user')->first();
         if ($order) {
             preg_match('/(\d+)/', $order->delivery->estimated_day ?? '0', $matches);
@@ -38,14 +42,9 @@ class OrderController extends Controller
         }
         $detailOrders = DetailOrderModel::where('id_order', $order->id_order)->with('product')->get();
 
-        return view('history-order.detail' , compact('order', 'detailOrders'));
+        return view('history-order.detail', compact('order', 'detailOrders'));
         // dd($detailOrders);
     }
-   
-
-  
- 
-
 
     /**
      * Menampilkan halaman checkout untuk beberapa order yang dipilih (dipanggil dari tombol 'Checkout').
@@ -54,24 +53,25 @@ class OrderController extends Controller
      */
     public function showMultiOrderCheckoutSummary(Request $request)
     {
-        // dd($request); 
+        // dd($request);
         $request->validate([
             'cart_ids' => 'required|array',
-            // 'cart_ids.*' => 'exists:shopping_cart.id_cart', 
+            // 'cart_ids.*' => 'exists:shopping_cart.id_cart',
         ]);
 
         $selectedOrderIds = $request->input('cart_ids');
-        $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)->where('id_user', Auth::user()->id_user)->with('product')->get();
-    //    dd($ordersToProcess);
+        $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)
+            ->where('id_user', Auth::user()->id_user)
+            ->with('product.promos')
+            ->get();
+        // $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)->where('id_user', Auth::user()->id_user)->with('product')->get();
+        //    dd($ordersToProcess);
         if ($ordersToProcess->isEmpty()) {
-            return redirect()->route('order.my')->with('error', 'Tidak ada pesanan valid yang dipilih untuk diproses.');
+            return redirect()->to('/shopping-cart')->with('error', 'Tidak ada pesanan valid yang dipilih untuk diproses.');
         }
 
         $addresses = AddressModel::where('id_user', Auth::user()->id_user)->get();
 
-
         return view('checkout.checkout_summary', compact('ordersToProcess', 'selectedOrderIds', 'addresses'));
     }
-
-
 }

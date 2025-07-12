@@ -16,6 +16,7 @@ class DetailOrderModel extends Model
         'id_order',
         'id_product',
         'quantity',
+        'code_promo',
     ];
 
     public $timestamps = true;

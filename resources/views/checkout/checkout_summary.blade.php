@@ -34,9 +34,9 @@
                             Detail Pesanan
                         </div>
                         <div class="card-body">
-                            @isset($order)
+                            {{-- @isset($order)
                                 {{-- Tampilan untuk satu order --}}
-                                <p><strong>Produk:</strong> {{ optional($order->product)->name ?? 'N/A' }}</p>
+                            {{-- <p><strong>Produk:</strong> {{ optional($order->product)->name ?? 'N/A' }}</p>
                                 <p><strong>Jumlah:</strong> {{ $order->quantity }}</p>
                                 <p><strong>Total Harga Produk:</strong> Rp {{ number_format($order->total, 0, ',', '.') }}</p>
                                 <p><strong>Status:</strong> <span class="badge bg-info">{{ ucfirst($order->status) }}</span></p>
@@ -45,49 +45,75 @@
                                 <p><strong>Email:</strong> {{ $order->email }}</p>
                                 <p><strong>Telepon:</strong> {{ $order->phone }}</p>
                                 <p><strong>Alamat:</strong> {{ $order->address }}</p>
-                                <p><strong>Pesan:</strong> {{ $order->message ?? '-' }}</p>
-                            @else
-                                {{-- Tampilan untuk banyak order --}}
-                                @if (isset($ordersToProcess) && $ordersToProcess->isNotEmpty())
-                                    <h6 class="mb-3">Daftar Pesanan:</h6>
-                                    <ul class="list-group mb-3">
-                                        @php
-                                            $grandTotal = 0;
-                                        @endphp
+                                <p><strong>Pesan:</strong> {{ $order->message ?? '-' }}</p> --}}
+                            {{-- @else --}}
+                            {{-- Tampilan untuk banyak order --}}
+                            @if (isset($ordersToProcess) && $ordersToProcess->isNotEmpty())
+                                <h6 class="mb-3">Daftar Pesanan:</h6>
+                                <ul class="list-group mb-3">
+                                    @php
+                                        $grandTotal = 0;
+                                    @endphp
 
-                                        @foreach ($ordersToProcess as $multiOrder)
-                                            @php
-                                                $price = optional($multiOrder->product)->price ?? 0;
-                                                $quantity = $multiOrder->quantity ?? 0;
-                                                $total = $price * $quantity;
-                                                $grandTotal += $total;
-                                            @endphp
-                                            <div class="row mb-1">
-                                                <div class="col-md-2 text-end">
-                                                    <img src="{{ asset('images/' . optional($multiOrder->product)->cover_image ?? 'default.jpg') }}"
-                                                        class="rounded" style="height: 75px; width: 60px;"
-                                                        alt="{{ optional($multiOrder->product)->name ?? 'Produk' }}">
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <li class="list-group-item">
-                                                        <strong>Order #{{ $multiOrder->id ?? 'N/A' }}</strong><br>
-                                                        Produk: {{ optional($multiOrder->product)->name ?? 'N/A' }}
-                                                        ({{ $quantity }}x)
-                                                        <br>
-                                                        Total: Rp {{ number_format($total, 0, ',', '.') }}
-                                                    </li>
+                                    @foreach ($ordersToProcess as $multiOrder)
+                                        @php
+                                            $price = optional($multiOrder->product)->price ?? 0;
+                                            $quantity = $multiOrder->quantity ?? 0;
+                                            $total = $price * $quantity;
+                                            $grandTotal += $total;
+                                        @endphp
+                                        <div class="row mb-1">
+                                            <div class="col-md-2 text-end">
+                                                <img src="{{ asset('images/' . optional($multiOrder->product)->cover_image ?? 'default.jpg') }}"
+                                                    class="rounded" style="height: 75px; width: 60px;"
+                                                    alt="{{ optional($multiOrder->product)->name ?? 'Produk' }}">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <li class="list-group-item">
+                                                            <strong>Order #{{ $loop->iteration }}</strong><br>
+                                                            Produk: {{ optional($multiOrder->product)->name ?? 'N/A' }}
+                                                            ({{ $quantity }}x)
+                                                            <br>
+                                                            Total: Rp. {{ number_format($total, 0, ',', '.') }}
+                                                        </li>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="promo" class="form-label">Kode promo</label>
+                                                        <select class="form-select" name="promo" id="promo{{ $multiOrder->product->id_product }}" data-product-id="{{ $multiOrder->product->id_product }}" data-price="{{ $multiOrder->product->price }}">
+                                                            @if ($multiOrder->product->promos)
+                                                                @foreach ($multiOrder->product->promos as $promo)
+                                                                    <option value="{{ $promo->code_promo }}"
+                                                                        amount={{ $promo->amount }}
+                                                                        type={{ $promo->type }}
+                                                                        data-discount="{{$promo->type == "persen" ? $multiOrder->product->price * $promo->amount / 100 : $promo }}">
+                                                                        {{ $promo->code_promo }}
+                                                                        @if ($promo->type == 'persen')
+                                                                            Diskon {{ $promo->amount }}%
+                                                                        @else
+                                                                            Potongan
+                                                                            Rp.{{ number_format($promo->amount, 0, ',', '.') }}
+                                                                        @endif
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                        </div>
+                                    @endforeach
 
-                                    </ul>
-                                    <p class="fw-bold">
-                                        Total Harga Produk Keseluruhan: Rp {{ number_format($grandTotal, 0, ',', '.') }}
-                                    </p>
-                                @else
-                                    <p>Tidak ada detail pesanan untuk ditampilkan.</p>
-                                @endif
-                            @endisset
+                                </ul>
+                                <p class="fw-bold">
+                                    Total Harga Produk Keseluruhan: Rp {{ number_format($grandTotal, 0, ',', '.') }}
+                                </p>
+                            @else
+                                <p>Tidak ada detail pesanan untuk ditampilkan.</p>
+                            @endif
+                            {{-- @endisset --}}
                         </div>
                     </div>
 
@@ -104,18 +130,15 @@
                                 <label for="address" class="form-label">Alamat pengiriman</label>
                                 <select class="form-select" id="address" name="address_code" required>
                                     @foreach ($addresses as $data)
-                                        <option 
-                                            value="{{ $data->address_code }}" 
-                                            destination="{{ $data->address_code }}"
+                                        <option value="{{ $data->address_code }}" destination="{{ $data->address_code }}"
                                             destination_code="{{ $data->address_code }}"
-                                            {{ $data->status == true ? 'selected' : '' }}
-                                        >
+                                            {{ $data->status == true ? 'selected' : '' }}>
                                             {{ $data->city_name }} | {{ $data->address_name }}
-                                          
+
                                         </option>
                                     @endforeach
                                 </select>
-                                
+
                             </div>
 
                             {{-- Pilih kurir --}}
@@ -204,7 +227,6 @@
     @parent {{-- Penting: panggil @parent untuk menjaga script dari layout utama --}}
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const addressSelect = document.getElementById("address");
@@ -216,7 +238,6 @@
             const estimatedDay = document.getElementById("estimatedDay");
             const deliveryType = document.getElementById("deliveryType");
             const shippingCostResult = document.getElementById("shippingCostResult");
-
             const shippingCostDisplay = document.getElementById("shippingCostDisplay");
             const hiddenShippingCost = document.getElementById("hiddenShippingCost");
 
@@ -227,6 +248,21 @@
             const shippingEtdDisplay = document.getElementById('shippingEtdDisplay');
 
             const productTotal = {{ isset($order) ? $order->total : $grandTotal }};
+
+            const promoSelections = {};
+
+            // Tangkap semua perubahan promo
+            document.querySelectorAll('select[name="promo"]').forEach(select => {
+                select.addEventListener('change', function() {
+                    const productId = this.id.replace('promo', '');
+                    const selectedCode = this.value;
+                    if (selectedCode) {
+                        promoSelections[productId] = selectedCode;
+                    } else {
+                        delete promoSelections[productId];
+                    }
+                });
+            });
 
             function updateDestinationFields() {
                 const selectedOption = addressSelect.options[addressSelect.selectedIndex];
@@ -249,8 +285,8 @@
 
             addressSelect.addEventListener('change', () => {
                 courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
-                updateDestinationFields(); 
-                triggerCalculateShipping(); 
+                updateDestinationFields();
+                triggerCalculateShipping();
             });
 
             courierSelect.addEventListener('change', () => {
@@ -275,8 +311,6 @@
                     });
 
                     const result = await response.json();
-                    console.log('HASIL KURIR', result);
-
                     if (result.success && Array.isArray(result.data)) {
                         courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
                         result.data.forEach(service => {
@@ -291,7 +325,6 @@
                     } else {
                         console.error("Gagal hitung ongkir:", result.message);
                     }
-
                 } catch (err) {
                     console.error("Error calculate ongkir:", err);
                 }
@@ -351,27 +384,13 @@
                     });
 
                     const result = await response.json();
-                    console.log(result);
 
                     if (result.snap_token) {
                         snap.pay(result.snap_token, {
                             onSuccess: async function(result) {
-                                console.log("Hasil Midtrans:", result);
                                 const selectedOrderIds = JSON.parse(document.getElementById(
                                     'selectedOrderIds').value);
                                 try {
-                                    console.log({
-                                        order_ids: selectedOrderIds,
-                                        delivery_cost: shippingCost,
-                                        courier: selectedCourier.value,
-                                        payment_code: generatedOrderId,
-                                        amount: totalPaymentInput.value,
-                                        estimated_day: estimatedDay.value,
-                                        destination_code: destinationCode.value,
-                                        destination: destination.value,
-                                        delivery_type: deliveryType.value,
-                                    });
-
                                     const updateResponse = await fetch(
                                         '/checkout-order/add', {
                                             method: 'POST',
@@ -384,14 +403,22 @@
                                                 address: addressSelect.value,
                                                 delivery_cost: shippingCost,
                                                 courier: selectedCourier.value,
-                                                payment_code: result.transaction_id,
-                                                payment_type: result.payment_type,
-                                                bank: result.payment_type == "bank_transfer" ? result.va_numbers[0].bank : '',
+                                                payment_code: result
+                                                    .transaction_id,
+                                                payment_type: result
+                                                    .payment_type,
+                                                bank: result.payment_type ==
+                                                    "bank_transfer" ? result
+                                                    .va_numbers[0].bank : '',
                                                 amount: totalPaymentInput.value,
-                                                estimated_day: estimatedDay.value,
-                                                destination_code: destinationCode .value,
+                                                estimated_day: estimatedDay
+                                                    .value,
+                                                destination_code: destinationCode
+                                                    .value,
                                                 destination: destination.value,
-                                                delivery_type: deliveryType.value,
+                                                delivery_type: deliveryType
+                                                    .value,
+                                                promos: promoSelections // <== promos dikirim di sini
                                             })
                                         });
 
