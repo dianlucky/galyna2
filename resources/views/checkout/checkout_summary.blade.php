@@ -34,6 +34,20 @@
                             Detail Pesanan
                         </div>
                         <div class="card-body">
+                            {{-- @isset($order)
+                                {{-- Tampilan untuk satu order --}}
+                            {{-- <p><strong>Produk:</strong> {{ optional($order->product)->name ?? 'N/A' }}</p>
+                                <p><strong>Jumlah:</strong> {{ $order->quantity }}</p>
+                                <p><strong>Total Harga Produk:</strong> Rp {{ number_format($order->total, 0, ',', '.') }}</p>
+                                <p><strong>Status:</strong> <span class="badge bg-info">{{ ucfirst($order->status) }}</span></p>
+                                <p><strong>Kode Pesanan:</strong> {{ $order->code }}</p>
+                                <p><strong>Nama Penerima:</strong> {{ $order->name }}</p>
+                                <p><strong>Email:</strong> {{ $order->email }}</p>
+                                <p><strong>Telepon:</strong> {{ $order->phone }}</p>
+                                <p><strong>Alamat:</strong> {{ $order->address }}</p>
+                                <p><strong>Pesan:</strong> {{ $order->message ?? '-' }}</p> --}}
+                            {{-- @else --}}
+                            {{-- Tampilan untuk banyak order --}}
                             @if (isset($ordersToProcess) && $ordersToProcess->isNotEmpty())
                                 <h6 class="mb-3">Daftar Pesanan:</h6>
                                 <ul class="list-group mb-3">
@@ -41,7 +55,7 @@
                                         $grandTotal = 0;
                                     @endphp
 
-                                    @foreach ($ordersToProcess as $multiOrder)
+                                     @foreach ($ordersToProcess as $multiOrder)
                                         @php
                                             $price = optional($multiOrder->product)->price ?? 0;
                                             $quantity = $multiOrder->quantity ?? 0;
@@ -114,7 +128,7 @@
                                     @endforeach
 
                                 </ul>
-                                <p class="fw-bold">
+                               <p class="fw-bold">
                                     Total Harga Produk Keseluruhan: Rp <span
                                         id="total_semua_produk">{{ number_format($grandTotal, 0, ',', '.') }}</span>
                                 </p>
@@ -191,7 +205,7 @@
                         <input type="hidden" id="estimatedDay">
 
                         <input type="hidden" id="paymentCode">
-                        <input type="hidden" id="totalPayment"
+                          <input type="hidden" id="totalPayment"
                             value="{{ isset($order) ? $order->total : $grandTotal }}">
                         <input type="hidden" id="selectedOrderIds" value='@json($selectedOrderIds)'>
                         <button type="submit" class="btn btn-outline-info">Bayar Sekarang</button>
@@ -444,38 +458,47 @@
                             onSuccess: async function(result) {
                                 const selectedOrderIds = JSON.parse(document.getElementById(
                                     'selectedOrderIds').value);
-                                let selectedPromos = [];
 
-                                for (let i = 1; i <= totalItems; i++) {
-                                    const promoEl = document.getElementById('promo' + i);
-
-                                    if (promoEl) {
-                                        const productId = promoEl.getAttribute(
-                                            'data-product-id');
-                                        const selectedCodePromo = promoEl.value;
-
-                                        if (selectedCodePromo && selectedCodePromo !==
-                                            "null") {
-                                            selectedPromos.push({
-                                                product_id: productId,
-                                                code_promo: selectedCodePromo
-                                            });
-                                        }
-                                    } else {
-                                        console.warn(`promo${i} not found in DOM`);
-                                    }
-                                }
+                                try {
+                                    const updateResponse = await fetch(
+                                        '/checkout-order/add', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                            },
+                                            body: JSON.stringify({
+                                                order_ids: selectedOrderIds,
+                                                address: addressSelect.value,
+                                                delivery_cost: shippingCostVal,
+                                                courier: selectedCourier.value,
+                                                payment_code: result
+                                                    .transaction_id,
+                                                payment_type: result
+                                                    .payment_type,
+                                                bank: result.payment_type ===
+                                                    "bank_transfer" ? result
+                                                    .va_numbers[0].bank : '',
+                                                amount: totalPayment,
+                                                estimated_day: estimatedDay
+                                                    .value,
+                                                destination_code: destinationCode
+                                                    .value,
+                                                destination: destination.value,
+                                                delivery_type: deliveryType
+                                                    .value,
+                                                promos: promoSelections
+                                            })
+                                        });
 
                                     const updateResult = await updateResponse.json();
                                     if (updateResult.success) {
                                         alert(
-                                            'Pembayaran berhasil dan status order diperbarui!'
-                                        );
+                                            'Pembayaran berhasil dan status order diperbarui!');
                                         window.location.href = '/history-order';
                                     } else {
                                         alert(
-                                            'Pembayaran berhasil, tapi gagal update status order.'
-                                        );
+                                            'Pembayaran berhasil, tapi gagal update status order.');
                                     }
                                 } catch (error) {
                                     console.error('Gagal update status order:', error);
