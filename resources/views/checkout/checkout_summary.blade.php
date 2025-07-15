@@ -34,20 +34,6 @@
                             Detail Pesanan
                         </div>
                         <div class="card-body">
-                            {{-- @isset($order)
-                                {{-- Tampilan untuk satu order --}}
-                            {{-- <p><strong>Produk:</strong> {{ optional($order->product)->name ?? 'N/A' }}</p>
-                                <p><strong>Jumlah:</strong> {{ $order->quantity }}</p>
-                                <p><strong>Total Harga Produk:</strong> Rp {{ number_format($order->total, 0, ',', '.') }}</p>
-                                <p><strong>Status:</strong> <span class="badge bg-info">{{ ucfirst($order->status) }}</span></p>
-                                <p><strong>Kode Pesanan:</strong> {{ $order->code }}</p>
-                                <p><strong>Nama Penerima:</strong> {{ $order->name }}</p>
-                                <p><strong>Email:</strong> {{ $order->email }}</p>
-                                <p><strong>Telepon:</strong> {{ $order->phone }}</p>
-                                <p><strong>Alamat:</strong> {{ $order->address }}</p>
-                                <p><strong>Pesan:</strong> {{ $order->message ?? '-' }}</p> --}}
-                            {{-- @else --}}
-                            {{-- Tampilan untuk banyak order --}}
                             @if (isset($ordersToProcess) && $ordersToProcess->isNotEmpty())
                                 <h6 class="mb-3">Daftar Pesanan:</h6>
                                 <ul class="list-group mb-3">
@@ -73,21 +59,42 @@
                                                     <div class="col-md-6">
                                                         <li class="list-group-item">
                                                             <strong>Order #{{ $loop->iteration }}</strong><br>
-                                                            Produk: {{ optional($multiOrder->product)->name ?? 'N/A' }}
-                                                            ({{ $quantity }}x)
+                                                            <div style="margin-bottom: -30px" class="d-flex">
+                                                                <p> Produk:
+                                                                    {{ optional($multiOrder->product)->name ?? 'N/A' }}</p>
+                                                                <p>
+                                                                    ({{ $quantity }}x)
+                                                                </p>
+                                                            </div>
                                                             <br>
-                                                            Total: Rp. {{ number_format($total, 0, ',', '.') }}
+                                                            <p> Total: Rp.
+                                                                <span id="final_price{{ $loop->iteration }}">
+                                                                    {{ number_format($total, 0, ',', '.') }}
+                                                                </span>
+                                                            </p>
+                                                            <input type="hidden" id="product_price{{ $loop->iteration }}"
+                                                                value="{{ $multiOrder->product->price }}">
+                                                            <input type="hidden"
+                                                                id="total_price_product{{ $loop->iteration }}"
+                                                                value="{{ $total }}">
+                                                            <input type="hidden" id="quantity{{ $loop->iteration }}"
+                                                                value="{{ $quantity }}">
                                                         </li>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="promo" class="form-label">Kode promo</label>
-                                                        <select class="form-select" name="promo" id="promo{{ $multiOrder->product->id_product }}" data-product-id="{{ $multiOrder->product->id_product }}" data-price="{{ $multiOrder->product->price }}">
+                                                        <select class="form-select" name="promo"
+                                                            id="promo{{ $loop->iteration }}"
+                                                            data-product-id="{{ $multiOrder->product->id_product }}"
+                                                            data-price="{{ $multiOrder->product->price }}">
+                                                            <option value="null" amount="0" type="null"
+                                                                data-discount="0">JANGAN GUNAKAN PROMO</option>
                                                             @if ($multiOrder->product->promos)
                                                                 @foreach ($multiOrder->product->promos as $promo)
                                                                     <option value="{{ $promo->code_promo }}"
                                                                         amount={{ $promo->amount }}
                                                                         type={{ $promo->type }}
-                                                                        data-discount="{{$promo->type == "persen" ? $multiOrder->product->price * $promo->amount / 100 : $promo }}">
+                                                                        data-discount="{{ $promo->type == 'persen' ? ($multiOrder->product->price * $promo->amount) / 100 : $promo->amount }}">
                                                                         {{ $promo->code_promo }}
                                                                         @if ($promo->type == 'persen')
                                                                             Diskon {{ $promo->amount }}%
@@ -108,7 +115,8 @@
 
                                 </ul>
                                 <p class="fw-bold">
-                                    Total Harga Produk Keseluruhan: Rp {{ number_format($grandTotal, 0, ',', '.') }}
+                                    Total Harga Produk Keseluruhan: Rp <span
+                                        id="total_semua_produk">{{ number_format($grandTotal, 0, ',', '.') }}</span>
                                 </p>
                             @else
                                 <p>Tidak ada detail pesanan untuk ditampilkan.</p>
@@ -183,7 +191,8 @@
                         <input type="hidden" id="estimatedDay">
 
                         <input type="hidden" id="paymentCode">
-                        <input type="hidden" id="totalPayment" value="{{ isset($order) ? $order->total : $grandTotal }}">
+                        <input type="hidden" id="totalPayment"
+                            value="{{ isset($order) ? $order->total : $grandTotal }}">
                         <input type="hidden" id="selectedOrderIds" value='@json($selectedOrderIds)'>
                         <button type="submit" class="btn btn-outline-info">Bayar Sekarang</button>
                     </form>
@@ -196,8 +205,7 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Total Harga Produk
-                                    <span>Rp <span id="summaryProductTotal">
-                                            {{ number_format(isset($order) ? $order->total : $grandTotal, 0, ',', '.') }}
+                                    <span>Rp <span id="summaryProductTotal">0
                                         </span></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -208,7 +216,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
                                     Total Bayar
                                     <span>Rp <span id="summaryTotalBayar">
-                                            {{ number_format(isset($order) ? $order->total : $grandTotal, 0, ',', '.') }}
+                                            0
                                         </span></span>
                                 </li>
                             </ul>
@@ -229,6 +237,10 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const totalItems = {{ $ordersToProcess->count() }};
+            const totalSemuaProdukEl = document.getElementById('total_semua_produk');
+            const summaryProductTotal = document.getElementById("summaryProductTotal");
+
             const addressSelect = document.getElementById("address");
             const courierServiceSelect = document.getElementById("courier-service");
             const courierSelect = document.getElementById("courier");
@@ -239,31 +251,81 @@
             const deliveryType = document.getElementById("deliveryType");
             const shippingCostResult = document.getElementById("shippingCostResult");
             const shippingCostDisplay = document.getElementById("shippingCostDisplay");
-            const hiddenShippingCost = document.getElementById("hiddenShippingCost");
 
             const costDisplay = document.getElementById('shippingCostDisplay2');
             const shippingRow = document.getElementById('shippingSummaryRow');
             const totalPaymentInput = document.getElementById('totalPayment');
             const summaryTotalBayar = document.getElementById('summaryTotalBayar');
             const shippingEtdDisplay = document.getElementById('shippingEtdDisplay');
+            const hiddenShippingCost = document.getElementById("hiddenShippingCost");
+            const paymentForm = document.getElementById('paymentForm');
 
-            const productTotal = {{ isset($order) ? $order->total : $grandTotal }};
+            let shippingCost = 0;
+            let promoSelections = {};
+            let productBasePrices = {};
+            let productQuantities = {};
+            let productDiscounts = {};
 
-            const promoSelections = {};
-
-            // Tangkap semua perubahan promo
-            document.querySelectorAll('select[name="promo"]').forEach(select => {
-                select.addEventListener('change', function() {
-                    const productId = this.id.replace('promo', '');
-                    const selectedCode = this.value;
-                    if (selectedCode) {
-                        promoSelections[productId] = selectedCode;
-                    } else {
-                        delete promoSelections[productId];
-                    }
+            // Fungsi bantu: Format ke dalam mata uang rupiah
+            function formatRupiah(angka) {
+                return angka.toLocaleString('id-ID', {
+                    style: 'decimal',
+                    maximumFractionDigits: 0
                 });
-            });
+            }
 
+            // Hitung total produk
+            function calculateTotalSemuaProduk() {
+                let totalAll = 0;
+
+                for (let i = 1; i <= totalItems; i++) {
+                    const quantityEl = document.getElementById('quantity' + i);
+                    const productPriceEl = document.getElementById('product_price' + i);
+                    const promoEl = document.getElementById('promo' + i);
+                    const finalPriceEl = document.getElementById('final_price' + i);
+
+                    if (!quantityEl || !productPriceEl || !promoEl || !finalPriceEl) continue;
+
+                    const quantity = parseInt(quantityEl.value) || 0;
+                    const productPrice = parseFloat(productPriceEl.value) || 0;
+
+                    const selectedOption = promoEl.options[promoEl.selectedIndex];
+                    const discountType = selectedOption.getAttribute('type');
+                    const discountAmount = parseFloat(selectedOption.getAttribute('amount')) || 0;
+
+                    let discount = 0;
+                    if (discountType === 'persen') {
+                        discount = (productPrice * discountAmount) / 100;
+                    } else {
+                        discount = discountAmount;
+                    }
+
+                    let finalTotal = (productPrice - discount) * quantity;
+                    if (finalTotal < 0) finalTotal = 0;
+
+                    finalPriceEl.textContent = formatRupiah(finalTotal);
+                    totalAll += finalTotal;
+                }
+
+                totalSemuaProdukEl.textContent = formatRupiah(totalAll);
+                summaryProductTotal.textContent = formatRupiah(totalAll);
+                updateTotalPayment(); // <-- update setelah produk diubah
+            }
+
+            // Hitung total + ongkir
+            function updateTotalPayment() {
+                const subtotal = parseInt(totalSemuaProdukEl.textContent.replace(/\./g, ''), 10);
+                const total = subtotal + shippingCost;
+
+                console.log("Subtotal :", subtotal);
+                console.log("Total :", total);
+                console.log("Summarytotal :", totalSemuaProdukEl.textContent);
+
+                summaryTotalBayar.textContent = total.toLocaleString('id-ID');
+                totalPaymentInput.value = total;
+            }
+
+            // Update tujuan pengiriman
             function updateDestinationFields() {
                 const selectedOption = addressSelect.options[addressSelect.selectedIndex];
                 const destinationCodeValue = selectedOption.getAttribute('destination_code');
@@ -282,16 +344,6 @@
                     calculateOngkir(courier, selectedDestination);
                 }
             }
-
-            addressSelect.addEventListener('change', () => {
-                courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
-                updateDestinationFields();
-                triggerCalculateShipping();
-            });
-
-            courierSelect.addEventListener('change', () => {
-                triggerCalculateShipping();
-            });
 
             async function calculateOngkir(courier, destination) {
                 try {
@@ -330,41 +382,43 @@
                 }
             }
 
-            function updateShippingCost(shippingCost, etd = null) {
-                costDisplay.textContent = shippingCost.toLocaleString('id-ID');
-                hiddenShippingCost.value = shippingCost;
-                shippingRow.style.display = 'flex';
-
-                const total = productTotal + shippingCost;
-                summaryTotalBayar.textContent = total.toLocaleString('id-ID');
-                totalPaymentInput.value = total;
-            }
-
             courierServiceSelect.addEventListener("change", () => {
                 const selected = courierServiceSelect.selectedOptions[0];
-                const value = parseInt(selected.value || 0);
+                shippingCost = parseInt(selected.value || 0);
                 const etd = selected.dataset.etd || "-";
                 const description = selected.dataset.description || "";
 
-                if (!isNaN(value)) {
-                    updateShippingCost(value, etd);
+                if (!isNaN(shippingCost)) {
+                    costDisplay.textContent = shippingCost.toLocaleString('id-ID');
+                    hiddenShippingCost.value = shippingCost;
+                    shippingRow.style.display = 'flex';
+                    updateTotalPayment();
                 }
 
                 deliveryType.value = description;
-                shippingCostDisplay.textContent = `Rp ${value.toLocaleString("id-ID")}`;
+                shippingCostDisplay.textContent = `Rp ${shippingCost.toLocaleString("id-ID")}`;
                 shippingEtdDisplay.textContent = etd;
                 estimatedDay.value = etd;
                 shippingCostResult.style.display = "block";
             });
 
-            const paymentForm = document.getElementById('paymentForm');
+            addressSelect.addEventListener('change', () => {
+                courierServiceSelect.innerHTML = `<option value="">Pilih Layanan</option>`;
+                updateDestinationFields();
+                triggerCalculateShipping();
+            });
+
+            courierSelect.addEventListener('change', () => {
+                triggerCalculateShipping();
+            });
 
             paymentForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
-                const totalPayment = totalPaymentInput.value;
-                const shippingCost = hiddenShippingCost.value;
 
-                if (shippingCost == 0 || shippingCost == null) {
+                const totalPayment = totalPaymentInput.value;
+                const shippingCostVal = hiddenShippingCost.value;
+
+                if (!shippingCostVal || parseInt(shippingCostVal) === 0) {
                     alert('Harap mengisi formulir pengiriman terlebih dahulu');
                     return;
                 }
@@ -390,46 +444,38 @@
                             onSuccess: async function(result) {
                                 const selectedOrderIds = JSON.parse(document.getElementById(
                                     'selectedOrderIds').value);
-                                try {
-                                    const updateResponse = await fetch(
-                                        '/checkout-order/add', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                            },
-                                            body: JSON.stringify({
-                                                order_ids: selectedOrderIds,
-                                                address: addressSelect.value,
-                                                delivery_cost: shippingCost,
-                                                courier: selectedCourier.value,
-                                                payment_code: result
-                                                    .transaction_id,
-                                                payment_type: result
-                                                    .payment_type,
-                                                bank: result.payment_type ==
-                                                    "bank_transfer" ? result
-                                                    .va_numbers[0].bank : '',
-                                                amount: totalPaymentInput.value,
-                                                estimated_day: estimatedDay
-                                                    .value,
-                                                destination_code: destinationCode
-                                                    .value,
-                                                destination: destination.value,
-                                                delivery_type: deliveryType
-                                                    .value,
-                                                promos: promoSelections // <== promos dikirim di sini
-                                            })
-                                        });
+                                let selectedPromos = [];
+
+                                for (let i = 1; i <= totalItems; i++) {
+                                    const promoEl = document.getElementById('promo' + i);
+
+                                    if (promoEl) {
+                                        const productId = promoEl.getAttribute(
+                                            'data-product-id');
+                                        const selectedCodePromo = promoEl.value;
+
+                                        if (selectedCodePromo && selectedCodePromo !==
+                                            "null") {
+                                            selectedPromos.push({
+                                                product_id: productId,
+                                                code_promo: selectedCodePromo
+                                            });
+                                        }
+                                    } else {
+                                        console.warn(`promo${i} not found in DOM`);
+                                    }
+                                }
 
                                     const updateResult = await updateResponse.json();
                                     if (updateResult.success) {
                                         alert(
-                                            'Pembayaran berhasil dan status order diperbarui!');
+                                            'Pembayaran berhasil dan status order diperbarui!'
+                                        );
                                         window.location.href = '/history-order';
                                     } else {
                                         alert(
-                                            'Pembayaran berhasil, tapi gagal update status order.');
+                                            'Pembayaran berhasil, tapi gagal update status order.'
+                                        );
                                     }
                                 } catch (error) {
                                     console.error('Gagal update status order:', error);
@@ -452,7 +498,15 @@
                 }
             });
 
-            // Set nilai awal destination saat pertama kali halaman dimuat
+            // Inisialisasi event listener untuk semua promo
+            for (let i = 1; i <= totalItems; i++) {
+                const promoEl = document.getElementById('promo' + i);
+                if (promoEl) {
+                    promoEl.addEventListener('change', calculateTotalSemuaProduk);
+                }
+            }
+
+            calculateTotalSemuaProduk();
             updateDestinationFields();
         });
     </script>

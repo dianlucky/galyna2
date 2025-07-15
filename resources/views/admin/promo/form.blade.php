@@ -82,8 +82,10 @@
                                 <label for="product" class="form-label">Produk </label>
                                 <select name="id_product" class="form-control" id="product" required>
                                     <option value="">Pilih produk yang ingin diberi promo</option>
-                                    <option price="{{ $promo->product->price }}" value="{{ $promo->product->id_product }}"
+                                    @if ($data['form'] == "Edit")
+                                     <option price="{{ $promo->product->price }}" value="{{ $promo->product->id_product }}"
                                         selected>{{ $promo->product->name }}</option>
+                                    @endif
                                     @foreach ($data['product'] as $data)
                                         <option price="{{ $data->price }}" value="{{ $data->id_product }}">
                                             {{ $data->name }}</option>
@@ -113,7 +115,10 @@
                             <div class="mb-3">
                                 <label for="type" class="form-label">Tipe promo</label>
                                 <select name="type" class="form-control" id="type">
+                                    @if ($data['form'] == "Edit")
                                     <option value="{{ $promo->type }}">{{ $promo->type }}</option>
+                                    
+                                    @endif
                                     <option value="persen">Persen</option>
                                     <option value="potongan">Potongan langsung</option>
                                 </select>
@@ -126,7 +131,7 @@
                                     <div class="mb-3">
                                         <label for="normal_price" class="form-label">Harga awal</label>
                                         <input type="text" class="form-control" id="normal_price"
-                                            value="{{ $promo ? number_format($promo->product->price, 0, ',', '.') : 0 }}"
+                                            value="{{ $data['form'] == "Edit" && $promo? number_format($promo->product->price, 0, ',', '.') : 0 }}"
                                             disabled>
                                     </div>
                                 </div>
@@ -147,9 +152,9 @@
                                     <div class="mb-3">
                                         <label for="discount_price" class="form-label">Harga akhir</label>
                                         <input type="text" class="form-control" id="discount_price"
-                                            value="{{ $promo && $promo->type == 'persen'
+                                            value="{{ $data['form'] == "Edit" && $promo && $promo->type == 'persen' 
                                                 ? number_format($promo->product->price - (($promo->product->price * $promo->amount) / 100) , 0, ',', '.')
-                                                : ($promo && $promo->type == 'potongan'
+                                                : ( $data['form'] == "Edit" && $promo && $promo->type == 'potongan' 
                                                     ? number_format($data->product->price - $promo->amount, 0, ',', '.')
                                                     : 0) }}"
                                             disabled>

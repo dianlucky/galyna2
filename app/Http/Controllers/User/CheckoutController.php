@@ -21,7 +21,9 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         try {
+            Log::info('DATA PROMOS:', [$request->input('promos')]);
             Log::info('DATA CHECKOUT:', $request->all());
+            dd($request);
 
             // Simpan data pengiriman
             $delivery = DeliveryModel::create([
@@ -36,7 +38,7 @@ class CheckoutController extends Controller
             // Simpan data pembayaran
             $payment = PaymentModel::create([
                 'payment_code' => $request->payment_code,
-                'payment_type' => $request->payment_type, 
+                'payment_type' => $request->payment_type,
                 'bank' => $request->bank ?? null,
                 'amount' => $request->amount,
                 'status' => 'paid',
@@ -55,20 +57,18 @@ class CheckoutController extends Controller
             // Simpan detail pesanan (jika ada order_ids dari frontend)
             if (is_array($request->order_ids)) {
                 foreach ($request->order_ids as $id_cart) {
-                   $cart =  ShoppingCartModel::where('id_cart', $id_cart)->first();
+                    $cart = ShoppingCartModel::where('id_cart', $id_cart)->first();
                     DetailOrderModel::create([
                         'id_order' => $order->id_order,
                         'id_product' => $cart->id_product,
                         'quantity' => $cart->quantity,
                     ]);
                     $cart->update([
-                        'status' => "paid"
+                        'status' => 'paid',
                     ]);
-
                 }
             }
 
-            
             $data = [
                 'name' => Auth::user()->name,
                 'code' => $order->order_code ?? 'KODE PEMESANAN',
