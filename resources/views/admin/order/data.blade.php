@@ -1,8 +1,8 @@
-@extends('layout.admin_layout') {{-- Pastikan 'layout.admin_layout' ini sesuai dengan nama layout utama Anda --}}
+@extends('layout.admin_layout') 
 
 @php
     $dataPage = [
-        'page' => 'order', // Variabel ini digunakan untuk breadcrumb, dll.
+        'page' => 'order', 
     ];
 @endphp
 
@@ -13,13 +13,13 @@
         {{-- Header Page --}}
         <div class="row ps-lg-3 ps-sm-0">
             {{-- Menggunakan judul yang lebih spesifik untuk "My Order" --}}
-            <h4 class="p-0 text-capitalize">Daftar Pesanan</h4>
+            <h4 class="p-0 text-capitalize">Daftar Pesanan {{$data['status']}}</h4>
             <nav class="p-0 page-breadcrumb">
                 <ol class="breadcrumb">
                     {{-- Sesuaikan link breadcrumb jika ini bukan halaman admin --}}
-                    <li class="breadcrumb-item"><a href="{{ url('/my-order') }}"
+                    <li class="breadcrumb-item"><a href="{{ url('/admin') }}"
                             class="text-capitalize">Pesanan</a></li> {{-- Menggunakan '/my-order' sebagai base --}}
-                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Daftar pesanan</li>
+                    <li class="breadcrumb-item active text-capitalize" aria-current="page">Daftar pesanan {{$data['status']}}</li>
                 </ol>
             </nav>
         </div>
@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 {{-- Judul tabel yang lebih spesifik --}}
-                                <h6 class="card-title text-capitalize">Daftar pesanan</h6>
+                                <h6 class="card-title text-capitalize">Daftar pesanan {{$data['status']}}</h6>
                              
                             </div>
                             <div class="table-responsive" style="min-height: 400px">
@@ -42,51 +42,39 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th class="text-start">Customer Details</th> {{-- Mengubah Customer menjadi Customer Details --}}
-                                            <th>Product</th>
-                                            <th>Message</th>
+                                            <th>Kode Order</th>
+                                            <th>Tanggal pesan</th>
+                                            <th>Total harga barang</th>
+                                            <th>Ekspedisi</th>
+                                            <th>Biaya ongkir</th>
+                                            <th>Total bayar</th>
                                             <th>Status</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th>Code</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($orders as $item) {{-- Menggunakan @forelse untuk handle jika tidak ada order --}}
                                             <tr>
                                                 <th>{{ $loop->iteration }}</th>
-                                                <td style="text-align: left;">
-                                                    <div>Nama: {{ $item->name }}</div> {{-- Tambahkan label --}}
-                                                    <div>Email: {{ $item->email }}</div> {{-- Tambahkan label --}}
-                                                    <div>Phone: {{ $item->phone }}</div> {{-- Pastikan ini 'phone' --}}
-                                                    <div>Address: {{ $item->address }}</div> {{-- Tambahkan label --}}
-                                                </td>
+                                                <td>{{ $item->order_code}}</td>
+                                                <td>{{ $item->created_at}}</td>
+                                                <td>Rp {{ number_format($item->payment->amount - $item->delivery->delivery_cost, 0, ',', '.') }}</td>
+                                                <td>{{ $item->delivery->courier . ' ' .$item->delivery->delivery_type}}</td>
+                                                <td>Rp {{ number_format($item->delivery->delivery_cost, 0, ',', '.') }}</td>
+                                                <td>Rp {{ number_format($item->payment->amount, 0, ',', '.') }}</td>
                                                 <td>
-                                                    {{-- PERBAIKAN: Menggunakan div terpisah untuk produk dan kategori --}}
-                                                    <div>Produk: {{ optional($item->product)->name ?? '-' }}</div>
-                                                    {{-- Pastikan relasi category ada di ProductModel dan sudah di-eager load --}}
-                                                    <div>Kategori: {{ optional(optional($item->product)->category)->name ?? '-' }}</div>
-                                                </td>
-                                                <td>{{ $item->message ?? '-' }}</td>
-                                                <td>
-                                                    @if ($item->status == 'pending')
-                                                        <span class="badge bg-warning text-dark" style="font-size: 10px; width: 70px;">Pending</span>
-                                                    @elseif ($item->status == 'paid')
-                                                        <span class="badge bg-success" style="font-size: 10px; width: 70px;">Paid</span>
-                                                    @elseif ($item->status == 'expired')
-                                                        <span class="badge" style="font-size: 10px; width: 70px; background-color: rgb(205, 205, 205)">Expired</span>
-                                                    @elseif ($item->status == 'failed')
-                                                        <span class="badge bg-danger" style="font-size: 10px; width: 70px;">Failed</span>
+                                                    @if ($item->status_order == 'packing')
+                                                        <span class="badge bg-warning text-white" style="font-size: 10px; width: 70px;">Packing</span>
+                                                    @elseif ($item->status_order == 'shipping')
+                                                        <span class="badge bg-warning text-white"  style="font-size: 10px; width: 70px;">Shipping</span>
+                                                    @elseif ($item->status_order == 'done')
+                                                        <span class="badge bg-success text-white"  style="font-size: 10px; width: 70px;">Done</span>
                                                     @else
                                                         <span class="badge bg-light text-dark" style="font-size: 10px; width: 70px;">Unknown</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ $item->quantity }}</td>
-                                                <td>Rp {{ number_format($item->total, 0, ',', '.') }}</td>
-                                                <td>{{ $item->code }}</td>
                                                 {{-- Kolom Action dikomentari --}}
-                                                {{-- <td>
+                                                <td>
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -108,7 +96,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                </td> --}}
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>

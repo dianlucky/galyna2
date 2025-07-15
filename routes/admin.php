@@ -63,11 +63,8 @@ Route::prefix('admin')
 
         // Admin - Order
         Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {
-            Route::get('/order', 'index');
-            Route::get('/order/detail/{id}', 'detail');
-            Route::get('/order/edit/{id}', 'edit');
-            Route::put('/order/{id}', 'update');
-            Route::delete('/order', 'destroy');
+            Route::get('/order/proses', 'proses');
+            Route::get('/order/dikirim', 'dikirim');
         });
 
         // Admin Omset

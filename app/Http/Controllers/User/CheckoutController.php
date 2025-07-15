@@ -12,7 +12,6 @@ use App\Models\DetailOrderModel;
 use App\Models\ShoppingCartModel;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Mail\RegisterMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -23,9 +22,7 @@ class CheckoutController extends Controller
         try {
             Log::info('DATA PROMOS:', [$request->input('promos')]);
             Log::info('DATA CHECKOUT:', $request->all());
-            dd($request);
 
-            // Simpan data pengiriman
             $delivery = DeliveryModel::create([
                 'destination_code' => $request->destination_code,
                 'destination' => $request->destination,
@@ -35,7 +32,6 @@ class CheckoutController extends Controller
                 'estimated_day' => $request->estimated_day,
             ]);
 
-            // Simpan data pembayaran
             $payment = PaymentModel::create([
                 'payment_code' => $request->payment_code,
                 'payment_type' => $request->payment_type,

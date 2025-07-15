@@ -8,14 +8,21 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+
+    public function proses()
     {
-        $orders = OrderModel::with('product')
-            ->orderBy('created_at', 'desc')
-            ->get();
-            // dd($orders);
-        return view('admin.order.data', [
-            'orders' => $orders
-        ]);
+        $data = [
+            'status' => 'belum diproses'
+        ];
+        $orders = OrderModel::where('status_order', 'packing')->with('delivery', 'payment')->get();
+        return view('admin.order.data', compact('orders', 'data'));
+    }
+    public function dikirim()
+    {
+        $data = [
+            'status' => 'sedang diantar'
+        ];
+        $orders = OrderModel::where('status_order', 'shipping')->with('delivery', 'payment')->get();
+        return view('admin.order.data', compact('orders', 'data'));
     }
 }
