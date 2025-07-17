@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ShippedMail;
 use App\Models\DetailOrderModel;
 use App\Models\OrderModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -41,11 +44,21 @@ class OrderController extends Controller
         return view('admin.order.detail', compact('dataOrder', 'detailOrders'));
     }
 
-    public function updateStatus($id)
+    public function updateStatus(Request $request, $id)
     {
         $status = OrderModel::where('id_order', $id)->update([
             'status_order' => 'shipping',
+            'resi' => $request->resi,
         ]);
+
+        $order = OrderModel::where('id_order', $id)->with('user')->first();
+
+        $data = [
+            'name' => $order->user->name ?? 'Pelanggan',
+            'code' => $order->order_code ?? 'Pelanggan',
+            'resi' => $request->resi ?? 'N/A',
+        ];
+        Mail::to($order->user->email ?? 'imelda.aryani@mhs.politala.ac.id')->send(new ShippedMail($data));
 
         session()->flash('success', 'Data updated successfully');
         return redirect('/admin/order/dikirim');

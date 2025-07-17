@@ -20,6 +20,7 @@ class OrderModel extends Model
             'message',
             'status_payment',
             'status_order',
+            'resi',
         ];
 
     public $timestamps = true;

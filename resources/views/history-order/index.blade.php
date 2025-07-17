@@ -47,10 +47,10 @@
                                             <td>
                                                 @if ($data->status_order == 'packing')
                                                     <span class="badge bg-warning text-white">Packing</span>
-                                                @elseif ($data->status == 'shipping')
+                                                @elseif ($data->status_order == 'shipping')
                                                     <span class="badge bg-warning">Shipping</span>
                                                 @else
-                                                    <span class="badge bg-secondary">{{ ucfirst($data->status) }}</span>
+                                                    <span class="badge bg-secondary">{{ ucfirst($data->status_order) }}</span>
                                                 @endif
                                             </td>
                                             <td>
