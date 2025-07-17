@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddressModel;
+use App\Models\CommentModel;
 use App\Models\User;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
@@ -33,16 +34,20 @@ class HomeController extends Controller
         if ($code) {
             $product = ProductModel::where('code', $code)->first();
             $products_related = ProductModel::inRandomOrder()->take(6)->get();
+            $comments = CommentModel::where('id_product', $product->id_product)->get();
+            $averageRating = CommentModel::where('id_product', $product->id_product)->avg('rating');
+
             return view('public_user/product/detail', [
                 'product' => $product,
-                'products_related' => $products_related
+                'products_related' => $products_related,
+                'comments' => $comments,
+                'averageRating' => $averageRating,
             ]);
         }
 
         $products = ProductModel::all();
         $categories = CategoryModel::all();
         $category_query = $request->category;
-
 
         if ($category_query) {
             $products = ProductModel::whereHas('category', function ($query) use ($category_query) {
@@ -53,7 +58,7 @@ class HomeController extends Controller
         return view('public_user/product/collection', [
             // 'first_product' => $first_product,
             'products' => $products,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -65,14 +70,16 @@ class HomeController extends Controller
         return redirect('/collection/' . $code);
     }
 
-    public function profile() {
+    public function profile()
+    {
         $id = Auth::user()->id_user;
         $profile = User::where('id_user', $id)->first();
         $address = AddressModel::where('id_user', $id)->get();
         return view('profile/index', ['dataProfile' => $profile, 'dataAddress' => $address]);
     }
 
-    public function profileUpdate($id, Request $request){
+    public function profileUpdate($id, Request $request)
+    {
         // dd($id, $request);
         $request->validate([
             'name' => 'required',

@@ -1,5 +1,30 @@
 @extends('layout.user_layout') {{-- Sesuaikan dengan layout utama pengguna Anda --}}
+<style>
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 1.5rem;
+    }
 
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+
+    .star-rating label {
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .star-rating input[type="radio"]:checked~label {
+        color: #ffc107;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+        color: #ffc107;
+    }
+</style>
 @section('content')
     <section class="bg-motif-1 pt-5" style="min-height: 92.7vh">
         <div class="container pb-5">
@@ -40,7 +65,7 @@
                                             <img src="{{ asset('images/' . $data->product->cover_image) }}" class="rounded"
                                                 style="height: 75px; width: 60px;" alt="{{ $data->product->name }}">
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-8">
                                             <li class="list-group-item">
                                                 <strong>Order #{{ $order->order_code }}</strong><br>
                                                 Product: {{ optional($data->product)->name ?? 'N/A' }}
@@ -49,6 +74,83 @@
                                                 Total price : Rp
                                                 {{ number_format($data->product->price, 0, ',', '.') }}
                                             </li>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary btn-sm text-white"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#comment{{ $data->product->id_product }}">Rate this
+                                                product</button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="comment{{ $data->product->id_product }}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form
+                                                    action={{ url('/history-order/comment/' . $data->product->id_product) }}
+                                                    method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id_product"
+                                                        value="{{ $data->product->id_product }}">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Add Comment to
+                                                                this product</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <div class="mb-3">
+                                                                <label for="product_name" class="form-label">Product
+                                                                    name</label>
+                                                                <input type="text" class="form-control" id="product_name"
+                                                                    name="product_name" value="{{ $data->product->name }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="product_price" class="form-label">Price</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="product_price" name="product_price"
+                                                                    value="Rp {{ number_format($data->product->price, 0, ',', '.') }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="rating" class="form-label">Rating</label>
+                                                                <div class="star-rating">
+                                                                    <input type="radio" id="star5{{ $data->product->id_product }}" name="rating"
+                                                                        value="5" /><label for="star5{{ $data->product->id_product }}"
+                                                                        title="5 stars">★</label>
+                                                                    <input type="radio" id="star4{{ $data->product->id_product }}" name="rating"
+                                                                        value="4" /><label for="star4{{ $data->product->id_product }}"
+                                                                        title="4 stars">★</label>
+                                                                    <input type="radio" id="star3{{ $data->product->id_product }}" name="rating"
+                                                                        value="3" /><label for="star3{{ $data->product->id_product }}"
+                                                                        title="3 stars">★</label>
+                                                                    <input type="radio" id="star2{{ $data->product->id_product }}" name="rating"
+                                                                        value="2" /><label for="star2{{ $data->product->id_product }}"
+                                                                        title="2 stars">★</label>
+                                                                    <input type="radio" id="star1{{ $data->product->id_product }}" name="rating"
+                                                                        value="1" /><label for="star1{{ $data->product->id_product }}"
+                                                                        title="1 star">★</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="comment" class="form-label">Comment</label>
+                                                                <textarea type="text" class="form-control" id="comment"
+                                                                    min="1" name="comment" value=""
+                                                                    required></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary text-white"
+                                                                data-bs-dismiss="modal">Cancel</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary text-white">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </ul>

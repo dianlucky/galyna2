@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommentModel;
 use App\Models\DetailOrderModel;
 use Carbon\Carbon;
 use App\Models\OrderModel;
@@ -72,5 +73,19 @@ class OrderController extends Controller
         $addresses = AddressModel::where('id_user', Auth::user()->id_user)->get();
 
         return view('checkout.checkout_summary', compact('ordersToProcess', 'selectedOrderIds', 'addresses'));
+    }
+
+    public function comment(Request $request, $id){
+
+        $status = CommentModel::create([
+            'id_user' => Auth::user()->id_user,
+            "id_product" => $id,
+            "comment" => $request->comment,
+            "rating" => $request->rating,
+        ]);
+
+        if($status){
+            return redirect()->back();
+        }
     }
 }

@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('history-order')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('history-order.index');
         Route::get('/{code}', [OrderController::class, 'detail'])->name('history-order.detail');
+        Route::post('/comment/{id}', [OrderController::class, 'comment'])-> name('history-order.comment');
     });
 
 

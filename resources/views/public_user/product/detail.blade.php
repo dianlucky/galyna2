@@ -1,5 +1,39 @@
 @extends('layout.user_layout')
+<style>
+    .rating-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
+    .stars-outer {
+        position: relative;
+        display: inline-block;
+        font-family: Arial, sans-serif;
+        color: #ccc;
+        /* warna bintang kosong */
+    }
+
+    .stars-outer::before {
+        content: '★★★★★';
+        font-size: 1.5rem;
+    }
+
+    .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #ffc107;
+        /* warna bintang terisi */
+    }
+
+    .stars-inner::before {
+        content: '★★★★★';
+        font-size: 1.5rem;
+    }
+</style>
 @section('meta')
     <meta name="description" content="Discover our latest products, features, and reviews.">
     <meta name="keywords" content="products, features, reviews">
@@ -58,13 +92,27 @@
                         <p class="text-muted"><small><i class="bi bi-calendar"></i>
                                 {{ $product->created_at->format('d F Y') }}</small></p>
                         <div class="mb-3">{!! $product->description !!}</div>
-                        {{-- <p class="text-muted"><small><i class="bi bi-eye"></i> {{ $product->views }} views</small></p> --}}
-                        <div style="margin-top: 20px">
+                        <div class="d-flex align-items-center">
+                            {{-- Ikon Bintang --}}
+                            <div class="me-2 rating-stars">
+                                <div class="stars-outer">
+                                    <div class="stars-inner" style="width: {{ ($averageRating / 5) * 100 }}%;"></div>
+                                </div>
+                            </div>
+
+                            {{-- Angka rating --}}
+                            <div>
+                                {{ number_format($averageRating, 1) }} / 5.0
+                            </div>
+                        </div>
+
+
+                        <div style="margin-top: 10px">
                             <button class="btn btn-outline-danger btn-lg me-1" style="color: red" data-bs-toggle="modal"
                                 data-bs-target="#addCart">Masukkan keranjang</button>
-                            {{-- <a href={{url('/')}} class="btn btn-primary btn-lg me-1" style="color: white" >Beli
-                                sekarang</a> --}}
                         </div>
+
+                        
 
                         {{-- MODAL TAMBAH KERANJANG --}}
                         <div class="modal fade" id="addCart" tabindex="-1" aria-labelledby="exampleModalLabel"
