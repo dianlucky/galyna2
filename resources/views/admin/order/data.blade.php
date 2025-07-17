@@ -81,15 +81,8 @@
                                                             Action
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li>
-                                                                <form action="" method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <input type="hidden" name="id"
-                                                                        value={{ $item->id_order }}>
-                                                                    <button type="submit"
-                                                                        class="dropdown-item">Delete</button>
-                                                                </form>
+                                                            <li><a class="dropdown-item"
+                                                                    href={{ url('admin/order/detail/' . $item->id_order) }}>Detail</a>
                                                             </li>
                                                             <li><a class="dropdown-item"
                                                                     href={{ url('admin/order/edit/' . $item->id_order) }}>Edit</a>

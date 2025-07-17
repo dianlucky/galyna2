@@ -8,25 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class ShoppingCartController extends Controller
 {
-
-    
     /**
      * To access shopping cart pages
      */
-public function index(){
-    $carts = ShoppingCartModel::where('id_user', Auth::user()->id_user)->with('product')->orderBy('status', 'asc')->get();
+    public function index()
+    {
+        $carts = ShoppingCartModel::where('id_user', Auth::user()->id_user)
+            ->with('product')
+            ->orderBy('status', 'asc')
+            ->get();
 
-    return view('cart.index', ['carts' => $carts]);
-}
-
-
+        return view('cart.index', ['carts' => $carts]);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
         $status = ShoppingCartModel::create([
             'id_user' => Auth::user()->id_user,
             'id_product' => $request->id_product,
@@ -48,8 +47,7 @@ public function index(){
         dd($id);
         $status = ShoppingCartModel::where('id_cart', $id)->delete();
 
-        if($status) 
-        {
+        if ($status) {
             session()->flash('success', 'Berhasil menghapus data keranjang');
             return redirect()->back();
         }

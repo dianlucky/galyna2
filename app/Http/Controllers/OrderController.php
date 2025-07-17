@@ -43,7 +43,6 @@ class OrderController extends Controller
         $detailOrders = DetailOrderModel::where('id_order', $order->id_order)->with('product')->get();
 
         return view('history-order.detail', compact('order', 'detailOrders'));
-        // dd($detailOrders);
     }
 
     /**
