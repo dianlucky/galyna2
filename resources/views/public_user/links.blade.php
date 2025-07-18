@@ -48,9 +48,24 @@
         <div class="links-container">
             <a class="links-item" href="{{ url('home') }}">
                 <img width="20px" src={{ asset('assets/images/social_media/world-wide-web.png') }} alt="">
-                <span class="label">Galyna Heiwa Official Website</span>
+                <span class="label">Galyna Heiwa Official </span>
             </a>
-            <a href="https://heyzine.com/flip-book/4d2233be89.html" class="links-item">
+
+            @foreach ($links as $data)
+                @php
+                    $imageName = strtolower($data->name) . '.png';
+                    $imagePath = public_path('assets/images/social_media/' . $imageName);
+                    $imageSrc = file_exists($imagePath)
+                        ? asset('assets/images/social_media/' . $imageName)
+                        : asset('assets/images/social_media/world-wide-web.png');
+                @endphp
+                <a class="links-item" href="{{ $data->link }}" target="_blank">
+                    <img width="20px" src="{{ asset($imageSrc) }}" alt="">
+                    <span class="label">{{ $data->name }}</span>
+                </a>
+            @endforeach
+
+            {{-- <a href="https://heyzine.com/flip-book/4d2233be89.html" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/book.png') }} alt="">
                 <span class="label">Catalogue</span>
             </a>
@@ -62,7 +77,7 @@
                 <img width="20px" src={{ asset('assets/images/social_media/facebook.png') }} alt="">
                 <span class="label">Facebook</span>
             </a>
-            <a  href="https://www.tiktok.com/@haniktimur59/video/7309773849191730438" class="links-item">
+            <a href="https://www.tiktok.com/@haniktimur59/video/7309773849191730438" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/tiktok.png') }} alt="">
                 <span class="label">Tiktok</span>
             </a>
@@ -77,9 +92,9 @@
             <a href="https://tokopedia.link/kdCGP2fhkLb" class="links-item">
                 <img width="20px" src={{ asset('assets/images/social_media/tokopedia.png') }} alt="">
                 <span class="label">Tokopedia</span>
-            </a>
+            </a> --}}
         </div>
-       
+
     </div>
 
     {{-- Javascript --}}

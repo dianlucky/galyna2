@@ -117,28 +117,37 @@
                                                             <div class="mb-3">
                                                                 <label for="rating" class="form-label">Rating</label>
                                                                 <div class="star-rating">
-                                                                    <input type="radio" id="star5{{ $data->product->id_product }}" name="rating"
-                                                                        value="5" /><label for="star5{{ $data->product->id_product }}"
+                                                                    <input type="radio"
+                                                                        id="star5{{ $data->product->id_product }}"
+                                                                        name="rating" value="5" /><label
+                                                                        for="star5{{ $data->product->id_product }}"
                                                                         title="5 stars">★</label>
-                                                                    <input type="radio" id="star4{{ $data->product->id_product }}" name="rating"
-                                                                        value="4" /><label for="star4{{ $data->product->id_product }}"
+                                                                    <input type="radio"
+                                                                        id="star4{{ $data->product->id_product }}"
+                                                                        name="rating" value="4" /><label
+                                                                        for="star4{{ $data->product->id_product }}"
                                                                         title="4 stars">★</label>
-                                                                    <input type="radio" id="star3{{ $data->product->id_product }}" name="rating"
-                                                                        value="3" /><label for="star3{{ $data->product->id_product }}"
+                                                                    <input type="radio"
+                                                                        id="star3{{ $data->product->id_product }}"
+                                                                        name="rating" value="3" /><label
+                                                                        for="star3{{ $data->product->id_product }}"
                                                                         title="3 stars">★</label>
-                                                                    <input type="radio" id="star2{{ $data->product->id_product }}" name="rating"
-                                                                        value="2" /><label for="star2{{ $data->product->id_product }}"
+                                                                    <input type="radio"
+                                                                        id="star2{{ $data->product->id_product }}"
+                                                                        name="rating" value="2" /><label
+                                                                        for="star2{{ $data->product->id_product }}"
                                                                         title="2 stars">★</label>
-                                                                    <input type="radio" id="star1{{ $data->product->id_product }}" name="rating"
-                                                                        value="1" /><label for="star1{{ $data->product->id_product }}"
+                                                                    <input type="radio"
+                                                                        id="star1{{ $data->product->id_product }}"
+                                                                        name="rating" value="1" /><label
+                                                                        for="star1{{ $data->product->id_product }}"
                                                                         title="1 star">★</label>
                                                                 </div>
                                                             </div>
 
                                                             <div class="mb-3">
                                                                 <label for="comment" class="form-label">Comment</label>
-                                                                <textarea type="text" class="form-control" id="comment"
-                                                                    min="1" name="comment" value=""
+                                                                <textarea type="text" class="form-control" id="comment" min="1" name="comment" value=""
                                                                     required></textarea>
                                                             </div>
                                                         </div>
@@ -219,7 +228,38 @@
                                 </li>
                             </ul>
                             <p class="mt-3 text-muted small">Please be patient while your order is being processed.</p>
+                            <div class="mt-2">
+                                <button class="btn btn-primary text-white" data-bs-toggle="modal"
+                                    data-bs-target="#modalAcceptance">I've received this package.</button>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalAcceptance" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/history-order/update-status/' . $order->id_order) }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="text-center">I’ve received the package and marked the order as
+                                                    <span class="text-success">completed </span>.</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary text-white"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary text-white">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 

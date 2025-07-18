@@ -78,13 +78,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <form action="{{ url('/shopping-cart/remove/' . $data->id_cart) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-warning text-white shadow-lg">Hapus</button>
-                                                </form>
+                                                <a href="{{url('/shopping-cart/remove/'.$data->id_cart)}}" class="btn btn-warning btn-sm text-white">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach

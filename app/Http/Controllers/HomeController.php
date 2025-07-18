@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AddressModel;
 use App\Models\CommentModel;
+use App\Models\LinksModel;
 use App\Models\User;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class HomeController extends Controller
 {
     public function links()
     {
-        return view('public_user/links');
+        $links = LinksModel::get();
+        return view('public_user/links', compact('links'));
     }
 
     public function home()

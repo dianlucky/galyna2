@@ -50,7 +50,7 @@
                                                 @elseif ($data->status_order == 'shipping')
                                                     <span class="badge bg-warning">Shipping</span>
                                                 @else
-                                                    <span class="badge bg-secondary">{{ ucfirst($data->status_order) }}</span>
+                                                    <span class="badge bg-success">{{ ucfirst($data->status_order) }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -79,4 +79,5 @@
 @endsection
 
 @section('script')
+    @include('components.notifications')
 @endsection

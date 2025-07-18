@@ -88,4 +88,14 @@ class OrderController extends Controller
             return redirect()->back();
         }
     }
+
+    public function updateDone($id){
+        $status = OrderModel::where('id_order', $id)->update([
+            'status_order' => 'done'
+        ]);
+
+        if($status){
+            return redirect('/history-order')->with('success', 'THANKYOU!');
+        }
+    }
 }

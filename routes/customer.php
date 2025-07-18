@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('shopping-cart')->group(function () {
         Route::get('/', [ShoppingCartController::class, 'index'])->name('cart.index');
         Route::post('/add', [ShoppingCartController::class, 'store'])->name('cart.store');
-        Route::delete('/remove/{id}', [ShoppingCartController::class, 'destroy'])->name('shopping-cart.destroy');
+        Route::get('/remove/{id}', [ShoppingCartController::class, 'destroy'])->name('shopping-cart.destroy');
     });
 
     Route::prefix('checkout-order')->group(function () {
@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('history-order.index');
         Route::get('/{code}', [OrderController::class, 'detail'])->name('history-order.detail');
         Route::post('/comment/{id}', [OrderController::class, 'comment'])-> name('history-order.comment');
+        Route::post('/update-status/{id}', [OrderController::class, 'updateDone'])->name('history-order.done');
     });
 
 

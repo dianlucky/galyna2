@@ -44,7 +44,6 @@ class ShoppingCartController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
         $status = ShoppingCartModel::where('id_cart', $id)->delete();
 
         if ($status) {
