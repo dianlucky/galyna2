@@ -46,7 +46,7 @@
                                             <td>Rp {{ number_format($data->payment->amount, 0, ',', '.') }}</td>
                                             <td>
                                                 @if ($data->status_order == 'packing')
-                                                    <span class="badge bg-warning text-white">Packing</span>
+                                                    <span class="badge bg-secondary text-white">Packing</span>
                                                 @elseif ($data->status_order == 'shipping')
                                                     <span class="badge bg-warning">Shipping</span>
                                                 @else

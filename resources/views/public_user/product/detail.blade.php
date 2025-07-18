@@ -83,7 +83,6 @@
                         <img src="{{ asset('images/' . $product->cover_image) }}" class="img-fluid rounded"
                             alt="{{ $product->name }}">
                     </div>
-
                     {{-- Product Info --}}
                     <div class="col-md-6">
                         <h2 class="fw-bold">{{ $product->name }}</h2>
@@ -99,21 +98,15 @@
                                     <div class="stars-inner" style="width: {{ ($averageRating / 5) * 100 }}%;"></div>
                                 </div>
                             </div>
-
                             {{-- Angka rating --}}
                             <div>
                                 {{ number_format($averageRating, 1) }} / 5.0
                             </div>
                         </div>
-
-
                         <div style="margin-top: 10px">
                             <button class="btn btn-outline-danger btn-lg me-1" style="color: red" data-bs-toggle="modal"
                                 data-bs-target="#addCart">Masukkan keranjang</button>
                         </div>
-
-                        
-
                         {{-- MODAL TAMBAH KERANJANG --}}
                         <div class="modal fade" id="addCart" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
@@ -158,9 +151,39 @@
                         </div>
                         {{-- END FOR MODAL TAMBAH KERANJANG --}}
 
-                        {{-- MODAL ORDER LANGSUNG --}}
+                        {{-- REVIEW SECTION --}}
+                        <div class="p-2 mt-2" style="border-radius: 10px; background-color: #BCCCDC;">
+                            <h5>Ulasan :</h5>
+                            @foreach ($comments as $data)
+                                <div class="bg-white p-3" style="border-radius:7px">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5>{{ $data->user->name }}</h5>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: -3px">
+                                            <div class="d-flex align-items-center">
+                                                {{-- Ikon Bintang --}}
+                                                <div class="me-2 rating-stars">
+                                                    <div class="stars-outer">
+                                                        <div class="stars-inner"
+                                                            style="width: {{ ($averageRating / 5) * 100 }}%;"></div>
+                                                    </div>
+                                                </div>
+                                                {{-- Angka rating --}}
+                                                <div>
+                                                    {{ number_format($averageRating, 1) }} / 5.0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 mt-1" style="background-color: #d8e2ed ; border-radius:4px;">
+                                        <p>{{$data->comment}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        {{-- END OF REVIEW SECTION --}}
 
-                        {{-- END FOR MODAL ORDER LANGSUNG --}}
                     </div>
                 </div>
 

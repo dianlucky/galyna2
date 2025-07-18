@@ -43,8 +43,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Bulan</th>
-                                            <th>Total produk yang dipesan</th> 
-                                            <th class="text-end">Total omset</th>
+                                            <th class="text-center">Total omset</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,8 +51,7 @@
                                             <tr>
                                                 <th>{{ $loop->iteration }}</th>
                                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $data->bulan)->translatedFormat('F Y') }}</td>
-                                                <td>{{ $data->totalProduk }}</td>
-                                                <td class="text-end">Rp {{ number_format($data->totalOmset, 0, ',', '.') }}</td>
+                                                <td class="text-center">Rp {{ number_format($data->totalOmset, 0, ',', '.') }}</td>
                                                
                                             </tr>
                                         @empty

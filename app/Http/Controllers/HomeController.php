@@ -34,7 +34,7 @@ class HomeController extends Controller
         if ($code) {
             $product = ProductModel::where('code', $code)->first();
             $products_related = ProductModel::inRandomOrder()->take(6)->get();
-            $comments = CommentModel::where('id_product', $product->id_product)->get();
+            $comments = CommentModel::where('id_product', $product->id_product)->with('user')->get();
             $averageRating = CommentModel::where('id_product', $product->id_product)->avg('rating');
 
             return view('public_user/product/detail', [

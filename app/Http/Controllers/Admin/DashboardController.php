@@ -14,13 +14,12 @@ class DashboardController extends Controller
     public function index()
     {
         // $totalOmset = 70000;
-        $totalOmset = OrderModel::where('status_order', 'delivered')
-            ->whereMonth('updated_at', now()->month)
+        $totalOmset = OrderModel::whereIn('status_order', ['shipping', 'done'])
             ->whereYear('updated_at', now()->year)
-            ->with('payment')
+            ->with('payment', 'delivery')
             ->get()
             ->sum(function ($order) {
-                return $order->payment->amount ?? 0;
+                return $order->payment->amount - $order->delivery->delivery_cost ?? 0;
             });
 
         $totalProduk = DetailOrderModel::get()->sum('quantity');
@@ -31,13 +30,15 @@ class DashboardController extends Controller
     {
         $totalOmsetBulanan = OrderModel::selectRaw(
             '
-                DATE_FORMAT(updated_at, "%Y-%m") as bulan,
-                SUM(quantity) as totalProduk,
-                SUM(total) as totalOmset
-            ',
+        DATE_FORMAT(order.updated_at, "%Y-%m") as bulan,
+        SUM(payment.amount - delivery.delivery_cost) as totalOmset
+    ',
         )
-            ->groupBy(DB::raw('DATE_FORMAT(updated_at, "%Y-%m")'))
+            ->join('payment', 'payment.id_payment', '=', 'order.id_payment')
+            ->join('delivery', 'delivery.id_delivery', '=', 'order.id_delivery')
+            ->groupBy(DB::raw('DATE_FORMAT(order.updated_at, "%Y-%m")'))
             ->orderBy('bulan', 'desc')
+            ->whereIn('status_order', ['shipping', 'done'])
             ->get();
 
         return view('admin.omset.data', compact('totalOmsetBulanan'));
