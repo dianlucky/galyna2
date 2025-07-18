@@ -23,7 +23,10 @@ class DashboardController extends Controller
             });
 
         $totalProduk = DetailOrderModel::get()->sum('quantity');
-        return view('admin.dashboard', compact('totalOmset', 'totalProduk'));
+        $orderPacking = OrderModel::where('status_order', 'packing')->count();
+        $orderShipping  = OrderModel::where('status_order', 'shipping')->count();
+        $orderDone  = OrderModel::where('status_order', 'done')->count();
+        return view('admin.dashboard', compact('totalOmset', 'totalProduk', 'orderPacking', 'orderShipping', 'orderDone'));
     }
 
     public function omsetAll()

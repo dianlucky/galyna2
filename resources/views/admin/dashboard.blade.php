@@ -57,13 +57,13 @@
             </div>
             <div class="row ">
                 {{-- Card --}}
-                <div class="col-md-7 p-0">
+                <div class="col-md-12 p-0">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-4">
                             <div class="card">
-                                <div class="card-body " style="background-color: #FFB22C; border-radius: 10px;">
+                                <div class="card-body " style="background-color: #f21010; border-radius: 10px;">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="text-white fw-bolder">Pesanan belum selesai</h6>
+                                        <h6 class="text-white fw-bolder">Pesanan belum diproses</h6>
                                         <div>
                                             <a class="btn btn-secondary btn-sm" type="button"
                                                 href="{{ url('admin/product') }}">
@@ -72,15 +72,34 @@
                                         </div>
                                     </div>
                                     <div class="mt-3">
-                                        <h3 class="mb-0 text-white fw-bolder">{{ $totalProduk }}</h3>
+                                        <h3 class="mb-0 text-white fw-bolder">{{ $orderPacking }}</h3>
                                         <p class="text-muted text-white">Pesanan</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5 "  style="margin-left: -15px">
+                        <div class="col-md-4">
                             <div class="card">
-                                <div class="card-body " style="background-color: #5B913B; border-radius: 10px;">
+                                <div class="card-body " style="background-color: #FFB22C; border-radius: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="text-white fw-bolder">Pesanan sedang diantar</h6>
+                                        <div>
+                                            <a class="btn btn-secondary btn-sm" type="button"
+                                                href="{{ url('admin/product') }}">
+                                                Detail
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h3 class="mb-0 text-white fw-bolder">{{ $orderShipping }}</h3>
+                                        <p class="text-muted text-white">Pesanan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body " style="background-color: #50bc60; border-radius: 10px;">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="text-white fw-bolder">Pesanan selesai</h6>
                                         <div>
@@ -91,7 +110,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-3">
-                                        <h3 class="mb-0 text-white fw-bolder">{{ $totalProduk }}</h3>
+                                        <h3 class="mb-0 text-white fw-bolder">{{ $orderDone }}</h3>
                                         <p class="text-muted text-white">Pesanan</p>
                                     </div>
                                 </div>
@@ -100,25 +119,6 @@
                     </div>
 
                 </div>
-                <div class="col-md-4 p-0" style="margin-left: 10px">
-                    {{-- <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="card-title">Total Omset bulan ini</h6>
-                                <div>
-                                    <a class="btn btn-secondary btn-sm" type="button" href="{{ url('admin/omset') }}">
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <h3 class="mb-0">Rp. {{ number_format($totalOmset, 0, ',', '.') }}</h3>
-                                <p class="text-muted">Rupiah</p>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
-
             </div>
         </div>
     </section>
