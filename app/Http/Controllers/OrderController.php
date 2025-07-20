@@ -62,7 +62,11 @@ class OrderController extends Controller
         $selectedOrderIds = $request->input('cart_ids');
         $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)
             ->where('id_user', Auth::user()->id_user)
-            ->with('product.promos')
+            ->with([
+                'product.promos' => function ($query) {
+                    $query->where('status', 'active');
+                },
+            ])
             ->get();
         // $ordersToProcess = ShoppingCartModel::whereIn('id_cart', $selectedOrderIds)->where('id_user', Auth::user()->id_user)->with('product')->get();
         //    dd($ordersToProcess);
@@ -75,26 +79,27 @@ class OrderController extends Controller
         return view('checkout.checkout_summary', compact('ordersToProcess', 'selectedOrderIds', 'addresses'));
     }
 
-    public function comment(Request $request, $id){
-
+    public function comment(Request $request, $id)
+    {
         $status = CommentModel::create([
             'id_user' => Auth::user()->id_user,
-            "id_product" => $id,
-            "comment" => $request->comment,
-            "rating" => $request->rating,
+            'id_product' => $id,
+            'comment' => $request->comment,
+            'rating' => $request->rating,
         ]);
 
-        if($status){
+        if ($status) {
             return redirect()->back();
         }
     }
 
-    public function updateDone($id){
+    public function updateDone($id)
+    {
         $status = OrderModel::where('id_order', $id)->update([
-            'status_order' => 'done'
+            'status_order' => 'done',
         ]);
 
-        if($status){
+        if ($status) {
             return redirect('/history-order')->with('success', 'THANKYOU!');
         }
     }

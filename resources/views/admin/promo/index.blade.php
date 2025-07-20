@@ -46,14 +46,15 @@
                                             <th class="text-end">Harga produk</th>
                                             <th class="text-end">Jumlah potongan</th>
                                             <th class="text-end">Harga akhir produk</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($promo as $data)
                                             @php
-                                                if($data->type == "persen"){
-                                                    $discountValue = $data->product->price * $data->amount / 100; 
+                                                if ($data->type == 'persen') {
+                                                    $discountValue = ($data->product->price * $data->amount) / 100;
                                                 } else {
                                                     $discountValue = $data->amount;
                                                 }
@@ -62,10 +63,25 @@
                                                 <th>{{ $loop->iteration }}</th>
                                                 <td>{{ $data->name }}</td>
                                                 <td>{{ $data->product->name }}</td>
-                                                <td class="text-end">Rp. {{ number_format($data->product->price, 0, ',', '.') }} </td>
-                                                <td class="text-end">{{  $data->type =="persen" ? $data->amount .'%' : 'Rp.' .number_format($discountValue, 0, ',', '.') }}</td>
                                                 <td class="text-end">Rp.
-                                                     {{ number_format($data->product->price - $discountValue, 0, ',', '.') }}  
+                                                    {{ number_format($data->product->price, 0, ',', '.') }} </td>
+                                                <td class="text-end">
+                                                    {{ $data->type == 'persen' ? $data->amount . '%' : 'Rp.' . number_format($discountValue, 0, ',', '.') }}
+                                                </td>
+                                                <td class="text-end">Rp.
+                                                    {{ number_format($data->product->price - $discountValue, 0, ',', '.') }}
+                                                </td>
+                                                <td>
+                                                    @if ($data->status == 'active')
+                                                        <span class="badge bg-success text-white"
+                                                            style="font-size: 10px; width: 70px;">Aktif</span>
+                                                    @elseif ($data->status == 'inactive')
+                                                        <span class="badge bg-warning text-white"
+                                                            style="font-size: 10px; width: 70px;">Tidak Aktif</span>
+                                                    @else
+                                                        <span class="badge bg-light text-dark"
+                                                            style="font-size: 10px; width: 70px;">Unknown</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="dropdown">

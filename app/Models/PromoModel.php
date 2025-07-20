@@ -14,11 +14,12 @@ class PromoModel extends Model
     protected $primaryKey = 'id_promo';
     protected $fillable = [
         'id_product',
-        'code_promo',
+        'code_promo',       
         'type',
         'amount',
         'name',
         'description',
+        'status',
     ];
 
     public $timestamps = true;

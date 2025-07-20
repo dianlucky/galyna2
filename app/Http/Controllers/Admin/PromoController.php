@@ -55,6 +55,7 @@ class PromoController extends Controller
             'type' => $request->type,
             'amount' => $request->amount,
             'description' => $request->description,
+            'status' => $request->status,
         ]);
 
         if($status){
@@ -87,7 +88,7 @@ class PromoController extends Controller
         // Validate Input
         $request->validate([
              'code_promo' => 'required|unique:promo,code_promo,' . $id. ',id_promo',
-            'description' => 'required|max:100'
+            'description' => 'required|max:1000'
         ]);
 
         // Update data promo
@@ -98,6 +99,7 @@ class PromoController extends Controller
             'type' => $request->type,
             'amount' => $request->amount,
             'description' => $request->description,
+            'status' => $request->status,
         ]);
 
         // Update Data Category

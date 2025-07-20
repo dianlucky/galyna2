@@ -82,9 +82,10 @@
                                 <label for="product" class="form-label">Produk </label>
                                 <select name="id_product" class="form-control" id="product" required>
                                     <option value="">Pilih produk yang ingin diberi promo</option>
-                                    @if ($data['form'] == "Edit")
-                                     <option price="{{ $promo->product->price }}" value="{{ $promo->product->id_product }}"
-                                        selected>{{ $promo->product->name }}</option>
+                                    @if ($data['form'] == 'Edit')
+                                        <option price="{{ $promo->product->price }}"
+                                            value="{{ $promo->product->id_product }}" selected>{{ $promo->product->name }}
+                                        </option>
                                     @endif
                                     @foreach ($data['product'] as $data)
                                         <option price="{{ $data->price }}" value="{{ $data->id_product }}">
@@ -112,26 +113,41 @@
                         </div>
                         <div class="col-12 col-md-6">
 
-                            <div class="mb-3">
-                                <label for="type" class="form-label">Tipe promo</label>
-                                <select name="type" class="form-control" id="type">
-                                    @if ($data['form'] == "Edit")
-                                    <option value="{{ $promo->type }}">{{ $promo->type }}</option>
-                                    
-                                    @endif
-                                    <option value="persen">Persen</option>
-                                    <option value="potongan">Potongan langsung</option>
-                                </select>
-                                @error('type')
-                                    <span class="error-message">{{ $message }}</span>
-                                @enderror
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="type" class="form-label">Tipe promo</label>
+                                    <select name="type" class="form-control" id="type">
+                                        @if ($data['form'] == 'Edit')
+                                            <option value="{{ $promo->type }}">{{ $promo->type }}</option>
+                                        @endif
+                                        <option value="persen">Persen</option>
+                                        <option value="potongan">Potongan langsung</option>
+                                    </select>
+                                    @error('type')
+                                        <span class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">Status promo</label>
+                                    <select name="status" class="form-control" id="status">
+                                        @if ($data['form'] == 'Edit')
+                                            <option value="{{ $promo->status }}" selected>{{ $promo->status }}
+                                            </option>
+                                        @endif
+                                        <option value="active">Aktif</option>
+                                        <option value="inactive">Tidak aktif</option>
+                                    </select>
+                                    @error('type')
+                                        <span class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="normal_price" class="form-label">Harga awal</label>
                                         <input type="text" class="form-control" id="normal_price"
-                                            value="{{ $data['form'] == "Edit" && $promo? number_format($promo->product->price, 0, ',', '.') : 0 }}"
+                                            value="{{ $data['form'] == 'Edit' && $promo ? number_format($promo->product->price, 0, ',', '.') : 0 }}"
                                             disabled>
                                     </div>
                                 </div>
@@ -152,9 +168,9 @@
                                     <div class="mb-3">
                                         <label for="discount_price" class="form-label">Harga akhir</label>
                                         <input type="text" class="form-control" id="discount_price"
-                                            value="{{ $data['form'] == "Edit" && $promo && $promo->type == 'persen' 
-                                                ? number_format($promo->product->price - (($promo->product->price * $promo->amount) / 100) , 0, ',', '.')
-                                                : ( $data['form'] == "Edit" && $promo && $promo->type == 'potongan' 
+                                            value="{{ $data['form'] == 'Edit' && $promo && $promo->type == 'persen'
+                                                ? number_format($promo->product->price - ($promo->product->price * $promo->amount) / 100, 0, ',', '.')
+                                                : ($data['form'] == 'Edit' && $promo && $promo->type == 'potongan'
                                                     ? number_format($data->product->price - $promo->amount, 0, ',', '.')
                                                     : 0) }}"
                                             disabled>

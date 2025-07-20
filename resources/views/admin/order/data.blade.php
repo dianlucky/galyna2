@@ -84,9 +84,6 @@
                                                             <li><a class="dropdown-item"
                                                                     href={{ url('admin/order/detail/' . $item->id_order) }}>Detail</a>
                                                             </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href={{ url('admin/order/edit/' . $item->id_order) }}>Edit</a>
-                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </td>
