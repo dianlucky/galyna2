@@ -118,8 +118,9 @@ class PromoController extends Controller
      */
     public function destroy(Request $request)
     {
+
         $request->validate([
-            'id' => 'required|exists:category,id_category'
+            'id' => 'required'
         ]);
 
         PromoModel::destroy($request->id);

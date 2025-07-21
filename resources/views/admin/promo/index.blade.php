@@ -91,7 +91,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <form action="" method="POST">
+                                                                <form action="{{url('/admin/promo')}}" method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <input type="hidden" name="id"
